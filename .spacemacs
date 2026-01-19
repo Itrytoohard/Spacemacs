@@ -578,6 +578,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
 
+  ;; <mycode> <Tag for searching>
   (setq spaceline-highlight-face-style 'none)
 
   (define-key dired-mode-map [mouse-1] 'dired-mouse-find-file)
