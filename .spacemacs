@@ -582,7 +582,7 @@ Put your configuration code here"
   (setq spaceline-highlight-face-style 'none)
 
   (define-key dired-mode-map [mouse-1] 'dired-mouse-find-file)
-
+  ;;
   ;; Rebind jk or C-q to exit insert mode
   ;; (define-key map new-keybinding function) ; Syntax
   ;; Map H to go to the previous buffer in normal mode
@@ -654,13 +654,30 @@ Put your configuration code here"
 
   (evil-ex-define-cmd "wq" 'save-and-kill-this-buffer)
   (defun save-and-kill-this-buffer()(interactive)(save-buffer)(kill-current-buffer))
+  ;; My attempt
+  ;; (evil-ex-define-cmd "q" 'kill-this-buffer-with-prompt)
+  ;; (defun kill-this-buffer-with-prompt()
+  ;;   (if (buffer-modified-p)
+  ;;       ((interactive)
+  ;;        (if (y-or-n-p "Kill buffer without saving?")
+  ;;            (kill-current-buffer)
+  ;;          (message "Kill buffer operation cancelled.")))
+  ;;     (kill-current-buffer))
+  ;;   )
 
+  ;; Re-done with gemini because elisp is slightly cursed.
+  ;; And trying to work on it without knowing what basic syntax means is
+  ;; not a great idea
+  "Kill current buffer, prompting for confirmation if it has unsaved changes."
   (evil-ex-define-cmd "q" 'kill-this-buffer-with-prompt)
   (defun kill-this-buffer-with-prompt()
     (interactive)
-    (if (y-or-n-p "Kill buffer without saving?")
-        (kill-current-buffer)
-      (message "Kill buffer operation cancelled.")))
+    (if (and (buffer-modified-p)
+             (buffer-file-name)) ; Only prompt for file-visiting buffers
+        (if (y-or-n-p "Buffer has unsaved changes. Kill anyway? ")
+            (kill-current-buffer)
+          (message "Kill buffer operation cancelled."))
+      (kill-current-buffer)))
 
 
   (evil-ex-define-cmd "wqall" 'save-and-kill-this-buffer-and-window)
