@@ -610,7 +610,8 @@ Put your configuration code here"
   ;; Show full path in header
   (setq org-sticky-header-full-path 'full)
 
-
+  ;; Clicking a directory in dired will open it in the same buffer
+  ;; instead of creating a new one
   (define-key dired-mode-map [mouse-1] 'dired-mouse-find-file)
   ;;
   ;; Rebind jk or C-q to exit insert mode
