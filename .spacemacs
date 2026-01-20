@@ -587,8 +587,14 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
 
+  (setq ns-use-srgb-colorspace nil)
+
   ;; <mycode> <Tag for searching>
   (setq spaceline-highlight-face-style 'none)
+
+  ;; Show full path in header
+  (setq org-sticky-header-full-path 'full)
+
 
   (define-key dired-mode-map [mouse-1] 'dired-mouse-find-file)
   ;;
