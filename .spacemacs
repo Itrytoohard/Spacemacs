@@ -51,7 +51,7 @@ This function should only modify configuration layer settings."
           org-enable-roam-ui t
           ;; org-enable-roam-protocol t
           org-enable-sticky-header t
-          org-enable-modern-support t
+          ;; org-enable-modern-support t
           org-enable-appear-support t
           org-enable-transclusion-support t
 
@@ -257,6 +257,7 @@ It should only modify the values of Spacemacs settings."
    ;; The key used for Vim Ex commands (default ":")
    dotspacemacs-ex-command-key ":"
 
+   ;; <TODO> Potentially interesting
    ;; The leader key accessible in `emacs state' and `insert state'
    ;; (default "M-m")
    dotspacemacs-emacs-leader-key "M-m"
@@ -507,7 +508,7 @@ It should only modify the values of Spacemacs settings."
    ;; performance issues, instead of calculating the frame title by
    ;; `spacemacs/title-prepare' all the time.
    ;; (default "%I@%S")
-   dotspacemacs-frame-title-format "%I@%f"
+   dotspacemacs-frame-title-format "%I | Path:%f | Mode: %m | mnemonics: %Z"
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
