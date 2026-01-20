@@ -592,6 +592,12 @@ Put your configuration code here"
   ;; Enter insert mode on commit message opening
   (add-hook 'git-commit-setup-hook 'evil-insert-state)
 
+  ;; Changes filename on mode line to file path if one exists
+  (spaceline-define-segment buffer-id
+    (if (buffer-file-name)
+        (buffer-file-name) ; Displays the full, absolute file path
+      (powerline-buffer-id)))
+
   ;; <TODO> make evil display -----insert----- like vim does
   ;; (add-hook 'evil-insert-state-entry-hook 'function-to-display-insert-mode)
 
