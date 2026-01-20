@@ -580,6 +580,10 @@ It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; (setq powerline-image-apple-rgb t)
   ;; (setq ns-use-srgb-colorspace nil)
+
+  ;; <TODO> Get back to this and install jinx/huspell/enchant2
+  ;;  (setq-default spell-checking-enable-by-default nil)
+
   )
 
 (defun dotspacemacs/user-config ()
