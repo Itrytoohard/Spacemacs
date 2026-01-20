@@ -46,10 +46,19 @@ This function should only modify configuration layer settings."
      ;; lsp
      markdown
      multiple-cursors
-     org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
+     (org :variables
+          org-enable-roam-support t
+          org-enable-roam-ui t
+          ;; org-enable-roam-protocol t
+          org-enable-sticky-header t
+          org-enable-modern-support t
+          org-enable-appear-support t
+          org-enable-transclusion-support t
+
+          )
+     (shell :variables
+            shell-default-height 30
+            shell-default-position 'bottom)
      spell-checking
      syntax-checking
      version-control
@@ -540,7 +549,7 @@ It should only modify the values of Spacemacs settings."
    ;; number of seconds. (default nil)
    dotspacemacs-zone-out-when-idle nil
 
-   ;; <TODO>
+   ;; <TODO> Once I know the syntax
    ;; Run `spacemacs/prettify-org-buffer' when
    ;; visiting README.org files of Spacemacs.
    ;; (default nil)
@@ -713,35 +722,37 @@ This function is called at the very end of Spacemacs initialization."
          auto-highlight-symbol auto-yasnippet avy-jump-helm-line
          centered-cursor-mode clean-aindent-mode closql code-review
          column-enforce-mode company deferred define-word devdocs diminish
-         dired-quick-sort disable-mouse dotenv-mode drag-stuff dumb-jump
+         dired-quick-sort disable-mouse dotenv-mode drag-stuff dumb-jump eat
          edit-indirect elisp-def elisp-demos elisp-slime-nav emacsql emojify emr
-         eval-sexp-fu evil-anzu evil-args evil-cleverparens evil-collection
-         evil-easymotion evil-escape evil-evilified-state evil-exchange
-         evil-goggles evil-iedit-state evil-indent-plus evil-lion evil-lisp-state
-         evil-matchit evil-mc evil-nerd-commenter evil-numbers evil-org
-         evil-surround evil-textobj-line evil-tutor evil-unimpaired
-         evil-visual-mark-mode evil-visualstar expand-region eyebrowse
-         fancy-battery flycheck flycheck-elsa flycheck-package flycheck-pos-tip
-         flyspell-correct flyspell-correct-helm forge gh-md ghub git-link
-         git-messenger git-modes git-timemachine gitignore-templates gntp gnuplot
-         golden-ratio google-translate helm-ag helm-c-yasnippet helm-comint
-         helm-company helm-descbinds helm-ls-git helm-make helm-mode-manager
-         helm-org helm-org-rifle helm-projectile helm-purpose helm-swoop helm-xref
-         hide-comnt highlight-indentation highlight-numbers highlight-parentheses
-         hl-todo holy-mode htmlize hungry-delete hybrid-mode indent-guide info+
-         inspector key-chord link-hint llama log4e lorem-ipsum macrostep magit
-         magit-section markdown-mode markdown-toc multi-line nameless nerd-icons
-         open-junk-file org org-category-capture org-cliplink org-contrib
-         org-download org-mime org-pomodoro org-present org-project-capture
-         org-projectile org-rich-yank org-superstar orgit orgit-forge overseer
-         package-lint page-break-lines paradox password-generator pcre2el popwin
-         pos-tip quickrun rainbow-delimiters restart-emacs smeargle space-doc
-         spaceline spacemacs-purpose-popwin spacemacs-whitespace-cleanup
+         esh-help eshell-prompt-extras eshell-z eval-sexp-fu evil-anzu evil-args
+         evil-cleverparens evil-collection evil-easymotion evil-escape
+         evil-evilified-state evil-exchange evil-goggles evil-iedit-state
+         evil-indent-plus evil-lion evil-lisp-state evil-matchit evil-mc
+         evil-nerd-commenter evil-numbers evil-org evil-surround evil-textobj-line
+         evil-tutor evil-unimpaired evil-visual-mark-mode evil-visualstar
+         expand-region eyebrowse fancy-battery flycheck flycheck-elsa
+         flycheck-package flycheck-pos-tip flyspell-correct flyspell-correct-helm
+         forge gh-md ghub git-link git-messenger git-modes git-timemachine
+         gitignore-templates gntp gnuplot golden-ratio google-translate helm-ag
+         helm-c-yasnippet helm-comint helm-company helm-descbinds helm-ls-git
+         helm-make helm-mode-manager helm-org helm-org-rifle helm-projectile
+         helm-purpose helm-swoop helm-xref hide-comnt highlight-indentation
+         highlight-numbers highlight-parentheses hl-todo holy-mode htmlize
+         hungry-delete hybrid-mode indent-guide info+ inspector key-chord
+         link-hint llama log4e lorem-ipsum macrostep magit magit-section
+         markdown-mode markdown-toc multi-line multi-term multi-vterm nameless
+         nerd-icons open-junk-file org org-category-capture org-cliplink
+         org-contrib org-download org-mime org-pomodoro org-present
+         org-project-capture org-projectile org-rich-yank org-superstar orgit
+         orgit-forge overseer package-lint page-break-lines paradox
+         password-generator pcre2el popwin pos-tip quickrun rainbow-delimiters
+         restart-emacs shell-pop smeargle space-doc spaceline
+         spacemacs-purpose-popwin spacemacs-whitespace-cleanup
          string-edit-at-point string-inflection symbol-overlay symon term-cursor
-         toc-org transient treemacs-evil treemacs-icons-dired treemacs-magit
-         treemacs-persp treemacs-projectile treepy undo-fu-session uuidgen
-         vi-tilde-fringe volatile-highlights vundo wgrep winum with-editor
-         writeroom-mode ws-butler yaml yasnippet)))
+         terminal-here toc-org transient treemacs-evil treemacs-icons-dired
+         treemacs-magit treemacs-persp treemacs-projectile treepy undo-fu-session
+         uuidgen vi-tilde-fringe volatile-highlights vterm vundo wgrep winum
+         with-editor writeroom-mode ws-butler yaml yasnippet)))
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
