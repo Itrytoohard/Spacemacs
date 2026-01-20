@@ -588,6 +588,14 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
 
+
+  ;; Enter insert mode on commit message opening
+  (add-hook 'git-commit-setup-hook 'evil-insert-state)
+
+  ;; <TODO> make evil display -----insert----- like vim does
+  ;; (add-hook 'evil-insert-state-entry-hook 'function-to-display-insert-mode)
+
+
   (setq ns-use-srgb-colorspace nil)
 
   ;; <mycode> <Tag for searching>
