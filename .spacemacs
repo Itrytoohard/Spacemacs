@@ -595,7 +595,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; <TODO> Get back to this and install jinx/huspell/enchant2
   ;;  (setq-default spell-checking-enable-by-default nil)
-
+  (dotspacemacs/disable-autoevilfication-fail-messages)
   )
 
 (defun dotspacemacs/user-config ()
@@ -746,7 +746,30 @@ Put your configuration code here"
   ;; (defun save-and-kill-this-buffer()(interactive)(save-buffer)(kill-current-buffer))
 
                                         ; if this comment is still here, q didnt work
+  (dotspacemacs/disable-autoevilfication-fail-messages)
+  )
 
+;; Supposed to fix autoevilfication warning messages, but doesn't work.
+(defun dotspacemacs/disable-autoevilfication-fail-messages()
+  ;; remove startup auto-evilification messages:
+  ;; Auto-evilification could not remap these functions in map ‘org-agenda-mode-map’:
+  ;; - ‘org-agenda-next-line’ originally mapped on ‘C-n’
+  ;; Auto-evilification could not remap these functions in map ‘org-agenda-mode-map’:
+  ;; - ‘org-agenda-toggle-time-grid’ originally mapped on ‘G’
+  ;; Auto-evilification could not remap these functions in map ‘org-agenda-mode-map’:
+  ;; - ‘org-agenda-filter-remove-all’ originally mapped on ‘|’
+  ;; Auto-evilification could not remap these functions in map ‘org-agenda-mode-map’:
+  ;; - ‘org-agenda-filter-by-tag’ originally mapped on ‘\’
+  ;; `org-agenda-next-line' and `org-agenda-toggle-time-grid' are already evilified to other non-conflicting keys.
+  ;; `org-agenda-filter-remove-all' and `org-agenda-filter-by-tag' - we will evilify manually, along with other filter-by functions:
+  (with-eval-after-load 'archive
+    (dolist (key '("G")) (define-key archive-mode-map (kbd key) nil))
+    (evil-define-key 'evilified archive-mode-map (kbd "xxxx") #'archive-chgrp-entry)
+    )
+
+  (with-eval-after-load 'tar
+    (dolist (key '("G")) (define-key tar-mode-map (kbd key) nil))
+    (evil-define-key 'evilified tar-mode-map (kbd "xxxxxx") #'tar-chgrp-entry))
   )
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
