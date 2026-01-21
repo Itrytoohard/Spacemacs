@@ -38,7 +38,16 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     auto-completion
+     (auto-completion :variables
+                      ;; Wait longer before showing
+                      auto-completion-idle-delay 0.5
+                      ;; Require 3 chars
+                      auto-completion-minimum-prefix-length 3
+                      ;; Do not use RET for completion
+                      auto-completion-return-key-behavior 'nil
+                      ;; Use TAB to cycle, not insert
+                      auto-completion-tab-key-behavior 'cycle)
+
      ;; better-defaults ;; makes more sensible emacs configs. does nothing in vim mode (per docs)
      emacs-lisp
      git
