@@ -610,7 +610,7 @@ Put your configuration code here"
   ;; Make text wrapping break lines at word boundaries
   (global-visual-line-mode 1)
 
-  (setq ns-use-srgb-colorspace nil)
+  ;; (setq ns-use-srgb-colorspace nil)
 
   ;; <mycode> <Tag for searching>
   (setq spaceline-highlight-face-style 'none)
