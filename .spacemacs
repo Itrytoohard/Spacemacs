@@ -39,11 +39,11 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      auto-completion
-     ;; better-defaults
+     ;; better-defaults ;; makes more sensible emacs configs. does nothing in vim mode (per docs)
      emacs-lisp
      git
      helm
-     ;; lsp
+     ;; lsp ;; should probably enable this to see if it does anything different
      markdown
      multiple-cursors
      (org :variables
@@ -607,6 +607,8 @@ Put your configuration code here"
   ;; <TODO> make evil display -----insert----- like vim does
   ;; (add-hook 'evil-insert-state-entry-hook 'function-to-display-insert-mode)
 
+  ;; Make text wrapping break lines at word boundaries
+  (global-visual-line-mode 1)
 
   (setq ns-use-srgb-colorspace nil)
 
