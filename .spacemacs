@@ -64,7 +64,7 @@ This function should only modify configuration layer settings."
           ;; org-enable-modern-support t
           org-enable-appear-support t
           org-enable-transclusion-support t
-
+          org-enable-superstar t
           )
      (shell :variables
             shell-default-height 30
@@ -621,6 +621,9 @@ Put your configuration code here"
   (global-visual-line-mode 1)
 
   ;; (setq ns-use-srgb-colorspace nil)
+
+  ;; sets bullets to a font that works
+  (setq org-bullets-bullet-list '("◉" "⁑" "⁂" "❖" "✮" "✱" "✸"))
 
   ;; <mycode> <Tag for searching>
   (setq spaceline-highlight-face-style 'none)
