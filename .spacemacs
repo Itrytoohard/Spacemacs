@@ -46,7 +46,8 @@ This function should only modify configuration layer settings."
                       ;; Do not use RET for completion
                       auto-completion-return-key-behavior 'nil
                       ;; Use TAB to cycle, not insert
-                      auto-completion-tab-key-behavior 'cycle)
+                      ;; auto-completion-tab-key-behavior 'cycle)
+                      )
 
      ;; better-defaults ;; makes more sensible emacs configs. does nothing in vim mode (per docs)
      emacs-lisp
