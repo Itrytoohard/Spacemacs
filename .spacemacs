@@ -628,6 +628,9 @@ Put your configuration code here"
   ;; <mycode> <Tag for searching>
   (setq spaceline-highlight-face-style 'none)
 
+  ;; don't ask if I want to follow symlinks
+  (setq find-file-visit-truename t)
+
   ;; Show full path in header
   (setq org-sticky-header-full-path 'full)
 
