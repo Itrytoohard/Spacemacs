@@ -250,7 +250,7 @@ It should only modify the values of Spacemacs settings."
    ;; a non-negative integer (pixel size), or a floating-point (point size).
    ;; Point size is recommended, because it's device independent. (default 10.0)
    dotspacemacs-default-font '("SauceCodePro Nerd Font"
-                               :size 13.0
+                               :size 14.0
                                :weight normal
                                :width normal)
 
@@ -288,7 +288,7 @@ It should only modify the values of Spacemacs settings."
    ;; and TAB or `C-m' and `RET'.
    ;; In the terminal, these pairs are generally indistinguishable, so this only
    ;; works in the GUI. (default nil)
-   dotspacemacs-distinguish-gui-tab nil
+   dotspacemacs-distinguish-gui-tab t
 
    ;; Name of the default layout (default "Default")
    dotspacemacs-default-layout-name "Default"
@@ -327,7 +327,7 @@ It should only modify the values of Spacemacs settings."
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
    ;; <changed>
-   dotspacemacs-which-key-delay 0.2
+   dotspacemacs-which-key-delay 0.3
 
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
@@ -338,7 +338,7 @@ It should only modify the values of Spacemacs settings."
    ;; `top-right-corner', `bottom-left-corner' or `bottom-right-corner'
    ;; (default 'bottom)
    ;; <changed>
-   dotspacemacs-which-key-position 'right-then-bottom
+   dotspacemacs-which-key-position 'right
 
    ;; Control where `switch-to-buffer' displays the buffer. If nil,
    ;; `switch-to-buffer' displays the buffer in the current window even if
@@ -590,8 +590,8 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  ;; (setq powerline-image-apple-rgb t)
   ;; (setq ns-use-srgb-colorspace nil)
+  ;; (setq powerline-image-apple-rgb nil)
 
   ;; <TODO> Get back to this and install jinx/huspell/enchant2
   ;;  (setq-default spell-checking-enable-by-default nil)
@@ -603,7 +603,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
-
 
   ;; Enter insert mode on commit message opening
   (add-hook 'git-commit-setup-hook 'evil-insert-state)
