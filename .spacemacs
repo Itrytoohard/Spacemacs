@@ -42,11 +42,29 @@ This function should only modify configuration layer settings."
                       ;; Wait longer before showing
                       auto-completion-idle-delay 0.5
                       ;; Require 3 chars
-                      auto-completion-minimum-prefix-length 3
+                      auto-completion-minimum-prefix-length 2
                       ;; Do not use RET for completion
-                      auto-completion-return-key-behavior 'nil
+                      auto-completion-return-key-behavior nil
                       ;; Use TAB to cycle, not insert
-                      auto-completion-tab-key-behavior 'complete
+                      auto-completion-tab-key-behavior 'cycle
+                      ;; Mine Below
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-enable-sort-by-usage t
+                      auto-completion-enable-help-tooltip t
+                      auto-completion-complete-with-key-sequence "qq"
+                      auto-completion-complete-with-key-sequence-delay 1.0
+                      ;; from spacemacs layer completion manual (defaults)
+                      ;; auto-completion-return-key-behavior 'complete
+                      ;; auto-completion-tab-key-behavior 'cycle
+                      ;; auto-completion-complete-with-key-sequence nil
+                      ;; auto-completion-complete-with-key-sequence-delay 0.1
+                      ;; auto-completion-minimum-prefix-length 2
+                      ;; auto-completion-idle-delay 0.2
+                      ;; auto-completion-private-snippets-directory nil
+                      ;; auto-completion-enable-snippets-in-popup nil
+                      ;; auto-completion-enable-help-tooltip nil
+                      ;; auto-completion-use-company-box nil
+                      ;; auto-completion-enable-sort-by-usage nil
                       )
 
      ;; better-defaults ;; makes more sensible emacs configs. does nothing in vim mode (per docs)
