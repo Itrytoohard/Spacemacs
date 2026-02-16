@@ -93,6 +93,15 @@ This function should only modify configuration layer settings."
           org-enable-transclusion-support t
           org-enable-superstar t
           )
+     ;; (osx :variables
+     ;;      osx-command-as       'control
+     ;;      osx-option-as        'meta
+     ;;      osx-control-as       'control
+     ;;      ;; osx-function-as      nil
+     ;;      osx-right-command-as 'left
+     ;;      osx-right-option-as  'left
+     ;;      osx-right-control-as 'left
+     ;;      osx-swap-option-and-command nil)
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
