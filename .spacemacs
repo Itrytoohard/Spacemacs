@@ -102,6 +102,8 @@ This function should only modify configuration layer settings."
      ;;      osx-right-option-as  'left
      ;;      osx-right-control-as 'left
      ;;      osx-swap-option-and-command nil)
+     pandoc
+     (ruby :variables ruby-version-manager 'rbenv)
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -109,6 +111,7 @@ This function should only modify configuration layer settings."
      syntax-checking
      version-control
      treemacs)
+     yaml
 
 
    ;; List of additional packages that will be installed without being wrapped
