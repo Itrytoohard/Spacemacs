@@ -109,6 +109,8 @@ This function should only modify configuration layer settings."
             shell-default-position 'bottom)
      spell-checking
      syntax-checking
+     ;; tabs
+     ;; themes-megapack
      version-control
      treemacs)
      yaml
