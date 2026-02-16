@@ -678,6 +678,16 @@ Put your configuration code here"
   ;; Global Tab **Line** Mode
   ;; (global-tab-line-mode 1)
 
+  ;; Save and restore sessions (buffers, window configurations)
+  (desktop-save-mode 1)
+
+  ;; Save minibuffer history
+  (savehist-mode 1)
+
+  ;; Optional: Save the location of the point in files
+  (save-place-mode 1)
+
+  (scroll-bar-mode -1)
 
   ;; Enter insert mode on commit message opening
   (add-hook 'git-commit-setup-hook 'evil-insert-state)
