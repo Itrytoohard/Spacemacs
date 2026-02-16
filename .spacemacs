@@ -668,6 +668,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
+  (add-hook 'magit-mode-hook
+            (lambda ()
+              (when (string-prefix-p "/src/GitHubRepos/itrytoohard.github.io" default-directory)
+                (magit-mode -1))))
 
   ;; Enter insert mode on commit message opening
   (add-hook 'git-commit-setup-hook 'evil-insert-state)
