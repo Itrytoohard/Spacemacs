@@ -640,6 +640,20 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (dotspacemacs/disable-autoevilfication-fail-messages)
   )
 
+(defun dotspacemacs/fix-smartparens-attitude ()
+
+  ;; Hacky crap that is needed because smartparens decided it was too good
+  ;; to not break crap
+  (require 'smartparens)
+  ;; (defun smartparens-mode () (debug))
+  (with-eval-after-load 'smartparens
+    (defun smartparens-mode (&optional arg)
+      "Redefine to accept the ARG that Spacemacs is trying to pass."
+      (interactive "P")
+      ;; You can leave this empty or call the original logic if needed
+      (message "Smartparens-mode called with arg: %s" arg)))
+  )
+
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
