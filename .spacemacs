@@ -689,6 +689,8 @@ Put your configuration code here"
 
   (scroll-bar-mode -1)
 
+  (setq org-hide-leading-stars t)
+  (add-hook 'org-mode-hook 'org-indent-mode)
   ;; Enter insert mode on commit message opening
   (add-hook 'git-commit-setup-hook 'evil-insert-state)
 
