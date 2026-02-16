@@ -672,6 +672,12 @@ Put your configuration code here"
             (lambda ()
               (when (string-prefix-p "/src/GitHubRepos/itrytoohard.github.io" default-directory)
                 (magit-mode -1))))
+  ;; Global Tab **Bar** Mode
+  ;; (global-tab-bar-mode 1)
+
+  ;; Global Tab **Line** Mode
+  ;; (global-tab-line-mode 1)
+
 
   ;; Enter insert mode on commit message opening
   (add-hook 'git-commit-setup-hook 'evil-insert-state)
