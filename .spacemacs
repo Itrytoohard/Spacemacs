@@ -38,6 +38,7 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+     ;; all-the-icons
      (auto-completion :variables
                       ;; Wait longer before showing
                       auto-completion-idle-delay 0.5
