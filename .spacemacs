@@ -691,6 +691,19 @@ Put your configuration code here"
 
   (setq org-hide-leading-stars t)
   (add-hook 'org-mode-hook 'org-indent-mode)
+
+  ;; Hacky crap that is needed because smartparens decided it was too good
+  ;; to not break crap
+  (dotspacemacs/fix-smartparens-attitude)
+  ;; (require 'smartparens)
+  ;; (defun smartparens-mode () (debug))
+  ;; (with-eval-after-load 'smartparens
+  ;;   (defun smartparens-mode (&optional arg)
+  ;;     "Redefine to accept the ARG that Spacemacs is trying to pass."
+  ;;     (interactive "P")
+  ;;     ;; You can leave this empty or call the original logic if needed
+  ;;     (message "Smartparens-mode called with arg: %s" arg)))
+
   ;; Enter insert mode on commit message opening
   (add-hook 'git-commit-setup-hook 'evil-insert-state)
 
