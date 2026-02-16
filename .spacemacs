@@ -666,7 +666,17 @@ Put your configuration code here"
   ;; sets bullets to a font that works
   (setq org-bullets-bullet-list '("◉" "⁑" "⁂" "❖" "✮" "✱" "✸"))
 
+  ;; make the command key act like a control key in emacs only
+  ;; (setq mac-command-modifier 'control)
+
+  ;; Use TAB to complete
+  ;; (define-key company-active-map (kbd "q q") 'company-complete-selection)
+  ;; (define-key company-active-map (kbd "q q") 'company-complete-selection)
+
   ;; <mycode> <Tag for searching>
+
+  (spacemacs/set-leader-keys "of" 'my-org-function-description-insert)
+
   (setq spaceline-highlight-face-style 'none)
 
   ;; don't ask if I want to follow symlinks
