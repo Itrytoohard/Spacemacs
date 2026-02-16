@@ -860,6 +860,9 @@ Put your configuration code here"
 
                                         ; if this comment is still here, q didnt work
   (dotspacemacs/disable-autoevilfication-fail-messages)
+
+  ;; remove those infernal red trailing whitespace boxes
+  (setq-default show-trailing-whitespace nil)
   )
 
 
