@@ -700,6 +700,7 @@ Put your configuration code here"
   (key-chord-define evil-insert-state-map "kj"     'evil-normal-state)
   (key-chord-define evil-insert-state-map "jk"     'evil-normal-state)
 
+  (setq org-fontify-whole-heading-line t)
   ;; Begin big jk smash exit insert mode segment from
   ;; https://github.com/cofi/dotfiles/blob/a000343ad9268786d459c776fbcf267036999422/emacs.d/config/cofi-evil.el#L81-L95
   ;; reccommended by https://emacs.stackexchange.com/questions/19961/using-jk-to-exit-insert-mode-with-key-chord-or-anything-else
