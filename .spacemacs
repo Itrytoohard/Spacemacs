@@ -804,6 +804,22 @@ Put your configuration code here"
   (dotspacemacs/disable-autoevilfication-fail-messages)
   )
 
+
+(defun dotspacemacs/my-org-function-description-insert (function-name)
+  "Insert the documentation for FUNCTION-NAME into the current buffer
+  within an Org mode source block."
+  (interactive "sEnter function name: ")
+  (let* ((help-buffer (generate-new-buffer "*Help*"))
+         (doc-string (documentation-property (intern function-name) 'function-documentation)))
+    (if doc-string
+        (with-current-buffer help-buffer
+          (insert "#+BEGIN_SRC text\n")
+          (insert doc-string)
+          (insert "\n#+END_SRC\n")
+          (insert-buffer-contents help-buffer (current-buffer))
+          (kill-buffer help-buffer))
+      (message "No documentation found for %s" function-name))))
+
 ;; Supposed to fix autoevilfication warning messages, but doesn't work.
 (defun dotspacemacs/disable-autoevilfication-fail-messages()
   ;; remove startup auto-evilification messages:
