@@ -72,8 +72,16 @@ This function should only modify configuration layer settings."
      emacs-lisp
      git
      helm
+     html
      ;; lsp ;; should probably enable this to see if it does anything different
-     markdown
+     (markdown :variables
+               ;; markdown-command "pandoc"
+               ;; markdown-live-preview-engine 'pandoc
+                                        ; Optional: Add extra arguments for GitHub-flavored markdown, mathjax, etc.
+               markdown-command "pandoc -t html5 -f gfm --mathjax --highlight-style=pygments --toc"
+
+               markdown-live-preview-engine 'pandoc
+               )
      multiple-cursors
      (org :variables
           org-enable-roam-support t
