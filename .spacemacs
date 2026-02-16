@@ -640,6 +640,15 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (dotspacemacs/disable-autoevilfication-fail-messages)
   )
 
+;; (defun dotspacemacs/matt-hello-world ()
+;;   "Adds 3 new lines after the point, then brings the pointer back to the line"
+;;   (interactive)
+;;   (insert "\n"))
+;;   (global-set-key "C-x C-q C-q C-q" 'dotspacemacs/matt-hello-world)
+;; Starts with non-prefix C
+
+
+
 (defun dotspacemacs/fix-smartparens-attitude ()
 
   ;; Hacky crap that is needed because smartparens decided it was too good
