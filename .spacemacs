@@ -664,39 +664,46 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   )
 
 ;; from gemini
-(defun my/create-org-keybinding-entry ()
-  "Prompts for data (Key first) and returns a formatted Org entry with correct Tag/Property logic."
+(defun my/org-capture-key-hierarchy-helper ()
+  "Prompts for keys and description, then returns the leaf content."
   (let* ((orig-buf (org-capture-get :original-buffer))
-         ;; 1. Prompt for Key Sequence first
+         ;; 1. Prompt for Key Sequence
          (key-seq (read-key-sequence "Enter key sequence: "))
-         (key-desc (key-description key-seq))
+         (key-str (key-description key-seq))
+         (key-list (split-string key-str " "))
          ;; 2. Prompt for Description
          (desc (read-string "Description: "))
          ;; 3. Logic for Mode/Function detection
          (major-str (with-current-buffer orig-buf (symbol-name major-mode)))
-         (global-func (lookup-key (current-global-map) key-seq))
-         (local-func (with-current-buffer orig-buf (lookup-key (current-local-map) key-seq)))
          (active-func (with-current-buffer orig-buf (key-binding key-seq)))
-         (detected-scope (cond
-                          ((and local-func (not (numberp local-func))) major-str)
-                          ((and global-func (not (numberp global-func))) "Global")
-                          (t "Unknown/Minor Mode")))
          (func-name (if (and active-func (symbolp active-func)) (symbol-name active-func) "undefined"))
-         ;; 4. Format Tag for Headline (Replace dashes with underscores for Org compatibility)
-         (headline-tag (replace-regexp-in-string "-" "_" detected-scope))
-         ;; 5. Prompt for Category
-         (category (completing-read "Category: " '("Layer" "Tool" "General" "Navigation" "Editing"))))
+         ;; 4. Prepare parts for the Tree
+         (leaf-key (car (last key-list)))
+         (path (butlast key-list)))
 
-    ;; Construct the final string
-    (concat
-     (format "* ~%s~ - %s :%s:" key-desc desc headline-tag)
-     "\n:PROPERTIES:"
-     (format "\n:Category: %s" category)
-     (format "\n:Modesrc: %s" major-str)
-     (format "\n:Function: %s" func-name)
-     "\n:END:\n"
-     (format "[[elisp:(describe-function '%s)][View Function Documentation]]\n" func-name))))
+    ;; Store the path in the capture-plist so the filing function can find it
+    (org-capture-put :key-path path)
 
+    ;; Return the formatted headline and body
+    (format "%s | ~%s~ - %s\n:PROPERTIES:\n:Modesrc: %s\n:Function: %s\n:END:\n[[elisp:(describe-function '%s)][View Documentation]]"
+            leaf-key key-str desc major-str func-name func-name)))
+
+
+(defun my/org-capture-find-key-node ()
+  "Navigates to or creates the heading path for the current keybinding."
+  (let ((path (org-capture-get :key-path))
+        (file "~/.emacs.d/org/unordered-emacs-functions.org"))
+    (set-buffer (find-file-noselect (expand-file-name file)))
+    (goto-char (point-min))
+    (dolist (heading path)
+      ;; Look for the heading at the current level
+      (let ((level (if (org-at-heading-p) (org-outline-level) 0)))
+        (unless (org-find-exact-headline-in-buffer heading)
+          (goto-char (point-max))
+          (unless (bolp) (insert "\n"))
+          (insert (make-string (1+ level) ?*) " " heading "\n"))
+        (org-find-exact-headline-in-buffer heading)
+        (org-end-of-subtree t t)))))
 
 
 (defun dotspacemacs/user-config ()
@@ -705,9 +712,9 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
   (setq org-capture-templates
-        '(("k" "Keybinding" entry (file "~/.emacs.d/org/unordered-emacs-functions.org")
-           "%(my/create-org-keybinding-entry)" :prepend t)))
-
+        '(("k" "Keybinding Tree" entry
+           (file+function "~/.emacs.d/org/unordered-emacs-functions.org" my/org-capture-find-key-node)
+           "* %(my/org-capture-key-hierarchy-helper)" :prepend t)))
   ;; Create Personalized Org Capture Templates
   ;; (setq org-capture-templates
   ;;       '(
