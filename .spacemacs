@@ -40,19 +40,25 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
      ;; all-the-icons
      (auto-completion :variables
+                      ;; -----------Enable only one of these:--------------
+                      ;; --------------------------------------------------
+                      ;; ;; Tab cycles, Enter completes
+                      ;; auto-completion-tab-key-behavior 'cycle
+                      ;; auto-completion-return-key-behavior 'complete
+                      ;; --------------------------------------------------
+                      ;; Tab completes, Enter does nothing, arrows to cycle
+                      auto-completion-tab-key-behavior 'complete
+                      auto-completion-return-key-behavior nil
+                      ;; --------------------------------------------------
                       ;; Wait longer before showing
                       auto-completion-idle-delay 0.5
                       ;; Require 3 chars
                       auto-completion-minimum-prefix-length 2
-                      ;; Do not use RET for completion
-                      auto-completion-return-key-behavior nil
-                      ;; Use TAB to cycle, not insert
-                      auto-completion-tab-key-behavior 'cycle
                       ;; Mine Below
-                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-enable-snippets-in-popup t ;; <note> set to nil to fix YASnippet?
                       auto-completion-enable-sort-by-usage t
                       auto-completion-enable-help-tooltip t
-                      auto-completion-complete-with-key-sequence "qq"
+                      ;; auto-completion-complete-with-key-sequence "qq"
                       auto-completion-complete-with-key-sequence-delay 1.0
                       ;; from spacemacs layer completion manual (defaults)
                       ;; auto-completion-return-key-behavior 'complete
@@ -64,6 +70,7 @@ This function should only modify configuration layer settings."
                       ;; auto-completion-private-snippets-directory nil
                       ;; auto-completion-enable-snippets-in-popup nil
                       ;; auto-completion-enable-help-tooltip nil
+
                       ;; auto-completion-use-company-box nil
                       ;; auto-completion-enable-sort-by-usage nil
                       )
@@ -663,12 +670,22 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
       (message "Smartparens-mode called with arg: %s" arg)))
   )
 
+(defun my/capture-template-helper()
+
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
+
+  (setq org-capture-templates
+        ;; Miminum required to use
+        '(
+          ("k" "Keybind" entry (file "~/.emacs.d/org"
+                                     ))))
+
   ;; Create Personalized Org Capture Templates
   ;; (setq org-capture-templates
   ;;       '(
