@@ -54,10 +54,6 @@ This function should only modify configuration layer settings."
                       auto-completion-idle-delay 0.5
                       ;; Require 3 chars
                       auto-completion-minimum-prefix-length 2
-                      ;; Do not use RET for completion
-                      ;; auto-completion-return-key-behavior nil
-                      ;; Use TAB to cycle, not complete
-                      ;; auto-completion-tab-key-behavior 'complete
                       ;; Mine Below
                       auto-completion-enable-snippets-in-popup t ;; <note> set to nil to fix YASnippet?
                       auto-completion-enable-sort-by-usage t
