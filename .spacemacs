@@ -688,23 +688,38 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     (format "%s | ~%s~ - %s\n:PROPERTIES:\n:Modesrc: %s\n:Function: %s\n:END:\n[[elisp:(describe-function '%s)][View Documentation]]"
             leaf-key key-str desc major-str func-name func-name)))
 
-
 (defun my/org-capture-find-key-node ()
-  "Navigates to or creates the heading path for the current keybinding."
+  "Navigates to or creates the nested heading path for the current keybinding."
   (let ((path (org-capture-get :key-path))
         (file "~/.emacs.d/org/unordered-emacs-functions.org"))
+    ;; Open the file if not already open
     (set-buffer (find-file-noselect (expand-file-name file)))
     (goto-char (point-min))
-    (dolist (heading path)
-      ;; Look for the heading at the current level
-      (let ((level (if (org-at-heading-p) (org-outline-level) 0)))
-        (unless (org-find-exact-headline-in-buffer heading)
-          (goto-char (point-max))
-          (unless (bolp) (insert "\n"))
-          (insert (make-string (1+ level) ?*) " " heading "\n"))
-        (org-find-exact-headline-in-buffer heading)
-        (org-end-of-subtree t t)))))
 
+    (let ((current-level 1))
+      (dolist (heading path)
+        (let ((found nil))
+          ;; Search for heading at the specific level to avoid matching wrong branches
+          (save-excursion
+            (while (and (not found)
+                        (re-search-forward (format "^%s %s$" (make-string current-level ?*) (regexp-quote heading)) nil t))
+              (setq found t)))
+
+          (if found
+              (goto-char (match-beginning 0))
+            ;; If not found, create it at the end of the current buffer/subtree
+            (goto-char (point-max))
+            (unless (bolp) (insert "\n"))
+            (insert (make-string current-level ?*) " " heading "\n")
+            (backward-char 1)) ;; Put point back on the new headline
+
+          ;; Move to the end of this entry to look for/create the next sub-level
+          (org-end-of-meta-data t)
+          (setq current-level (1+ current-level))))
+
+      ;; Final positioning for the capture entry
+      (goto-char (org-entry-end-position))))
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
