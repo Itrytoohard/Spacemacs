@@ -719,6 +719,12 @@ Put your configuration code here"
   ;;          "** ~{key sequence}~ | {description} | {mode-specific} "
   ;;          :empty-lines 1)
   ;;         ))
+
+  (setq org-capture-templates
+        '(("k" "Keybinding" entry (file "~/.emacs.d/org/unordered-emacs-functions.org")
+           "* %^{Description}\n%current-kill\n%(my/org-capture-keybinding-helper)\n\n%?")))
+
+
   (add-hook 'magit-mode-hook
             (lambda ()
               (when (string-prefix-p "/src/GitHubRepos/itrytoohard.github.io" default-directory)
