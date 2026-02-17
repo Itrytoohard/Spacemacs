@@ -664,26 +664,39 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   )
 
 ;; from gemini
-(defun my/org-capture-keybinding-helper ()
-  "Detects keybinding scope and returns formatted Mode/Function info."
+(defun my/create-org-keybinding-entry ()
+  "Prompts for data (Key first) and returns a formatted Org entry with correct Tag/Property logic."
   (let* ((orig-buf (org-capture-get :original-buffer))
+         ;; 1. Prompt for Key Sequence first
          (key-seq (read-key-sequence "Enter key sequence: "))
          (key-desc (key-description key-seq))
-         (major (with-current-buffer orig-buf major-mode))
+         ;; 2. Prompt for Description
+         (desc (read-string "Description: "))
+         ;; 3. Logic for Mode/Function detection
+         (major-str (with-current-buffer orig-buf (symbol-name major-mode)))
          (global-func (lookup-key (current-global-map) key-seq))
          (local-func (with-current-buffer orig-buf (lookup-key (current-local-map) key-seq)))
          (active-func (with-current-buffer orig-buf (key-binding key-seq)))
-         (detected-mode (cond
-                         ((and local-func (not (numberp local-func))) (symbol-name major))
-                         ((and global-func (not (numberp global-func))) "Global")
-                         (t "Unknown/Minor Mode"))))
-    ;; Store the key description in a temporary property so the template can access it
-    (org-capture-put :key-desc key-desc)
-    ;; Return the body text
-    (format "Mode: %s\nFunction: [[elisp:(describe-function '%s)][%s]]"
-            detected-mode
-            (or active-func "None")
-            (or active-func "undefined"))))
+         (detected-scope (cond
+                          ((and local-func (not (numberp local-func))) major-str)
+                          ((and global-func (not (numberp global-func))) "Global")
+                          (t "Unknown/Minor Mode")))
+         (func-name (if (and active-func (symbolp active-func)) (symbol-name active-func) "undefined"))
+         ;; 4. Format Tag for Headline (Replace dashes with underscores for Org compatibility)
+         (headline-tag (replace-regexp-in-string "-" "_" detected-scope))
+         ;; 5. Prompt for Category
+         (category (completing-read "Category: " '("Layer" "Tool" "General" "Navigation" "Editing"))))
+
+    ;; Construct the final string
+    (concat
+     (format "* ~%s~ - %s :%s:" key-desc desc headline-tag)
+     "\n:PROPERTIES:"
+     (format "\n:Category: %s" category)
+     (format "\n:Modesrc: %s" major-str)
+     (format "\n:Function: %s" func-name)
+     "\n:END:\n"
+     (format "[[elisp:(describe-function '%s)][View Function Documentation]]\n" func-name))))
+
 
 
 (defun dotspacemacs/user-config ()
@@ -691,14 +704,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
-
   (setq org-capture-templates
-        '(("k" "Keybinding" entry (file "~/org/keybindings.org")
-           "* ~%(my/org-capture-keybinding-helper)%\\(org-capture-get :key-desc)~ - %^{Description} %^g
-:PROPERTIES:
-:Category: %^{Category|General|Layer|Tool}
-:END:
-%?" :prepend t)))
+        '(("k" "Keybinding" entry (file "~/.emacs.d/org/unordered-emacs-functions.org")
+           "%(my/create-org-keybinding-entry)" :prepend t)))
 
   ;; Create Personalized Org Capture Templates
   ;; (setq org-capture-templates
