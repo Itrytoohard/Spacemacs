@@ -40,14 +40,24 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
      ;; all-the-icons
      (auto-completion :variables
+                      ;; -----------Enable only one of these:--------------
+                      ;; --------------------------------------------------
+                      ;; ;; Tab cycles, Enter completes
+                      ;; auto-completion-tab-key-behavior 'cycle
+                      ;; auto-completion-return-key-behavior 'complete
+                      ;; --------------------------------------------------
+                      ;; Tab completes, Enter does nothing, arrows to cycle
+                      auto-completion-tab-key-behavior 'complete
+                      auto-completion-return-key-behavior nil
+                      ;; --------------------------------------------------
                       ;; Wait longer before showing
                       auto-completion-idle-delay 0.5
                       ;; Require 3 chars
                       auto-completion-minimum-prefix-length 2
                       ;; Do not use RET for completion
-                      auto-completion-return-key-behavior nil
+                      ;; auto-completion-return-key-behavior nil
                       ;; Use TAB to cycle, not complete
-                      auto-completion-tab-key-behavior 'complete
+                      ;; auto-completion-tab-key-behavior 'complete
                       ;; Mine Below
                       auto-completion-enable-snippets-in-popup t ;; <note> set to nil to fix YASnippet?
                       auto-completion-enable-sort-by-usage t
