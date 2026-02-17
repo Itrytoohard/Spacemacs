@@ -665,60 +665,53 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
 ;; from gemini
 (defun my/org-capture-key-hierarchy-helper ()
-  "Prompts for keys and description, then returns the leaf content."
+  "Prompts for keys and description, returns only the leaf's content."
   (let* ((orig-buf (org-capture-get :original-buffer))
-         ;; 1. Prompt for Key Sequence
          (key-seq (read-key-sequence "Enter key sequence: "))
          (key-str (key-description key-seq))
          (key-list (split-string key-str " "))
-         ;; 2. Prompt for Description
-         (desc (read-string "Description: "))
-         ;; 3. Logic for Mode/Function detection
-         (major-str (with-current-buffer orig-buf (symbol-name major-mode)))
-         (active-func (with-current-buffer orig-buf (key-binding key-seq)))
-         (func-name (if (and active-func (symbolp active-func)) (symbol-name active-func) "undefined"))
-         ;; 4. Prepare parts for the Tree
+         (desc (read-string "Leaf Description: "))
          (leaf-key (car (last key-list)))
          (path (butlast key-list)))
 
-    ;; Store the path in the capture-plist so the filing function can find it
+    ;; Store path for the filer
     (org-capture-put :key-path path)
-
-    ;; Return the formatted headline and body
-    (format "%s | ~%s~ - %s\n:PROPERTIES:\n:Modesrc: %s\n:Function: %s\n:END:\n[[elisp:(describe-function '%s)][View Documentation]]"
-            leaf-key key-str desc major-str func-name func-name)))
+    ;; Return only the leaf part: "s - Magit Status"
+    (format "%s - %s" leaf-key desc)))
 
 (defun my/org-capture-find-key-node ()
-  "Navigates to or creates the nested heading path for the current keybinding."
+  "Navigates/creates nested headings with descriptions for each key."
   (let ((path (org-capture-get :key-path))
         (file "~/.emacs.d/org/unordered-emacs-functions.org"))
-    ;; Open the file if not already open
     (set-buffer (find-file-noselect (expand-file-name file)))
     (goto-char (point-min))
 
     (let ((current-level 1))
-      (dolist (heading path)
-        (let ((found nil))
-          ;; Search for heading at the specific level to avoid matching wrong branches
+      (dolist (key path)
+        (let ((found nil)
+              ;; Look for a headline starting with "key - " at current level
+              (search-re (format "^%s %s - " (make-string current-level ?*) (regexp-quote key))))
+
           (save-excursion
-            (while (and (not found)
-                        (re-search-forward (format "^%s %s$" (make-string current-level ?*) (regexp-quote heading)) nil t))
-              (setq found t)))
+            (if (re-search-forward search-re nil t)
+                (setq found (match-beginning 0))))
 
           (if found
-              (goto-char (match-beginning 0))
-            ;; If not found, create it at the end of the current buffer/subtree
-            (goto-char (point-max))
-            (unless (bolp) (insert "\n"))
-            (insert (make-string current-level ?*) " " heading "\n")
-            (backward-char 1)) ;; Put point back on the new headline
+              (goto-char found)
+            ;; If key branch doesn't exist, ask for its name and create it
+            (let ((branch-desc (read-string (format "Description for branch '%s': " key))))
+              (goto-char (point-max))
+              (unless (bolp) (insert "\n"))
+              (insert (make-string current-level ?*) " " key " - " branch-desc "\n")
+              (backward-char 1)))
 
-          ;; Move to the end of this entry to look for/create the next sub-level
+          ;; Move point to the end of this headline's metadata to prepare for next level
           (org-end-of-meta-data t)
           (setq current-level (1+ current-level))))
 
-      ;; Final positioning for the capture entry
+      ;; Position for the final capture entry
       (goto-char (org-entry-end-position))))
+
   )
 
 (defun dotspacemacs/user-config ()
@@ -730,6 +723,7 @@ Put your configuration code here"
         '(("k" "Keybinding Tree" entry
            (file+function "~/.emacs.d/org/unordered-emacs-functions.org" my/org-capture-find-key-node)
            "* %(my/org-capture-key-hierarchy-helper)" :prepend t)))
+
   ;; Create Personalized Org Capture Templates
   ;; (setq org-capture-templates
   ;;       '(
