@@ -674,26 +674,31 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   )
 
+(defun my/set-capture-helper ()
+  ;; set vars for org capture template
+  (setq
+   ;; my-capture-template-shortcut-key "k"
+   my-capture-template-shortcut-name "Keybind"
+   capture-template-filepath "~/.emacs.d/org/capture-templates-test.org"
+   my-capture-template-format-string "* %^{Title}\\n%?\\nAdded on %U"
+   )
+  (setq my-capture-template-shortcut-key "k")
+  (print my-capture-template-shortcut-key)
+  (setq org-capture-templates
+        ;; Miminum required to use
+        '(
+          ((car my-capture-template-shortcut-key) my-capture-template-shortcut-name entry (file capture-template-filepath)
+           my-capture-template-format-string)
+          )))
+
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
 
-  ;; set vars for org capture template
-  (setq
-   my-capture-template-shortcut-key "k"
-   my-capture-template-shortcut-name "Keybind"
-   capture-template-filepath "~/.emacs.d/org/capture-templates-test.org"
-   my-capture-template-format-string "* %^{Title}\\n%?\\nAdded on %U"
-   )
-  (setq org-capture-templates
-        ;; Miminum required to use
-        '(
-          (my-capture-template-shortcut-key my-capture-template-shortcut-name entry (file capture-template-filepath)
-                                            my-capture-template-format-string)
-          ))
 
+  (my/set-capture-helper)
   ;; Create Personalized Org Capture Templates
   ;; (setq org-capture-templates
   ;;       '(
