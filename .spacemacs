@@ -49,7 +49,7 @@ This function should only modify configuration layer settings."
                       ;; Use TAB to cycle, not insert
                       auto-completion-tab-key-behavior 'cycle
                       ;; Mine Below
-                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-enable-snippets-in-popup t ;; <note> set to nil to fix YASnippet?
                       auto-completion-enable-sort-by-usage t
                       auto-completion-enable-help-tooltip t
                       auto-completion-complete-with-key-sequence "qq"
