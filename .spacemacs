@@ -665,34 +665,41 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
 ;; from gemini
 (defun my/org-capture-keybinding-helper ()
-  "Prompts for mode and keybinding, then finds the associated function."
+  "Detects keybinding scope and returns formatted Mode/Function info."
   (let* ((orig-buf (org-capture-get :original-buffer))
-         (current-mm (with-current-buffer orig-buf (symbol-name major-mode)))
-         ;; 1. Prompt for Mode
-         (mode-choice (completing-read "Applies to: " '("Global" "Specific Mode" "Unknown")))
-         (final-mode (cond
-                      ((string= mode-choice "Global") "Global")
-                      ((string= mode-choice "Unknown") "Unknown")
-                      (t (if (y-or-n-p (format "Is it for the current mode (%s)?" current-mm))
-                             current-mm
-                           (read-string "Enter mode name: ")))))
-         ;; 2. Prompt for Keybinding
          (key-seq (read-key-sequence "Enter key sequence: "))
-         ;; 4. Search for bound function
-         (func (with-current-buffer orig-buf (key-binding key-seq))))
+         (key-desc (key-description key-seq))
+         (major (with-current-buffer orig-buf major-mode))
+         (global-func (lookup-key (current-global-map) key-seq))
+         (local-func (with-current-buffer orig-buf (lookup-key (current-local-map) key-seq)))
+         (active-func (with-current-buffer orig-buf (key-binding key-seq)))
+         (detected-mode (cond
+                         ((and local-func (not (numberp local-func))) (symbol-name major))
+                         ((and global-func (not (numberp global-func))) "Global")
+                         (t "Unknown/Minor Mode"))))
+    ;; Store the key description in a temporary property so the template can access it
+    (org-capture-put :key-desc key-desc)
+    ;; Return the body text
+    (format "Mode: %s\nFunction: [[elisp:(describe-function '%s)][%s]]"
+            detected-mode
+            (or active-func "None")
+            (or active-func "undefined"))))
 
-    ;; Return the formatted string for the template
-    (format "Mode: %s\nKey: %s\nFunction: [[elisp:(describe-function '%s)][%s]]"
-            final-mode
-            (key-description key-seq)
-            (or func "None")
-            (or func "undefined"))))
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
+
+  (setq org-capture-templates
+        '(("k" "Keybinding" entry (file "~/org/keybindings.org")
+           "* ~%(my/org-capture-keybinding-helper)%\\(org-capture-get :key-desc)~ - %^{Description} %^g
+:PROPERTIES:
+:Category: %^{Category|General|Layer|Tool}
+:END:
+%?" :prepend t)))
+
   ;; Create Personalized Org Capture Templates
   ;; (setq org-capture-templates
   ;;       '(
@@ -720,10 +727,12 @@ Put your configuration code here"
   ;;          :empty-lines 1)
   ;;         ))
 
-  (setq org-capture-templates
-        '(("k" "Keybinding" entry (file "~/.emacs.d/org/unordered-emacs-functions.org")
-           "* %^{Description}\n%current-kill\n%(my/org-capture-keybinding-helper)\n\n%?")))
+  ;; Default
+  ;; (setq org-capture-templates
+  ;;       '(("k" "Keybinding" entry (file "~/.emacs.d/org/unordered-emacs-functions.org")
+  ;;          "* %^{Description}\n%current-kill\n%(my/org-capture-keybinding-helper)\n\n%?")))
 
+  ;; add a category or tag system
 
   (add-hook 'magit-mode-hook
             (lambda ()
