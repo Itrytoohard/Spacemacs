@@ -665,22 +665,24 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
 ;; from gemini
 (defun my/org-capture-key-hierarchy-helper ()
-  "Prompts for keys and description, returns only the leaf's content."
+  "Prompts for keys and description, returns the leaf with correct nesting level."
   (let* ((orig-buf (org-capture-get :original-buffer))
          (key-seq (read-key-sequence "Enter key sequence: "))
          (key-str (key-description key-seq))
          (key-list (split-string key-str " "))
          (desc (read-string "Leaf Description: "))
          (leaf-key (car (last key-list)))
-         (path (butlast key-list)))
+         (path (butlast key-list))
+         ;; Calculate level: path length + 1 for the leaf itself
+         (level (1+ (length key-list))))
 
-    ;; Store path for the filer
     (org-capture-put :key-path path)
-    ;; Return only the leaf part: "s - Magit Status"
-    (format "%s - %s" leaf-key desc)))
+
+    ;; Return stars + key + description
+    (format "%s %s - %s" (make-string level ?*) leaf-key desc)))
 
 (defun my/org-capture-find-key-node ()
-  "Navigates/creates nested headings with descriptions for each key."
+  "Navigates/creates nested headings. Ensures cursor is at the end of the correct subtree."
   (let ((path (org-capture-get :key-path))
         (file "~/.emacs.d/org/unordered-emacs-functions.org"))
     (set-buffer (find-file-noselect (expand-file-name file)))
@@ -689,40 +691,43 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     (let ((current-level 1))
       (dolist (key path)
         (let ((found nil)
-              ;; Look for a headline starting with "key - " at current level
               (search-re (format "^%s %s - " (make-string current-level ?*) (regexp-quote key))))
 
-          (save-excursion
-            (if (re-search-forward search-re nil t)
-                (setq found (match-beginning 0))))
-
-          (if found
-              (goto-char found)
-            ;; If key branch doesn't exist, ask for its name and create it
+          ;; Search only within the current restricted scope (the parent's subtree)
+          (if (re-search-forward search-re (save-excursion (org-end-of-subtree t t)) t)
+              (goto-char (line-beginning-position))
+            ;; Not found: Create branch at the end of current scope
+            (goto-char (save-excursion (org-end-of-subtree t t)))
+            (unless (bolp) (insert "\n"))
             (let ((branch-desc (read-string (format "Description for branch '%s': " key))))
-              (goto-char (point-max))
-              (unless (bolp) (insert "\n"))
-              (insert (make-string current-level ?*) " " key " - " branch-desc "\n")
-              (backward-char 1)))
+              (insert (make-string current-level ?*) " " key " - " branch-desc "\n"))
+            (forward-line -1))
 
-          ;; Move point to the end of this headline's metadata to prepare for next level
-          (org-end-of-meta-data t)
+          ;; Narrow the focus to this subtree for the next key in the path
+          (org-narrow-to-subtree)
+          (goto-char (point-min))
           (setq current-level (1+ current-level))))
 
-      ;; Position for the final capture entry
-      (goto-char (org-entry-end-position))))
+      ;; After all parents are found/created, move to the end of the narrowed scope
+      (goto-char (point-max))
+      (widen))))
 
-  )
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
+  ;; (setq org-capture-templates
+  ;;       '(("k" "Keybinding Tree" entry
+  ;;          (file+function "~/.emacs.d/org/unordered-emacs-functions.org" my/org-capture-find-key-node)
+  ;;          "* %(my/org-capture-key-hierarchy-helper)" :prepend t)))
+
   (setq org-capture-templates
         '(("k" "Keybinding Tree" entry
            (file+function "~/.emacs.d/org/unordered-emacs-functions.org" my/org-capture-find-key-node)
-           "* %(my/org-capture-key-hierarchy-helper)" :prepend t)))
+           "%(my/org-capture-key-hierarchy-helper)" :prepend t)))
+
 
   ;; Create Personalized Org Capture Templates
   ;; (setq org-capture-templates
