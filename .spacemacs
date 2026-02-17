@@ -663,6 +663,31 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
       (message "Smartparens-mode called with arg: %s" arg)))
   )
 
+;; from gemini
+(defun my/org-capture-keybinding-helper ()
+  "Prompts for mode and keybinding, then finds the associated function."
+  (let* ((orig-buf (org-capture-get :original-buffer))
+         (current-mm (with-current-buffer orig-buf (symbol-name major-mode)))
+         ;; 1. Prompt for Mode
+         (mode-choice (completing-read "Applies to: " '("Global" "Specific Mode" "Unknown")))
+         (final-mode (cond
+                      ((string= mode-choice "Global") "Global")
+                      ((string= mode-choice "Unknown") "Unknown")
+                      (t (if (y-or-n-p (format "Is it for the current mode (%s)?" current-mm))
+                             current-mm
+                           (read-string "Enter mode name: ")))))
+         ;; 2. Prompt for Keybinding
+         (key-seq (read-key-sequence "Enter key sequence: "))
+         ;; 4. Search for bound function
+         (func (with-current-buffer orig-buf (key-binding key-seq))))
+
+    ;; Return the formatted string for the template
+    (format "Mode: %s\nKey: %s\nFunction: [[elisp:(describe-function '%s)][%s]]"
+            final-mode
+            (key-description key-seq)
+            (or func "None")
+            (or func "undefined"))))
+
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
