@@ -680,11 +680,19 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
 
+  ;; set vars for org capture template
+  (setq
+   my-capture-template-shortcut-key "k"
+   my-capture-template-shortcut-name "Keybind"
+   capture-template-filepath "~/.emacs.d/org/capture-templates-test.org"
+   my-capture-template-format-string "* %^{Title}\\n%?\\nAdded on %U"
+   )
   (setq org-capture-templates
         ;; Miminum required to use
         '(
-          ("k" "Keybind" entry (file "~/.emacs.d/org"
-                                     ))))
+          (my-capture-template-shortcut-key my-capture-template-shortcut-name entry (file capture-template-filepath)
+                                            my-capture-template-format-string)
+          ))
 
   ;; Create Personalized Org Capture Templates
   ;; (setq org-capture-templates
