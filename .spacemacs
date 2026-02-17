@@ -693,6 +693,32 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
+  ;; Create Personalized Org Capture Templates
+  ;; (setq org-capture-templates
+  ;;       '(
+  ;;         ;; Comment For how these are laid out:
+  ;;         ;; ("key" "name" entry (stuff+stuff+stuff "~/path" "Name"optional) "formatting string")
+
+  ;;         ;; Example existing template for general TODOs
+  ;;         ("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
+  ;;          "* TODO %?\\n %i\\n %a")
+
+  ;;         ;; Example new template for Journal entries
+  ;;         ("j" "Journal" entry (file+olp+datetree "~/org/journal.org")
+  ;;          "* %?\\nEntered on %U\\n %i\\n %a")
+
+  ;;         ;; Add your new templates here
+  ;;         ("n" "New Note" entry (file "~/org/notes.org")
+  ;;          "* %^{Title}\\n%?\\nAdded on %U")
+
+  ;;         ;; Quick Keybinding Note
+  ;;         ;; TODO make mode specific one, unknown, all
+  ;;         ("k" "Keybind" entry (file "~/.emacs.d/org/unordered-emacs-functions.org")
+  ;;          ;; "** ~{key sequence}~ | {description} | {mode-specific} "
+  ;;          ;; "** ~{key sequence}~ | {description} | {mode-specific} "
+  ;;          "** ~{key sequence}~ | {description} | {mode-specific} "
+  ;;          :empty-lines 1)
+  ;;         ))
   (add-hook 'magit-mode-hook
             (lambda ()
               (when (string-prefix-p "/src/GitHubRepos/itrytoohard.github.io" default-directory)
