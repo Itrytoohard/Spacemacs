@@ -46,8 +46,8 @@ This function should only modify configuration layer settings."
                       auto-completion-minimum-prefix-length 2
                       ;; Do not use RET for completion
                       auto-completion-return-key-behavior nil
-                      ;; Use TAB to cycle, not insert
-                      auto-completion-tab-key-behavior 'insert
+                      ;; Use TAB to cycle, not complete
+                      auto-completion-tab-key-behavior 'complete
                       ;; Mine Below
                       auto-completion-enable-snippets-in-popup t ;; <note> set to nil to fix YASnippet?
                       auto-completion-enable-sort-by-usage t
@@ -64,6 +64,7 @@ This function should only modify configuration layer settings."
                       ;; auto-completion-private-snippets-directory nil
                       ;; auto-completion-enable-snippets-in-popup nil
                       ;; auto-completion-enable-help-tooltip nil
+
                       ;; auto-completion-use-company-box nil
                       ;; auto-completion-enable-sort-by-usage nil
                       )
