@@ -670,12 +670,22 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
       (message "Smartparens-mode called with arg: %s" arg)))
   )
 
+(defun my/capture-template-helper()
+
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
+
+  (setq org-capture-templates
+        ;; Miminum required to use
+        '(
+          ("k" "Keybind" entry (file "~/.emacs.d/org"
+                                     ))))
+
   ;; Create Personalized Org Capture Templates
   ;; (setq org-capture-templates
   ;;       '(
