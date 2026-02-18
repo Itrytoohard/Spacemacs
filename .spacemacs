@@ -670,26 +670,39 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
       (message "Smartparens-mode called with arg: %s" arg)))
   )
 
-(defun my/capture-template-helper()
+;; (defun my/capture-template-helper()
 
-  )
+;;   )
 
-(defun my/set-capture-helper ()
-  ;; set vars for org capture template
-  (setq
-   ;; my-capture-template-shortcut-key "k"
-   my-capture-template-shortcut-name "Keybind"
-   capture-template-filepath "~/.emacs.d/org/capture-templates-test.org"
-   my-capture-template-format-string "* %^{Title}\\n%?\\nAdded on %U"
-   )
-  (setq my-capture-template-shortcut-key "k")
-  (print my-capture-template-shortcut-key)
-  (setq org-capture-templates
-        ;; Miminum required to use
-        '(
-          ((car my-capture-template-shortcut-key) my-capture-template-shortcut-name entry (file capture-template-filepath)
-           my-capture-template-format-string)
-          )))
+;; (my/set-capture-helper)
+;; (defun my/set-capture-helper ()
+;;   ;; set vars for org capture template
+;;   (setq
+;;    ;; my-capture-template-shortcut-key "k"
+;;    my-capture-template-shortcut-name "Keybind"
+;;    capture-template-filepath "~/.emacs.d/org/capture-templates-test.org"
+;;    my-capture-template-format-string "* %^{Title}\\n%?\\nAdded on %U"
+;;    )
+;;   (setq my-capture-template-shortcut-key "k")
+;;   (print my-capture-template-shortcut-key)
+;;   (my/helper "a" "b" capture-template-filepath my-capture-template-format-string)
+;;   )
+
+;; (defun my/helper (key name path format)
+
+;;   (setq org-capture-templates
+;;         ;; Miminum required to use
+;;         '(
+;;           (
+;;            "k" name entry (file path)
+;;            format
+;;            )
+;;           )
+;;         )
+;;   )
+;; ;; (fff ("test"))
+;; (defun fff (string-arg)
+;;  print(string-arg))
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
@@ -698,7 +711,7 @@ configuration.
 Put your configuration code here"
 
 
-  (my/set-capture-helper)
+  ;; (my/set-capture-helper)
   ;; Create Personalized Org Capture Templates
   ;; (setq org-capture-templates
   ;;       '(
@@ -767,7 +780,7 @@ Put your configuration code here"
   ;; Changes filename on mode line to file path if one exists
   (spaceline-define-segment buffer-id
     (if (buffer-file-name)
-        (buffer-file-name) ; Displays the full, absolute file path
+        (buffer-file-name)              ; Displays the full, absolute file path
       (powerline-buffer-id)))
 
   ;; <TODO> make evil display -----insert----- like vim does
@@ -895,7 +908,7 @@ Put your configuration code here"
   (defun kill-this-buffer-with-prompt()
     (interactive)
     (if (and (buffer-modified-p)
-             (buffer-file-name)) ; Only prompt for file-visiting buffers
+             (buffer-file-name))        ; Only prompt for file-visiting buffers
         (if (y-or-n-p "Buffer has unsaved changes. Kill anyway? ")
             (kill-current-buffer)
           (message "Kill buffer operation cancelled."))
