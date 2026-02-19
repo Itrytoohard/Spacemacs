@@ -707,10 +707,12 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 (defun my/org-capture-key-info ()
   "Prompt for a key sequence and return a string with the key and its command."
   (let* ((key (read-key-sequence "Press key sequence: "))
+         (verbal-description (read-string "What does the binding do?"))
          (key-desc (key-description key))
          (command (key-binding key)))
-    (format "Key: ~%s~\nCommand: %s"
+    (format "Key: ~%s~\nDescription: %s\nCommand: %s"
             key-desc
+            verbal-description
             (or command "Not bound"))))
 
 ;; Make insert line above and below macro
