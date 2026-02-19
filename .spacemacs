@@ -738,6 +738,10 @@ Put your configuration code here"
   ;;          "** ~{key sequence}~ | {description} | {mode-specific} "
   ;;          :empty-lines 1)
   ;;         ))
+  ;; Set Tab Left & Right to <SPC T j> (left) and <SPC T k> (right)
+  (spacemacs/set-leader-keys "Tj" 'tab-bar-switch-to-prev-tab)
+  (spacemacs/set-leader-keys "Tk" 'tab-bar-switch-to-next-tab)
+
   (add-hook 'magit-mode-hook
             (lambda ()
               (when (string-prefix-p "/src/GitHubRepos/itrytoohard.github.io" default-directory)
