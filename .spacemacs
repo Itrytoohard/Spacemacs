@@ -710,10 +710,15 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
          (verbal-description (read-string "What does the binding do?"))
          (key-desc (key-description key))
          (command (key-binding key)))
-    (format "Key: ~%s~\nDescription: %s\nCommand: %s"
+    ;; (format "Key: ~%s~\nDescription: %s\nCommand: %s"
+    ;;         key-desc
+    ;;         verbal-description
+    ;;         (or command "Not bound"))
+    (format "* ~%s~ | %s \nFunction Called: %s"
             key-desc
             verbal-description
-            (or command "Not bound"))))
+            (or command "Not bound"))
+    ))
 
 ;; Make insert line above and below macro
 
@@ -1029,7 +1034,7 @@ This function is called at the very end of Spacemacs initialization."
        ("a" "Test Customize Gui Menu" entry
         (file+olp "~/.emacs.d/mytesting/my-capture-tests.org" "GUI"
                   "Capture Template 1")
-        "\12* ~%(key-description (read-key-sequence \"Press key: \"))~ | description\12Function:\12%(my/org-capture-key-info)\12Major Mode (captured from): %(format \"%s\" major-mode)\12Source: [[file:%F][%f]]\12Date: %U"
+        "\12%(my/org-capture-key-info)\12Major Mode (captured from): %(format \"%s\" major-mode)\12Source: [[file:%F][%f]]\12Date: %U"
         :empty-lines-after 1)))
    '(package-selected-packages
      '(a ace-link add-node-modules-path afternoon-theme aggressive-indent
