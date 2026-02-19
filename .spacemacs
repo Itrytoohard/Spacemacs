@@ -704,6 +704,13 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 ;; (defun fff (string-arg)
 ;;  print(string-arg))
 
+;; Make insert line above and below macro
+
+(defun my/set-major-mode-keybindings ()
+  ;; Set Customize GUI button "Apply & Save" to <SPC m s> (From C-x C-s)
+  (spacemacs/set-leader-keys-for-major-mode 'Custom-mode "a" 'Custom-save)
+  )
+
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
@@ -739,9 +746,7 @@ Put your configuration code here"
   ;;          :empty-lines 1)
   ;;         ))
 
-  ;; Set Customize GUI button "Apply & Save" to <SPC m s> (From C-x C-s)
-  (spacemacs/set-leader-keys-for-major-mode 'Custom-mode "a" 'Custom-save)
-
+  (my/set-major-mode-keybindings)
   ;; Set Tab Left & Right to <SPC T j> (left) and <SPC T k> (right)
   (spacemacs/set-leader-keys "Tj" 'tab-bar-switch-to-prev-tab)
   (spacemacs/set-leader-keys "Tk" 'tab-bar-switch-to-next-tab)
