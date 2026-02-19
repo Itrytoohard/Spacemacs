@@ -740,7 +740,7 @@ Put your configuration code here"
   ;;         ))
 
   ;; Set Customize GUI button "Apply & Save" to <SPC m s> (From C-x C-s)
-  (spacemacs/set-leader-keys "ma" 'Custom-save)
+  (spacemacs/set-leader-keys-for-major-mode 'Custom-mode "a" 'Custom-save)
 
   ;; Set Tab Left & Right to <SPC T j> (left) and <SPC T k> (right)
   (spacemacs/set-leader-keys "Tj" 'tab-bar-switch-to-prev-tab)
