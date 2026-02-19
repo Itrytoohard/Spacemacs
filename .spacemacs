@@ -704,6 +704,15 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 ;; (defun fff (string-arg)
 ;;  print(string-arg))
 
+(defun my/org-capture-key-info ()
+  "Prompt for a key sequence and return a string with the key and its command."
+  (let* ((key (read-key-sequence "Press key sequence: "))
+         (key-desc (key-description key))
+         (command (key-binding key)))
+    (format "Key: ~%s~\nCommand: %s"
+            key-desc
+            (or command "Not bound"))))
+
 ;; Make insert line above and below macro
 
 (defun my/set-major-mode-keybindings ()
@@ -1011,6 +1020,15 @@ This function is called at the very end of Spacemacs initialization."
    '(nil nil t)
    '(ns-alternate-modifier 'meta)
    '(ns-command-modifier nil)
+   '(org-capture-templates
+     '(("t" "Todo" entry
+        (file+headline "~/.emacs.d/mytesting/my-capture-tests.org" "Tests")
+        #'my/make-format-string)
+       ("a" "Test Customize Gui Menu" entry
+        (file+olp "~/.emacs.d/mytesting/my-capture-tests.org" "GUI"
+                  "Capture Template 1")
+        "\12* ~%(key-description (read-key-sequence \"Press key: \"))~ | description\12Function:\12%(my/org-capture-key-info)\12Major Mode (captured from): %(format \"%s\" major-mode)\12Source: [[file:%F][%f]]\12Date: %U"
+        :empty-lines-after 1)))
    '(package-selected-packages
      '(a ace-link add-node-modules-path afternoon-theme aggressive-indent
          alect-themes alert all-the-icons ample-theme ample-zen-theme
