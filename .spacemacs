@@ -711,6 +711,12 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (spacemacs/set-leader-keys-for-major-mode 'Custom-mode "a" 'Custom-save)
   )
 
+(defun my/set-global-keybindings ()
+  ;; Set Tab Left & Right to <SPC T j> (left) and <SPC T k> (right)
+  (spacemacs/set-leader-keys "Tj" 'tab-bar-switch-to-prev-tab)
+  (spacemacs/set-leader-keys "Tk" 'tab-bar-switch-to-next-tab)
+  )
+
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
@@ -747,9 +753,7 @@ Put your configuration code here"
   ;;         ))
 
   (my/set-major-mode-keybindings)
-  ;; Set Tab Left & Right to <SPC T j> (left) and <SPC T k> (right)
-  (spacemacs/set-leader-keys "Tj" 'tab-bar-switch-to-prev-tab)
-  (spacemacs/set-leader-keys "Tk" 'tab-bar-switch-to-next-tab)
+  (my/set-global-keybindings)
 
   (add-hook 'magit-mode-hook
             (lambda ()
