@@ -707,18 +707,46 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 (defun my/org-capture-key-info ()
   "Prompt for a key sequence and return a string with the key and its command."
   (let* ((key (read-key-sequence "Press key sequence: "))
-         (verbal-description (read-string "What does the binding do?"))
+         (verbal-description (read-string "What the binding does: "))
          (key-desc (key-description key))
-         (command (key-binding key)))
+         (command (key-binding key))
+         ;; Descriptions
+         ;; Type
+         (command-type (type-of (symbol-function command)))
+         ;; Arity
+         (command-arity (func-arity command))
+         ;; Docstring
+         (command-docstring (documentation command))
+         )
     ;; (format "Key: ~%s~\nDescription: %s\nCommand: %s"
     ;;         key-desc
     ;;         verbal-description
     ;;         (or command "Not bound"))
-    (format "* ~%s~ | %s \nFunction Called: %s"
+
+    ;; First Part (Dont mess with)
+    (format "* ~%s~ | %s \nFunction Called: %s \n** Function Info: \nType: %s\nArity: %s\nDocstring: %s"
             key-desc
             verbal-description
-            (or command "Not bound"))
-    ))
+            (or command "Not bound")
+            (or command-type "No Type")
+            (or command-arity "No Arity")
+            (or command-docstring "No docstring")
+            )
+    )
+  )
+
+(defun my/get-function-info (command)
+  "Retrieve and display information about a function by its name (a symbol)."
+  (interactive "SFunction name: ") ; Makes the function interactive, prompting for a symbol
+  (let* ((func (symbol-function command))
+         (doc-string (documentation command))
+         (arity-info (func-arity command)))
+    (format "Information for %s:\n" command)
+    (format "  Type: %s\n" (type-of func))
+    (format "  Arity: %S\n" arity-info)
+    (format "  Documentation:\n%s\n" doc-string)
+    ;; You can add more checks, e.g., to find the source file location
+    (message (format "Information for %s:\n  Type: %s\n  Arity: %S\n  Documentation:\n%s\n" command (type-of func) arity-info doc-string))))
 
 ;; Make insert line above and below macro
 
