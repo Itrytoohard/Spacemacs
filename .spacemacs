@@ -834,10 +834,10 @@ Put your configuration code here"
   ;; instead of creating a new one
   (define-key dired-mode-map [mouse-1] 'dired-mouse-find-file)
   ;;
-  ;; Rebind jk or C-q to exit insert mode
+  ;; Rebind jk or C-q to exit insert mode (Removed for interfering with Customize GUI Newline entry, and also i never used this anymore)
   ;; (define-key map new-keybinding function) ; Syntax
   ;; Map H to go to the previous buffer in normal mode
-  (define-key evil-insert-state-map (kbd "C-q") 'evil-normal-state)
+  ;; (define-key evil-insert-state-map (kbd "C-q") 'evil-normal-state)
   ;; (define-key evil-insert-state-map (kbd "j-k") 'evil-normal-state)
   ;; (define-key evil-insert-state-map (kbd "k-j") 'evil-normal-state) ;; cant type the letters if you do this # bigsad
 
