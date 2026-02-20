@@ -578,7 +578,7 @@ It should only modify the values of Spacemacs settings."
    ;; Color highlight trailing whitespace in all prog-mode and text-mode derived
    ;; modes such as c++-mode, python-mode, emacs-lisp, html-mode, rst-mode etc.
    ;; (default t)
-   dotspacemacs-show-trailing-whitespace t
+   dotspacemacs-show-trailing-whitespace nil
 
    ;; Delete whitespace while saving buffer. Possible values are `all'
    ;; to aggressively delete empty line and long sequences of whitespace,
@@ -786,6 +786,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (spacemacs/set-leader-keys "Tk" 'tab-bar-switch-to-next-tab)
 
   ;; I don't remember what this does exactly. It was in user-config
+  ;; Might want to insert  "my/"  at the beginning of this.
   (spacemacs/set-leader-keys "of" 'my-org-function-description-insert)
   )
 
@@ -1020,11 +1021,14 @@ Put your configuration code here"
   (dotspacemacs/disable-autoevilfication-fail-messages)
 
   ;; remove those infernal red trailing whitespace boxes
+  (setq-default spacemacs-show-trailing-whitespace nil)
   (setq-default show-trailing-whitespace nil)
+  (setq spacemacs-show-trailing-whitespace nil)
+  (setq show-trailing-whitespace nil)
   )
 
 
-(defun dotspacemacs/my-org-function-description-insert (function-name)
+(defun my/my-org-function-description-insert (function-name)
   "Insert the documentation for FUNCTION-NAME into the current buffer
   within an Org mode source block."
   (interactive "sEnter function name: ")
