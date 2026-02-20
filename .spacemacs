@@ -724,10 +724,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     ;;         (or command "Not bound"))
 
     ;; First Part (Dont mess with)
-    (format "* ~%s~ | %s \nFunction Called: %s \n** Function Info: \nType: %s\nArity: %s\nDocstring: %s"
+    (format "* ~%s~ | %s \nFunction Called: %s \n** Function Info: \nType: %s\nArity: %s\n** Docstring: %s"
             key-desc
             verbal-description
-            (or command "Not bound")
+            (or command "No command")
             (or command-type "No Type")
             (or command-arity "No Arity")
             (or command-docstring "No docstring")
