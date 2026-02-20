@@ -132,7 +132,7 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(key-chord)
+   dotspacemacs-additional-packages '(key-chord keyfreq)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -656,7 +656,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
 
 
-(defun dotspacemacs/fix-smartparens-attitude ()
+(defun my/fix-smartparens-attitude ()
 
   ;; Hacky crap that is needed because smartparens decided it was too good
   ;; to not break crap
@@ -825,7 +825,7 @@ Put your configuration code here"
 
   ;; Hacky crap that is needed because smartparens decided it was too good
   ;; to not break crap
-  (dotspacemacs/fix-smartparens-attitude)
+  ;; (my/fix-smartparens-attitude)
   ;; (require 'smartparens)
   ;; (defun smartparens-mode () (debug))
   ;; (with-eval-after-load 'smartparens
