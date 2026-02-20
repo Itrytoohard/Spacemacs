@@ -972,9 +972,12 @@ Put your configuration code here"
              (buffer-file-name))        ; Only prompt for file-visiting buffers
         (if (y-or-n-p "Buffer has unsaved changes. Kill anyway? ")
             (kill-current-buffer)
-          (message "Kill buffer operation cancelled."))
+          (message "Kill buffer operation cancelled.")
+          )
       (kill-current-buffer)))
 
+  ;; Check if a package is installed
+  ;; (package-installed-p 'helpful)
 
   (evil-ex-define-cmd "wqall" 'save-and-kill-this-buffer-and-window)
   (defun save-and-kill-this-buffer-and-window()(interactive)(save-buffer)(kill-buffer-and-window))
@@ -1099,9 +1102,9 @@ This function is called at the very end of Spacemacs initialization."
          highlight-parentheses hl-todo holy-mode htmlize hungry-delete hybrid-mode
          impatient-mode indent-guide inf-ruby info+ inkpot-theme inspector
          ir-black-theme ivy jazz-theme jbeans-theme kaolin-themes key-chord
-         launchctl light-soap-theme link-hint llama log4e lorem-ipsum lsp-docker
-         lsp-mode lsp-treemacs lush-theme macrostep madhat2r-theme magit
-         magit-section markdown-mode markdown-toc material-theme memoize
+         keyfreq launchctl light-soap-theme link-hint llama log4e lorem-ipsum
+         lsp-docker lsp-mode lsp-treemacs lush-theme macrostep madhat2r-theme
+         magit magit-section markdown-mode markdown-toc material-theme memoize
          minimal-theme minitest modus-themes moe-theme molokai-theme
          monochrome-theme monokai-theme multi-line multi-term multi-vterm
          mustang-theme nameless naquadah-theme nerd-icons noctilux-theme
