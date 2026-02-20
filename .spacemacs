@@ -750,6 +750,31 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
 ;; Make insert line above and below macro
 
+(defun my/enable-keyfreq-settings ()
+  (require 'keyfreq)
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1)
+  )
+
+(defun my/custom-which-key-text()
+  (my/custom-which-key-prefix-text)
+  )
+
+(defun my/custom-which-key-prefix-text()
+  (my/custom-which-key-mode-specific-prefix-text)
+  (spacemacs/declare-prefix "o" "My Tools")
+  )
+
+(defun my/custom-which-key-mode-specific-prefix-text()
+  (spacemacs/declare-prefix-for-mode 'org-mode "m b" "Babel Actions")
+  )
+
+
+(defun my/set-keybindings-master-func ()
+  (my/set-major-mode-keybindings)
+  (my/set-global-keybindings)
+  )
+
 (defun my/set-major-mode-keybindings ()
   ;; Set Customize GUI button "Apply & Save" to <SPC m s> (From C-x C-s)
   (spacemacs/set-leader-keys-for-major-mode 'Custom-mode "a" 'Custom-save)
@@ -759,6 +784,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; Set Tab Left & Right to <SPC T j> (left) and <SPC T k> (right)
   (spacemacs/set-leader-keys "Tj" 'tab-bar-switch-to-prev-tab)
   (spacemacs/set-leader-keys "Tk" 'tab-bar-switch-to-next-tab)
+
+  ;; I don't remember what this does exactly. It was in user-config
+  (spacemacs/set-leader-keys "of" 'my-org-function-description-insert)
   )
 
 (defun dotspacemacs/user-config ()
@@ -766,7 +794,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
-
 
   ;; (my/set-capture-helper)
   ;; Create Personalized Org Capture Templates
@@ -795,9 +822,7 @@ Put your configuration code here"
   ;;          "** ~{key sequence}~ | {description} | {mode-specific} "
   ;;          :empty-lines 1)
   ;;         ))
-
-  (my/set-major-mode-keybindings)
-  (my/set-global-keybindings)
+  (my/set-keybindings-master-func)
 
   (add-hook 'magit-mode-hook
             (lambda ()
@@ -864,7 +889,6 @@ Put your configuration code here"
 
   ;; <mycode> <Tag for searching>
 
-  (spacemacs/set-leader-keys "of" 'my-org-function-description-insert)
 
   (setq spaceline-highlight-face-style 'none)
 
