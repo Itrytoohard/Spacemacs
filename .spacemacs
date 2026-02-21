@@ -826,6 +826,29 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
 
+  (with-eval-after-load 'which-key
+    ;; (setq which-key-popup-type 'minibuffer) ; Use minibuffer for display
+    (setq which-key-max-description-length nil) ; Do not truncate descriptions
+    (setq which-key-allow-imprecise-window-fit t)) ; Allow better window fitting
+
+  ;; Force the minibuffer to wrap text instead of truncating it
+  (add-hook 'minibuffer-setup-hook (lambda () (setq truncate-lines nil)))
+
+  ;; 1. Prevent the echo area from truncating long messages
+  (setq message-truncate-lines nil)
+
+  ;; Allow the echo area to grow vertically to fit text
+  (setq resize-mini-windows 'grow-only)
+  (setq resize-mini-frames 'grow-only)
+
+  ;; Set the maximum height the minibuffer can reach (0.25 = 25% of frame height)
+  (setq max-mini-window-height 0.25)
+
+  ;; Prevents making a new headline from an old one splitting it
+  (setq org-M-RET-may-split-line nil)
+
+  (my/my-org-meta-return-at-end-of-line)
+
   ;; (my/set-capture-helper)
   ;; Create Personalized Org Capture Templates
   ;; (setq org-capture-templates
@@ -1123,8 +1146,9 @@ This function is called at the very end of Spacemacs initialization."
        ("a" "Test Customize Gui Menu" entry
         (file+olp "~/.emacs.d/mytesting/my-capture-tests.org" "GUI"
                   "Capture Template 1")
-        "\12%(my/org-capture-key-info)\12Major Mode (captured from): %(format \"%s\" major-mode)\12Source: [[file:%F][%f]]\12Date: %U"
+        "\12%(my/org-capture-key-info-shortcut)\12key desc:\12%(replace-regexp-in-string \"DESCR_HERE\" (read-string \"What the binding does: \") \"%i\")\12details\12Date: %U Source: [[file:%F][%f]]\12"
         :empty-lines-after 1)))
+   '(org-export-backends '(ascii html icalendar latex md odt))
    '(package-selected-packages
      '(a ace-link add-node-modules-path afternoon-theme aggressive-indent
          alect-themes alert all-the-icons ample-theme ample-zen-theme
