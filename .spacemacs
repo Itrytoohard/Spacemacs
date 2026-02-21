@@ -741,7 +741,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     ;;         (or command "Not bound"))
 
     ;; First Part (Dont mess with)
-    (format "* ~%s~ | %s %%? | Mode: %s\nFunction Called: %s \nMode called from: %s\n** Function Info: \nType: %s\nArity: %s\n** Docstring: %s"
+    (format "* ~%s~ | %s | Mode: %s\nFunction Called: %s \nMode called from: %s\n** Function Info: \nType: %s\nArity: %s\n** Docstring: %s\n\nSTART_TOKEN"
             key-desc
             verbal-description
             (or origin-mode "No Mode Data")
@@ -754,6 +754,22 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     )
   )
 
+(defun my/org-capture-get-desc ()
+  (let*
+      (verbal-description (read-string "What the binding does: "))
+    (format "%s" verbal-description)
+    )
+  )
+
+(defun my/my-org-capture-finisher ()
+  "Prompt for text and replace content between START_TOKEN and END_TOKEN."
+  (save-excursion
+    (goto-char (point-min))
+    ;; The regex looks for: START_TOKEN + anything (minimal) + END_TOKEN
+    (while (re-search-forward "START_TOKEN\\(.*?\\)END_TOKEN" nil t)
+      (let* ((old-content (match-string 1)) ;; Optional: grabs the text currently there
+             (new-text (read-string (format "Replace '%s' with: " old-content))))
+        (replace-match new-text t t nil 1)))))
 
 
 (defun my/rawr ()
@@ -762,8 +778,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (let* (key-desc (key-description (read-key-sequence "Press key sequence: ")))
     (format "* ~%s~ | " key-desc))
   )
-
-;; just bring out the key-getter command
 
 
 ;; Find and replace from before
@@ -1159,8 +1173,8 @@ This function is called at the very end of Spacemacs initialization."
        ("a" "Test Customize Gui Menu" entry
         (file+olp "~/.emacs.d/mytesting/my-capture-tests.org" "GUI"
                   "Capture Template 1")
-        "\12%(my/org-capture-key-info-shortcut)\12Date: %U Source: [[file:%F][%f]]\12"
-        :empty-lines-after 1)))
+        "\12%(my/org-capture-key-info-shortcut)\12\12START_TOKEN%(my/org-capture-get-desc)FINISH_TOKEN\12\12Date: %U Source: [[file:%F][%f]]\12"
+        :empty-lines-after 1 :before-finalize (my/my-org-capture-finisher))))
    '(org-export-backends '(ascii html icalendar latex md odt))
    '(package-selected-packages
      '(a ace-link add-node-modules-path afternoon-theme aggressive-indent
