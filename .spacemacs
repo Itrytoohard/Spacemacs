@@ -781,9 +781,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   )
 
 (defun my/set-global-keybindings ()
-  ;; Set Tab Left & Right to <SPC T j> (left) and <SPC T k> (right)
-  (spacemacs/set-leader-keys "Tj" 'tab-bar-switch-to-prev-tab)
-  (spacemacs/set-leader-keys "Tk" 'tab-bar-switch-to-next-tab)
+  ;; Set Tab Left & Right to <SPC T h> (left) and <SPC T l> (right)
+  (spacemacs/set-leader-keys "Th" 'tab-bar-switch-to-prev-tab)
+  (spacemacs/set-leader-keys "Tl" 'tab-bar-switch-to-next-tab)
 
   ;; I don't remember what this does exactly. It was in user-config
   ;; Might want to insert  "my/"  at the beginning of this.
