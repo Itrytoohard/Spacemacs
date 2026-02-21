@@ -704,12 +704,26 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 ;; (defun fff (string-arg)
 ;;  print(string-arg))
 
+(defun my/my-org-meta-return-at-end-of-line-helper ()
+  "Move to end of line before calling `org-meta-return`."
+  (interactive)
+  (end-of-line)
+  (call-interactively 'org-meta-return)
+  )
+
+(defun my/my-org-meta-return-at-end-of-line ()
+  (with-eval-after-load 'org
+    (define-key org-mode-map (kbd "M-RET") 'my/my-org-meta-return-at-end-of-line-helper)
+    )
+  )
+
 (defun my/org-capture-key-info ()
   "Prompt for a key sequence and return a string with the key and its command."
   (let* ((key (read-key-sequence "Press key sequence: "))
          (verbal-description (read-string "What the binding does: "))
          (key-desc (key-description key))
          (command (key-binding key))
+         (origin-mode (my/org-capture-get-original-major-mode))
          ;; Descriptions
          ;; Type
          (command-type (type-of (symbol-function command)))
@@ -735,18 +749,26 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     )
   )
 
+(defun my/org-capture-get-original-major-mode ()
+  "Return the symbol name of the major mode of the buffer
+from which org-capture was called."
+  (let* ((buffer (org-capture-get :original-buffer))
+         (major-mode-symbol (with-current-buffer buffer major-mode)))
+    (symbol-name major-mode-symbol)))
+
 (defun my/get-function-info (command)
   "Retrieve and display information about a function by its name (a symbol)."
   (interactive "SFunction name: ") ; Makes the function interactive, prompting for a symbol
   (let* ((func (symbol-function command))
          (doc-string (documentation command))
          (arity-info (func-arity command)))
+    (format "Captured in Mode: %s\n" my/org-capture-get-original-major-mode)
     (format "Information for %s:\n" command)
     (format "  Type: %s\n" (type-of func))
     (format "  Arity: %S\n" arity-info)
     (format "  Documentation:\n%s\n" doc-string)
     ;; You can add more checks, e.g., to find the source file location
-    (message (format "Information for %s:\n  Type: %s\n  Arity: %S\n  Documentation:\n%s\n" command (type-of func) arity-info doc-string))))
+    (message (format "Captured in Mode: %s\n\nInformation for %s:\n  Type: %s\n  Arity: %S\n  Documentation:\n%s\n" my/org-capture-get-original-major-mode command (type-of func) arity-info doc-string))))
 
 ;; Make insert line above and below macro
 
