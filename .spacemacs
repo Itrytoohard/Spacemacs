@@ -741,7 +741,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     ;;         (or command "Not bound"))
 
     ;; First Part (Dont mess with)
-    (format "* ~%s~ | %s DESCR_HERE | Mode: %s\nFunction Called: %s \nMode called from: %s\n** Function Info: \nType: %s\nArity: %s\n** Docstring: %s"
+    (format "* ~%s~ | %s %%? | Mode: %s\nFunction Called: %s \nMode called from: %s\n** Function Info: \nType: %s\nArity: %s\n** Docstring: %s"
             key-desc
             verbal-description
             (or origin-mode "No Mode Data")
@@ -753,6 +753,19 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
             )
     )
   )
+
+
+
+(defun my/rawr ()
+  "get key sequence before doing anything else"
+  ;; get key first
+  (let* (key-desc (key-description (read-key-sequence "Press key sequence: ")))
+    (format "* ~%s~ | " key-desc))
+  )
+
+;; just bring out the key-getter command
+
+
 ;; Find and replace from before
 ;; if starts with <SPC> and !<SPC m> -> global command
 ;; if starts with <,> OR <M-RET> OR <SPC m> -> major mode command
@@ -1146,7 +1159,7 @@ This function is called at the very end of Spacemacs initialization."
        ("a" "Test Customize Gui Menu" entry
         (file+olp "~/.emacs.d/mytesting/my-capture-tests.org" "GUI"
                   "Capture Template 1")
-        "\12%(my/org-capture-key-info-shortcut)\12key desc:\12%(replace-regexp-in-string \"DESCR_HERE\" (read-string \"What the binding does: \") \"%i\")\12details\12Date: %U Source: [[file:%F][%f]]\12"
+        "\12%(my/org-capture-key-info-shortcut)\12Date: %U Source: [[file:%F][%f]]\12"
         :empty-lines-after 1)))
    '(org-export-backends '(ascii html icalendar latex md odt))
    '(package-selected-packages
