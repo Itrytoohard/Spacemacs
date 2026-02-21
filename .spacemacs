@@ -716,14 +716,17 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     (define-key org-mode-map (kbd "M-RET") 'my/my-org-meta-return-at-end-of-line-helper)
     )
   )
-
-(defun my/org-capture-key-info ()
+;; correct one
+(defun my/org-capture-key-info-shortcut ()
   "Prompt for a key sequence and return a string with the key and its command."
-  (let* ((key (read-key-sequence "Press key sequence: "))
+  (let* ((original-buffer (plist-get org-capture-plist :original-buffer))
+         (key (read-key-sequence "Press key sequence: "))
          (verbal-description (read-string "What the binding does: "))
          (key-desc (key-description key))
-         (command (key-binding key))
-         (origin-mode (my/org-capture-get-original-major-mode))
+         ;; (command (key-binding key))
+         (command (with-current-buffer original-buffer
+                    (key-binding key)))
+         (origin-mode (string-trim-right (my/org-capture-get-original-major-mode) "-mode"))
          ;; Descriptions
          ;; Type
          (command-type (type-of (symbol-function command)))
@@ -738,16 +741,21 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     ;;         (or command "Not bound"))
 
     ;; First Part (Dont mess with)
-    (format "* ~%s~ | %s \nFunction Called: %s \n** Function Info: \nType: %s\nArity: %s\n** Docstring: %s"
+    (format "* ~%s~ | %s DESCR_HERE | Mode: %s\nFunction Called: %s \nMode called from: %s\n** Function Info: \nType: %s\nArity: %s\n** Docstring: %s"
             key-desc
             verbal-description
+            (or origin-mode "No Mode Data")
             (or command "No command")
+            (or origin-mode "No Mode Data")
             (or command-type "No Type")
             (or command-arity "No Arity")
             (or command-docstring "No docstring")
             )
     )
   )
+;; Find and replace from before
+;; if starts with <SPC> and !<SPC m> -> global command
+;; if starts with <,> OR <M-RET> OR <SPC m> -> major mode command
 
 (defun my/org-capture-get-original-major-mode ()
   "Return the symbol name of the major mode of the buffer
