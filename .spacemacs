@@ -101,6 +101,7 @@ This function should only modify configuration layer settings."
           org-enable-superstar t
           )
      ;; (osx :variables
+     ;; osx-command-as 'super
      ;;      osx-command-as       'control
      ;;      osx-option-as        'meta
      ;;      osx-control-as       'control
@@ -907,10 +908,10 @@ Put your configuration code here"
   ;;         ))
   (my/set-keybindings-master-func)
 
-  (add-hook 'magit-mode-hook
-            (lambda ()
-              (when (string-prefix-p "/src/GitHubRepos/itrytoohard.github.io" default-directory)
-                (magit-mode -1))))
+  ;; (add-hook 'magit-mode-hook
+  ;;           (lambda ()
+  ;;             (when (string-prefix-p "/src/GitHubRepos/itrytoohard.github.io" default-directory)
+  ;;               (magit-mode -1))))
   ;; Global Tab **Bar** Mode
   ;; (global-tab-bar-mode 1)
 
@@ -1107,6 +1108,21 @@ Put your configuration code here"
   (setq-default show-trailing-whitespace nil)
   (setq spacemacs-show-trailing-whitespace nil)
   (setq show-trailing-whitespace nil)
+
+  ;; Ok for some godforsaken reason, these two don't stick
+
+  (setq mac-command-modifier 'super) ;; default before this was nil ;; works
+
+  ;; not magit - still slow with no magit buffers
+  (global-diff-hl-mode -1)
+
+  (message "--- LOADING MY DOTFILE FROM %s ---" buffer-file-name)
+  (with-eval-after-load 'diff-hl
+    (diff-hl-flydiff-mode -1))
+
+  (spaceline-toggle-all-the-icons-modified)
+  (setq-default spaceline-all-the-icons-hide-vcs t)
+
   )
 
 
