@@ -854,7 +854,7 @@ configuration.
 Put your configuration code here"
 
   ;; not magit - still slow with no magit buffers
-  (diff-hl-mode -1)
+  (global-diff-hl-mode -1)
   (with-eval-after-load 'which-key
     ;; (setq which-key-popup-type 'minibuffer) ; Use minibuffer for display
     (setq which-key-max-description-length nil) ; Do not truncate descriptions
