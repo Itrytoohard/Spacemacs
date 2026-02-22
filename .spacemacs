@@ -118,7 +118,7 @@ This function should only modify configuration layer settings."
      syntax-checking
      ;; tabs
      ;; themes-megapack
-     version-control
+     ;; version-control ; turned this off because the all-the-icons modeline was misbehaving
      treemacs
      yaml
      )
