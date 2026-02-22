@@ -76,9 +76,10 @@ This function should only modify configuration layer settings."
                       )
 
      ;; better-defaults ;; makes more sensible emacs configs. does nothing in vim mode (per docs)
+     compleseus
      emacs-lisp
      git
-     helm
+     ;; helm
      html
      ;; lsp ;; should probably enable this to see if it does anything different
      (markdown :variables
@@ -122,7 +123,6 @@ This function should only modify configuration layer settings."
      ;; version-control ; turned this off because the all-the-icons modeline was misbehaving
      treemacs
      yaml
-     compleseus
      )
 
 
