@@ -863,7 +863,7 @@ Put your configuration code here"
   (setq mac-command-modifier 'super) ;; default before this was nil ;; works
 
   ;; not magit - still slow with no magit buffers
-  (global-diff-hl-mode -1)
+  ;; (global-diff-hl-mode -1)
 
 
   ;; <delete> this if other thing works
@@ -1132,11 +1132,11 @@ Put your configuration code here"
   (setq mac-command-modifier 'super) ;; default before this was nil ;; works
 
   ;; not magit - still slow with no magit buffers
-  (global-diff-hl-mode -1)
+  ;; (global-diff-hl-mode -1)
 
   (message "--- LOADING MY DOTFILE FROM %s ---" buffer-file-name)
-  (with-eval-after-load 'diff-hl
-    (diff-hl-flydiff-mode -1))
+  ;; (with-eval-after-load 'diff-hl
+  ;;   (diff-hl-flydiff-mode -1))
 
   (spaceline-toggle-all-the-icons-modified)
   (setq-default spaceline-all-the-icons-hide-vcs t)
