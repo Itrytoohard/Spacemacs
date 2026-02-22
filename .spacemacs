@@ -122,6 +122,7 @@ This function should only modify configuration layer settings."
      ;; version-control ; turned this off because the all-the-icons modeline was misbehaving
      treemacs
      yaml
+     compleseus
      )
 
 
@@ -1221,11 +1222,12 @@ This function is called at the very end of Spacemacs initialization."
          chruby clean-aindent-mode closql clues-theme code-review
          color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow
          column-enforce-mode company company-quickhelp company-statistics
-         company-web counsel counsel-css cyberpunk-theme dakrone-theme dap-mode
-         darkmine-theme darkokai-theme darktooth-theme deferred define-word
-         devdocs diminish dired-quick-sort disable-mouse django-theme doom-themes
-         dotenv-mode dracula-theme drag-stuff dumb-jump eat edit-indirect
-         ef-themes elisp-def elisp-demos elisp-slime-nav emacsql emmet-mode
+         company-web compleseus-spacemacs-help consult consult-yasnippet counsel
+         counsel-css cyberpunk-theme dakrone-theme dap-mode darkmine-theme
+         darkokai-theme darktooth-theme deferred define-word devdocs diminish
+         dired-quick-sort disable-mouse django-theme doom-themes dotenv-mode
+         dracula-theme drag-stuff dumb-jump eat edit-indirect ef-themes elisp-def
+         elisp-demos elisp-slime-nav emacsql embark embark-consult emmet-mode
          emojify emr enh-ruby-mode esh-help eshell-prompt-extras eshell-z
          espresso-theme eval-sexp-fu evil-anzu evil-args evil-cleverparens
          evil-collection evil-easymotion evil-escape evil-evilified-state
@@ -1235,35 +1237,36 @@ This function is called at the very end of Spacemacs initialization."
          evil-visual-mark-mode evil-visualstar exotica-theme expand-region
          eyebrowse eziam-themes fancy-battery farmhouse-themes flatland-theme
          flatui-theme flycheck flycheck-elsa flycheck-package flycheck-pos-tip
-         flyspell-correct flyspell-correct-helm forge gandalf-theme ggtags gh-md
-         ghub git-link git-messenger git-modes git-timemachine gitignore-templates
-         gntp gnuplot golden-ratio google-translate gotham-theme grandshell-theme
-         gruber-darker-theme gruvbox-theme haml-mode hc-zenburn-theme helm-ag
-         helm-c-yasnippet helm-comint helm-company helm-css-scss helm-descbinds
-         helm-ls-git helm-make helm-mode-manager helm-org helm-org-rifle
-         helm-projectile helm-purpose helm-swoop helm-xref hemisu-theme
-         heroku-theme hide-comnt highlight-indentation highlight-numbers
-         highlight-parentheses hl-todo holy-mode htmlize hungry-delete hybrid-mode
-         impatient-mode indent-guide inf-ruby info+ inkpot-theme inspector
-         ir-black-theme ivy jazz-theme jbeans-theme kaolin-themes key-chord
-         keyfreq launchctl light-soap-theme link-hint llama log4e lorem-ipsum
-         lsp-docker lsp-mode lsp-treemacs lush-theme macrostep madhat2r-theme
-         magit magit-section markdown-mode markdown-toc material-theme memoize
-         minimal-theme minitest modus-themes moe-theme molokai-theme
-         monochrome-theme monokai-theme multi-line multi-term multi-vterm
-         mustang-theme nameless naquadah-theme nerd-icons noctilux-theme
-         obsidian-theme occidental-theme oldlace-theme omtose-phellack-themes
-         open-junk-file org org-category-capture org-cliplink org-contrib
-         org-download org-mime org-pomodoro org-present org-project-capture
-         org-projectile org-rich-yank org-superstar organic-green-theme orgit
-         orgit-forge osx-clipboard osx-dictionary osx-trash overseer ox-pandoc
-         package-lint page-break-lines pandoc-mode paradox password-generator
-         pcre2el phoenix-dark-mono-theme phoenix-dark-pink-theme planet-theme
-         popwin pos-tip prettier-js professional-theme pug-mode purple-haze-theme
-         quickrun railscasts-theme rainbow-delimiters rake rbenv rebecca-theme
-         restart-emacs reveal-in-osx-finder reverse-theme robe rspec-mode rubocop
-         rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm
-         sass-mode scss-mode seti-theme shell-pop slim-mode smeargle smyx-theme
+         flyspell-correct flyspell-correct-helm flyspell-correct-popup forge
+         gandalf-theme ggtags gh-md ghub git-link git-messenger git-modes
+         git-timemachine gitignore-templates gntp gnuplot golden-ratio
+         google-translate gotham-theme grandshell-theme gruber-darker-theme
+         gruvbox-theme haml-mode hc-zenburn-theme helm-ag helm-c-yasnippet
+         helm-comint helm-company helm-css-scss helm-descbinds helm-ls-git
+         helm-make helm-mode-manager helm-org helm-org-rifle helm-projectile
+         helm-purpose helm-swoop helm-xref hemisu-theme heroku-theme hide-comnt
+         highlight-indentation highlight-numbers highlight-parentheses hl-todo
+         holy-mode htmlize hungry-delete hybrid-mode impatient-mode indent-guide
+         inf-ruby info+ inkpot-theme inspector ir-black-theme ivy jazz-theme
+         jbeans-theme kaolin-themes key-chord keyfreq launchctl light-soap-theme
+         link-hint llama log4e lorem-ipsum lsp-docker lsp-mode lsp-treemacs
+         lush-theme macrostep madhat2r-theme magit magit-section marginalia
+         markdown-mode markdown-toc material-theme memoize minimal-theme minitest
+         modus-themes moe-theme molokai-theme monochrome-theme monokai-theme
+         multi-line multi-term multi-vterm mustang-theme nameless naquadah-theme
+         nerd-icons noctilux-theme obsidian-theme occidental-theme oldlace-theme
+         omtose-phellack-themes open-junk-file orderless org org-category-capture
+         org-cliplink org-contrib org-download org-mime org-pomodoro org-present
+         org-project-capture org-projectile org-rich-yank org-superstar
+         organic-green-theme orgit orgit-forge osx-clipboard osx-dictionary
+         osx-trash overseer ox-pandoc package-lint page-break-lines pandoc-mode
+         paradox password-generator pcre2el phoenix-dark-mono-theme
+         phoenix-dark-pink-theme planet-theme popwin pos-tip prettier-js
+         professional-theme pug-mode purple-haze-theme quickrun railscasts-theme
+         rainbow-delimiters rake rbenv rebecca-theme restart-emacs
+         reveal-in-osx-finder reverse-theme robe rspec-mode rubocop rubocopfmt
+         ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm sass-mode
+         scss-mode seti-theme shell-pop slim-mode smeargle smyx-theme
          soft-charcoal-theme soft-morning-theme soft-stone-theme solarized-theme
          soothe-theme space-doc spacegray-theme spaceline spaceline-all-the-icons
          spacemacs-purpose-popwin spacemacs-whitespace-cleanup
@@ -1273,11 +1276,11 @@ This function is called at the very end of Spacemacs initialization."
          terminal-here toc-org toxi-theme transient treemacs-evil
          treemacs-icons-dired treemacs-magit treemacs-persp treemacs-projectile
          treepy twilight-anti-bright-theme twilight-bright-theme twilight-theme
-         ujelly-theme underwater-theme undo-fu-session uuidgen vi-tilde-fringe
-         volatile-highlights vterm vundo web-beautify web-completion-data web-mode
-         wgrep which-key-posframe white-sand-theme winum with-editor
-         writeroom-mode ws-butler yaml yaml-mode yasnippet zen-and-art-theme
-         zenburn-theme zonokai-emacs)))
+         ujelly-theme underwater-theme undo-fu-session uuidgen vertico
+         vi-tilde-fringe volatile-highlights vterm vundo web-beautify
+         web-completion-data web-mode wgrep which-key-posframe white-sand-theme
+         winum with-editor writeroom-mode ws-butler yaml yaml-mode yasnippet
+         zen-and-art-theme zenburn-theme zonokai-emacs)))
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
