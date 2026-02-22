@@ -1,0 +1,4 @@
+# .spacemacs gitignore
+
+# Some sort of old version of the .spacemacs file. Will hopefully delete after a few days
+.spacemacs.~04c919d543af713793f240da378707ae69dc66d0~
