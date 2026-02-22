@@ -854,8 +854,25 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
 
+  ;; Look into how to keep spaces up to indent level even if line is empty
+
+
+  ;; Ok for some godforsaken reason, these two don't stick
+
+  (setq mac-command-modifier 'super) ;; default before this was nil ;; works
+
   ;; not magit - still slow with no magit buffers
   (global-diff-hl-mode -1)
+
+
+  ;; <delete> this if other thing works
+  ;; (with-eval-after-load 'spaceline
+  ;;   (spaceline-define-segment version-control
+  ;;     "Version control information without diffs."
+  ;;     (when vc-mode
+  ;;       (powerline-raw (s-trim vc-mode)))
+  ;;     :when vc-mode))
+
   (with-eval-after-load 'which-key
     ;; (setq which-key-popup-type 'minibuffer) ; Use minibuffer for display
     (setq which-key-max-description-length nil) ; Do not truncate descriptions
