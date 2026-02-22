@@ -76,7 +76,9 @@ This function should only modify configuration layer settings."
                       )
 
      ;; better-defaults ;; makes more sensible emacs configs. does nothing in vim mode (per docs)
-     compleseus
+     (compleseus :variables
+                 compleseus-engine 'vertico
+                 )
      emacs-lisp
      git
      ;; helm
