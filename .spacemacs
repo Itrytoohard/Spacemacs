@@ -78,6 +78,7 @@ This function should only modify configuration layer settings."
      ;; better-defaults ;; makes more sensible emacs configs. does nothing in vim mode (per docs)
      (compleseus :variables
                  compleseus-engine 'vertico
+                 compleseus-consult-preview-keys '("M-." "C-SPC" :debounce 0.5 "<up>" "<down>") ; if you only are arrowing through, completion preview will wait til you hover on a selection for 0.5 seconds.
                  )
      emacs-lisp
      git
