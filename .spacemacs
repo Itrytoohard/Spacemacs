@@ -79,8 +79,8 @@ This function should only modify configuration layer settings."
      command-log
      (compleseus :variables
                  compleseus-engine 'vertico
-                 compleseus-consult-preview-keys '("M-." "C-SPC" :debounce 0.2 "<up>" "<down>") ; if you only are arrowing through, completion preview will wait til you hover on a selection for 0.5 seconds.
                  )
+     ;;             compleseus-consult-preview-keys '("M-." "C-SPC" :debounce 0.2 "<up>" "<down>") ; if you only are arrowing through, completion preview will wait til you hover on a selection for 0.5 seconds.
      emacs-lisp
      git
      ;; helm
@@ -873,13 +873,14 @@ from which org-capture was called."
                (format "echo %s | pandoc -f html -t org"
                        (shell-quote-argument html)))))))
 
-(defun my-consult-no-preview-help (orig-fun &rest args)
-  "Disable preview for *Help* buffers in consult."
-  (let* ((buffer (cadr args))
-         (buffer-name (if (bufferp buffer) (buffer-name buffer) "")))
-    (if (string-match-p "^\\*Help\\*$" buffer-name)
-        (apply orig-fun (car args) nil (cddr args)) ; Call with no-preview (nil)
-      (apply orig-fun args)))) ; Normal preview
+;; Commented out when not using Consult
+;; (defun my-consult-no-preview-help (orig-fun &rest args)
+;;   "Disable preview for *Help* buffers in consult."
+;;   (let* ((buffer (cadr args))
+;;          (buffer-name (if (bufferp buffer) (buffer-name buffer) "")))
+;;     (if (string-match-p "^\\*Help\\*$" buffer-name)
+;;         (apply orig-fun (car args) nil (cddr args)) ; Call with no-preview (nil)
+;;       (apply orig-fun args)))) ; Normal preview
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
@@ -1192,10 +1193,11 @@ Put your configuration code here"
   (spaceline-toggle-all-the-icons-modified)
   (setq-default spaceline-all-the-icons-hide-vcs t)
 
+  ;; Commented out now that not using consult
   ;; Remove *Help* buffer from buffer list
   ;; (goal is to avoid preview-sticking-glitch)
-  (with-eval-after-load 'consult
-    (add-to-list 'consult-buffer-filter "\\*Help\\*"))
+  ;; (with-eval-after-load 'consult
+  ;;   (add-to-list 'consult-buffer-filter "\\*Help\\*"))
 
   ;; When I use a keybinding, add the name of whatever function
   ;; it just called to the minibuffer in a line above the standard output
