@@ -1271,6 +1271,9 @@ This function is called at the very end of Spacemacs initialization."
        "9af2b1c0728d278281d87dc91ead7f5d9f2287b1ed66ec8941e97ab7a6ab73c0"
        "832a3471e6e56c42ae430771a14c65b0006412bb8a0eb94fcc4a604587e20b80" default))
    '(doc-view-continuous t)
+   '(keycast-mode-line-insert-after "%e")
+   '(keycast-mode-line-mode nil)
+   '(keycast-tab-bar-mode t)
    '(mac-drawing-use-gcd t)
    '(nil nil t)
    '(ns-alternate-modifier 'meta)
