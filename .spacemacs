@@ -1211,8 +1211,9 @@ Put your configuration code here"
   ;; (setq marginalia-align 'left)
   ;; alone, shoves stuff even farther to the right :/
   ;; (setq marginalia-align-offset 5)
-  )
+  (setq prefix-help-command #'embark-prefix-help-command)
 
+  )
 
 (defun my/my-org-function-description-insert (function-name)
   "Insert the documentation for FUNCTION-NAME into the current buffer
