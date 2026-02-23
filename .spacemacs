@@ -1206,6 +1206,11 @@ Put your configuration code here"
   ;; disable the hack above
   ;; (ad-activate 'call-interactively)
   ;; (ad-disable-advice 'call-interactively 'after 'show-last-command)
+
+  ;; TBD if this is any better than it was before
+  ;; (setq marginalia-align 'left)
+  ;; alone, shoves stuff even farther to the right :/
+  ;; (setq marginalia-align-offset 5)
   )
 
 
