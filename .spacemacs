@@ -1358,6 +1358,8 @@ This function is called at the very end of Spacemacs initialization."
          web-completion-data web-mode wgrep which-key-posframe white-sand-theme
          winum with-editor writeroom-mode ws-butler yaml yaml-mode yasnippet
          zen-and-art-theme zenburn-theme zonokai-emacs))
+   '(spaceline-all-the-icons-highlight-file-name nil)
+   '(spaceline-all-the-icons-separator-type 'wave))
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
