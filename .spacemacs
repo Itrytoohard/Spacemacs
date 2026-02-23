@@ -895,7 +895,7 @@ Put your configuration code here"
 
   ;; Ok for some godforsaken reason, these two don't stick
 
-  (setq mac-command-modifier 'super) ;; default before this was nil ;; works
+  (setq mac-command-modifier 'super) ;; default before this was nil ;; works once but it stops working on f e R for some reason
 
   ;; not magit - still slow with no magit buffers
   ;; (global-diff-hl-mode -1)
