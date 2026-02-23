@@ -1199,10 +1199,13 @@ Put your configuration code here"
 
   ;; When I use a keybinding, add the name of whatever function
   ;; it just called to the minibuffer in a line above the standard output
-  (defadvice call-interactively (after show-last-command activate)
-    "Shows the interactive command that was just run in the message area."
-    (unless (eq major-mode 'minibuffer-inactive-mode)
-      (message "Ran command: %S" this-command)))
+  ;; (defadvice call-interactively (after show-last-command activate)
+  ;;   "Shows the interactive command that was just run in the message area."
+  ;;   (unless (eq major-mode 'minibuffer-inactive-mode)
+  ;;     (message "Ran command: %S" this-command)))
+  ;; disable the hack above
+  ;; (ad-activate 'call-interactively)
+  ;; (ad-disable-advice 'call-interactively 'after 'show-last-command)
   )
 
 
