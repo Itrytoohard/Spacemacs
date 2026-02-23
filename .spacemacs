@@ -1211,7 +1211,9 @@ Put your configuration code here"
   ;; (setq marginalia-align 'left)
   ;; alone, shoves stuff even farther to the right :/
   ;; (setq marginalia-align-offset 5)
-  (setq prefix-help-command #'embark-prefix-help-command)
+
+  ;; commented out now that not using embark
+  ;; (setq prefix-help-command #'embark-prefix-help-command)
 
   )
 
