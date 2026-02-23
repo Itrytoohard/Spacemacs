@@ -852,6 +852,14 @@ from which org-capture was called."
   (spacemacs/set-leader-keys "of" 'my-org-function-description-insert)
   )
 
+(defun my-consult-no-preview-help (orig-fun &rest args)
+  "Disable preview for *Help* buffers in consult."
+  (let* ((buffer (cadr args))
+         (buffer-name (if (bufferp buffer) (buffer-name buffer) "")))
+    (if (string-match-p "^\\*Help\\*$" buffer-name)
+        (apply orig-fun (car args) nil (cddr args)) ; Call with no-preview (nil)
+      (apply orig-fun args)))) ; Normal preview
+
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
