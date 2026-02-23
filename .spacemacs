@@ -1196,6 +1196,7 @@ This function is called at the very end of Spacemacs initialization."
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
+   '(consult-preview-excluded-files '("\\`/[^/|:]+:" "\\.gpg\\'" "\\*Help\\*"))
    '(consult-preview-key '("M-." "C-SPC" :debounce 0.2 "<up>" "<down>"))
    '(custom-safe-themes
      '("01f347a923dd21661412d4c5a7c7655bf17fb311b57ddbdbd6fce87bd7e58de6"
