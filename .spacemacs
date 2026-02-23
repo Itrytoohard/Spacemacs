@@ -891,6 +891,13 @@ Put your configuration code here"
   ;; (spacemacs/set-leader-keys "ms" 'my/convert-clipboard-html-to-org-mac)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "M-p" 'my/convert-clipboard-html-to-org-mac)
 
+  ;; (use-package keycast
+  ;;   :commands keycast-mode
+  ;;   :config
+  ;;   (keycast-mode 1)) ; Enable keycast-mode globally
+  ;; Optional: customize where keycast appears (default is the mode line)
+  ;; (setq keycast-mode-line-insert-after "%e")
+
   ;; (advice-add 'consult--buffer-preview :around #'my-consult-no-preview-help)
   ;; Enable vertico-buffer-mode for Helm-like display
   ;; (use-package vertico-buffer
