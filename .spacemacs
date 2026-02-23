@@ -1293,40 +1293,41 @@ This function is called at the very end of Spacemacs initialization."
          centaur-tabs centered-cursor-mode cherry-blossom-theme chocolate-theme
          chruby clean-aindent-mode closql clues-theme code-review
          color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow
-         column-enforce-mode company company-quickhelp company-statistics
-         company-web compleseus-spacemacs-help consult consult-yasnippet counsel
-         counsel-css cyberpunk-theme dakrone-theme dap-mode darkmine-theme
-         darkokai-theme darktooth-theme deferred define-word devdocs diminish
-         dired-quick-sort disable-mouse django-theme doom-themes dotenv-mode
-         dracula-theme drag-stuff dumb-jump eat edit-indirect ef-themes elisp-def
-         elisp-demos elisp-slime-nav emacsql embark embark-consult emmet-mode
-         emojify emr enh-ruby-mode esh-help eshell-prompt-extras eshell-z
-         espresso-theme eval-sexp-fu evil-anzu evil-args evil-cleverparens
-         evil-collection evil-easymotion evil-escape evil-evilified-state
-         evil-exchange evil-goggles evil-iedit-state evil-indent-plus evil-lion
-         evil-lisp-state evil-matchit evil-mc evil-nerd-commenter evil-numbers
-         evil-org evil-surround evil-textobj-line evil-tutor evil-unimpaired
-         evil-visual-mark-mode evil-visualstar exotica-theme expand-region
-         eyebrowse eziam-themes fancy-battery farmhouse-themes flatland-theme
-         flatui-theme flycheck flycheck-elsa flycheck-package flycheck-pos-tip
-         flyspell-correct flyspell-correct-helm flyspell-correct-popup forge
-         gandalf-theme ggtags gh-md ghub git-link git-messenger git-modes
-         git-timemachine gitignore-templates gntp gnuplot golden-ratio
-         google-translate gotham-theme grandshell-theme gruber-darker-theme
-         gruvbox-theme haml-mode hc-zenburn-theme helm-ag helm-c-yasnippet
-         helm-comint helm-company helm-css-scss helm-descbinds helm-ls-git
-         helm-make helm-mode-manager helm-org helm-org-rifle helm-projectile
-         helm-purpose helm-swoop helm-xref hemisu-theme heroku-theme hide-comnt
-         highlight-indentation highlight-numbers highlight-parentheses hl-todo
-         holy-mode htmlize hungry-delete hybrid-mode impatient-mode indent-guide
-         inf-ruby info+ inkpot-theme inspector ir-black-theme ivy jazz-theme
-         jbeans-theme kaolin-themes key-chord keyfreq launchctl light-soap-theme
-         link-hint llama log4e lorem-ipsum lsp-docker lsp-mode lsp-treemacs
-         lush-theme macrostep madhat2r-theme magit magit-section marginalia
-         markdown-mode markdown-toc material-theme memoize minimal-theme minitest
-         modus-themes moe-theme molokai-theme monochrome-theme monokai-theme
-         multi-line multi-term multi-vterm mustang-theme nameless naquadah-theme
-         nerd-icons noctilux-theme obsidian-theme occidental-theme oldlace-theme
+         column-enforce-mode command-log-mode company company-quickhelp
+         company-statistics company-web compleseus-spacemacs-help consult
+         consult-yasnippet counsel counsel-css cyberpunk-theme dakrone-theme
+         dap-mode darkmine-theme darkokai-theme darktooth-theme deferred
+         define-word devdocs diminish dired-quick-sort disable-mouse django-theme
+         doom-themes dotenv-mode dracula-theme drag-stuff dumb-jump eat
+         edit-indirect ef-themes elisp-def elisp-demos elisp-slime-nav emacsql
+         embark embark-consult emmet-mode emojify emr enh-ruby-mode esh-help
+         eshell-prompt-extras eshell-z espresso-theme eval-sexp-fu evil-anzu
+         evil-args evil-cleverparens evil-collection evil-easymotion evil-escape
+         evil-evilified-state evil-exchange evil-goggles evil-iedit-state
+         evil-indent-plus evil-lion evil-lisp-state evil-matchit evil-mc
+         evil-nerd-commenter evil-numbers evil-org evil-surround evil-textobj-line
+         evil-tutor evil-unimpaired evil-visual-mark-mode evil-visualstar
+         exotica-theme expand-region eyebrowse eziam-themes fancy-battery
+         farmhouse-themes flatland-theme flatui-theme flycheck flycheck-elsa
+         flycheck-package flycheck-pos-tip flyspell-correct flyspell-correct-helm
+         flyspell-correct-popup forge gandalf-theme ggtags gh-md ghub git-link
+         git-messenger git-modes git-timemachine gitignore-templates gntp gnuplot
+         golden-ratio google-translate gotham-theme grandshell-theme
+         gruber-darker-theme gruvbox-theme haml-mode hc-zenburn-theme helm-ag
+         helm-c-yasnippet helm-comint helm-company helm-css-scss helm-descbinds
+         helm-ls-git helm-make helm-mode-manager helm-org helm-org-rifle
+         helm-projectile helm-purpose helm-swoop helm-xref hemisu-theme
+         heroku-theme hide-comnt highlight-indentation highlight-numbers
+         highlight-parentheses hl-todo holy-mode htmlize hungry-delete hybrid-mode
+         impatient-mode indent-guide inf-ruby info+ inkpot-theme inspector
+         ir-black-theme ivy jazz-theme jbeans-theme kaolin-themes key-chord
+         keycast keyfreq launchctl light-soap-theme link-hint llama log4e
+         lorem-ipsum lsp-docker lsp-mode lsp-treemacs lush-theme macrostep
+         madhat2r-theme magit magit-section marginalia markdown-mode markdown-toc
+         material-theme memoize minimal-theme minitest modus-themes moe-theme
+         molokai-theme monochrome-theme monokai-theme multi-line multi-term
+         multi-vterm mustang-theme nameless naquadah-theme nerd-icons
+         noctilux-theme obsidian-theme occidental-theme oldlace-theme
          omtose-phellack-themes open-junk-file orderless org org-category-capture
          org-cliplink org-contrib org-download org-mime org-pomodoro org-present
          org-project-capture org-projectile org-rich-yank org-superstar
