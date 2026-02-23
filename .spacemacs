@@ -1357,11 +1357,12 @@ This function is called at the very end of Spacemacs initialization."
          vi-tilde-fringe volatile-highlights vterm vundo web-beautify
          web-completion-data web-mode wgrep which-key-posframe white-sand-theme
          winum with-editor writeroom-mode ws-butler yaml yaml-mode yasnippet
-         zen-and-art-theme zenburn-theme zonokai-emacs)))
+         zen-and-art-theme zenburn-theme zonokai-emacs))
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
    '(completions-annotations ((t (:foreground "MediumPurple2" :slant normal))))
+   '(keycast-key ((t (:inherit fixed-pitch :foreground "orchid1" :weight bold)))))
   )
