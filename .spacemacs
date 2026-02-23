@@ -890,6 +890,14 @@ Put your configuration code here"
   ;; (spacemacs/set-leader-keys "ms" 'my/convert-clipboard-html-to-org-mac)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "M-p" 'my/convert-clipboard-html-to-org-mac)
 
+  ;; (advice-add 'consult--buffer-preview :around #'my-consult-no-preview-help)
+  ;; Enable vertico-buffer-mode for Helm-like display
+  ;; (use-package vertico-buffer
+  ;;   :after vertico
+  ;;   :config
+  ;;   (vertico-buffer-mode 1))
+  ;; (with-eval-after-load 'vertico
+  ;;   (setq vertico-buffer-display-action '(display-buffer-below-selected)))
   ;; Look into how to keep spaces up to indent level even if line is empty
 
 
