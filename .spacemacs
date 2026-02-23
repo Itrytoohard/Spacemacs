@@ -1144,6 +1144,11 @@ Put your configuration code here"
   (spaceline-toggle-all-the-icons-modified)
   (setq-default spaceline-all-the-icons-hide-vcs t)
 
+  ;; Remove *Help* buffer from buffer list
+  ;; (goal is to avoid preview-sticking-glitch)
+  (with-eval-after-load 'consult
+    (add-to-list 'consult-buffer-filter "\\*Help\\*"))
+
   )
 
 
