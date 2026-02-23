@@ -852,6 +852,26 @@ from which org-capture was called."
   (spacemacs/set-leader-keys "of" 'my-org-function-description-insert)
   )
 
+(defun my/convert-clipboard-html-to-org-mac ()
+  "Import HTML from clipboard as org syntax on macOS."
+  (interactive)
+  (let* ((html (shell-command-to-string "osascript -e 'the clipboard as \"HTML\"' | perl -ne 'print chr foreach unpack(\"C*\",pack(\"H*\",substr($_,11,-3)))\'")))
+    (insert (shell-command-to-string (format "echo %s | pandoc -f html -t org" (shell-quote-argument html))))))
+
+(defun my/convert-clipboard-html-to-org-mac ()
+  "Paste HTML from clipboard as Org-mode formatted text.
+   Requires 'pandoc' to be installed."
+  (interactive)
+  (let* ((script "osascript -e 'get the clipboard as «class HTML»' | perl -ne 'print chr foreach unpack(\"C*\",pack(\"H*\",substr($_,11,-3)))'")
+         (html (shell-command-to-string script)))
+    (if (string-match-p "execution error" html)
+        (progn
+          (message "No HTML in clipboard; performing standard yank.")
+          (yank))
+      (insert (shell-command-to-string
+               (format "echo %s | pandoc -f html -t org"
+                       (shell-quote-argument html)))))))
+
 (defun my-consult-no-preview-help (orig-fun &rest args)
   "Disable preview for *Help* buffers in consult."
   (let* ((buffer (cadr args))
@@ -865,6 +885,10 @@ from which org-capture was called."
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
+  (load-file "/Users/Matt/.emacs.d/myelisps/clipboard-html-to-org-mode.el")
+  ;; (spacemacs/declare-prefix "oo" "my-menu")
+  ;; (spacemacs/set-leader-keys "ms" 'my/convert-clipboard-html-to-org-mac)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "M-p" 'my/convert-clipboard-html-to-org-mac)
 
   ;; Look into how to keep spaces up to indent level even if line is empty
 
