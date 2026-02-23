@@ -76,9 +76,14 @@ This function should only modify configuration layer settings."
                       )
 
      ;; better-defaults ;; makes more sensible emacs configs. does nothing in vim mode (per docs)
+     command-log
+     (compleseus :variables
+                 compleseus-engine 'vertico
+                 compleseus-consult-preview-keys '("M-." "C-SPC" :debounce 0.2 "<up>" "<down>") ; if you only are arrowing through, completion preview will wait til you hover on a selection for 0.5 seconds.
+                 )
      emacs-lisp
      git
-     helm
+     ;; helm
      html
      ;; lsp ;; should probably enable this to see if it does anything different
      (markdown :variables
@@ -101,6 +106,7 @@ This function should only modify configuration layer settings."
           org-enable-superstar t
           )
      ;; (osx :variables
+     ;; osx-command-as 'super
      ;;      osx-command-as       'control
      ;;      osx-option-as        'meta
      ;;      osx-control-as       'control
@@ -118,7 +124,7 @@ This function should only modify configuration layer settings."
      syntax-checking
      ;; tabs
      ;; themes-megapack
-     version-control
+     ;; version-control ; turned this off because the all-the-icons modeline was misbehaving
      treemacs
      yaml
      )
@@ -132,7 +138,7 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(key-chord)
+   dotspacemacs-additional-packages '(key-chord keyfreq)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -371,7 +377,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil, the paste transient-state is enabled. While enabled, after you
    ;; paste something, pressing `C-j' and `C-k' several times cycles through the
    ;; elements in the `kill-ring'. (default nil)
-   dotspacemacs-enable-paste-transient-state nil
+   dotspacemacs-enable-paste-transient-state nil ;; Edited
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
@@ -578,7 +584,7 @@ It should only modify the values of Spacemacs settings."
    ;; Color highlight trailing whitespace in all prog-mode and text-mode derived
    ;; modes such as c++-mode, python-mode, emacs-lisp, html-mode, rst-mode etc.
    ;; (default t)
-   dotspacemacs-show-trailing-whitespace t
+   dotspacemacs-show-trailing-whitespace nil
 
    ;; Delete whitespace while saving buffer. Possible values are `all'
    ;; to aggressively delete empty line and long sequences of whitespace,
@@ -656,7 +662,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
 
 
-(defun dotspacemacs/fix-smartparens-attitude ()
+(defun my/fix-smartparens-attitude ()
 
   ;; Hacky crap that is needed because smartparens decided it was too good
   ;; to not break crap
@@ -670,22 +676,279 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
       (message "Smartparens-mode called with arg: %s" arg)))
   )
 
-(defun my/capture-template-helper()
+;; (defun my/capture-template-helper()
 
+;;   )
+
+;; (my/set-capture-helper)
+;; (defun my/set-capture-helper ()
+;;   ;; set vars for org capture template
+;;   (setq
+;;    ;; my-capture-template-shortcut-key "k"
+;;    my-capture-template-shortcut-name "Keybind"
+;;    capture-template-filepath "~/.emacs.d/org/capture-templates-test.org"
+;;    my-capture-template-format-string "* %^{Title}\\n%?\\nAdded on %U"
+;;    )
+;;   (setq my-capture-template-shortcut-key "k")
+;;   (print my-capture-template-shortcut-key)
+;;   (my/helper "a" "b" capture-template-filepath my-capture-template-format-string)
+;;   )
+
+;; (defun my/helper (key name path format)
+
+;;   (setq org-capture-templates
+;;         ;; Miminum required to use
+;;         '(
+;;           (
+;;            "k" name entry (file path)
+;;            format
+;;            )
+;;           )
+;;         )
+;;   )
+;; ;; (fff ("test"))
+;; (defun fff (string-arg)
+;;  print(string-arg))
+
+(defun my/my-org-meta-return-at-end-of-line-helper ()
+  "Move to end of line before calling `org-meta-return`."
+  (interactive)
+  (end-of-line)
+  (call-interactively 'org-meta-return)
   )
+
+(defun my/my-org-meta-return-at-end-of-line ()
+  (with-eval-after-load 'org
+    (define-key org-mode-map (kbd "M-RET") 'my/my-org-meta-return-at-end-of-line-helper)
+    )
+  )
+;; correct one
+(defun my/org-capture-key-info-shortcut ()
+  "Prompt for a key sequence and return a string with the key and its command."
+  (let* ((original-buffer (plist-get org-capture-plist :original-buffer))
+         (key (read-key-sequence "Press key sequence: "))
+         (verbal-description (read-string "What the binding does: "))
+         (key-desc (key-description key))
+         ;; (command (key-binding key))
+         (command (with-current-buffer original-buffer
+                    (key-binding key)))
+         (origin-mode (string-trim-right (my/org-capture-get-original-major-mode) "-mode"))
+         ;; Descriptions
+         ;; Type
+         (command-type (type-of (symbol-function command)))
+         ;; Arity
+         (command-arity (func-arity command))
+         ;; Docstring
+         (command-docstring (documentation command))
+         )
+    ;; (format "Key: ~%s~\nDescription: %s\nCommand: %s"
+    ;;         key-desc
+    ;;         verbal-description
+    ;;         (or command "Not bound"))
+
+    ;; First Part (Dont mess with)
+    (format "* ~%s~ | %s | Mode: %s\nFunction Called: %s \nMode called from: %s\n** Function Info: \nType: %s\nArity: %s\n** Docstring: %s\n\nSTART_TOKEN"
+            key-desc
+            verbal-description
+            (or origin-mode "No Mode Data")
+            (or command "No command")
+            (or origin-mode "No Mode Data")
+            (or command-type "No Type")
+            (or command-arity "No Arity")
+            (or command-docstring "No docstring")
+            )
+    )
+  )
+
+(defun my/org-capture-get-desc ()
+  (let*
+      (verbal-description (read-string "What the binding does: "))
+    (format "%s" verbal-description)
+    )
+  )
+
+(defun my/my-org-capture-finisher ()
+  "Prompt for text and replace content between START_TOKEN and END_TOKEN."
+  (save-excursion
+    (goto-char (point-min))
+    ;; The regex looks for: START_TOKEN + anything (minimal) + END_TOKEN
+    (while (re-search-forward "START_TOKEN\\(.*?\\)END_TOKEN" nil t)
+      (let* ((old-content (match-string 1)) ;; Optional: grabs the text currently there
+             (new-text (read-string (format "Replace '%s' with: " old-content))))
+        (replace-match new-text t t nil 1)))))
+
+
+(defun my/rawr ()
+  "get key sequence before doing anything else"
+  ;; get key first
+  (let* (key-desc (key-description (read-key-sequence "Press key sequence: ")))
+    (format "* ~%s~ | " key-desc))
+  )
+
+
+;; Find and replace from before
+;; if starts with <SPC> and !<SPC m> -> global command
+;; if starts with <,> OR <M-RET> OR <SPC m> -> major mode command
+
+(defun my/org-capture-get-original-major-mode ()
+  "Return the symbol name of the major mode of the buffer
+from which org-capture was called."
+  (let* ((buffer (org-capture-get :original-buffer))
+         (major-mode-symbol (with-current-buffer buffer major-mode)))
+    (symbol-name major-mode-symbol)))
+
+(defun my/get-function-info (command)
+  "Retrieve and display information about a function by its name (a symbol)."
+  (interactive "SFunction name: ") ; Makes the function interactive, prompting for a symbol
+  (let* ((func (symbol-function command))
+         (doc-string (documentation command))
+         (arity-info (func-arity command)))
+    (format "Captured in Mode: %s\n" my/org-capture-get-original-major-mode)
+    (format "Information for %s:\n" command)
+    (format "  Type: %s\n" (type-of func))
+    (format "  Arity: %S\n" arity-info)
+    (format "  Documentation:\n%s\n" doc-string)
+    ;; You can add more checks, e.g., to find the source file location
+    (message (format "Captured in Mode: %s\n\nInformation for %s:\n  Type: %s\n  Arity: %S\n  Documentation:\n%s\n" my/org-capture-get-original-major-mode command (type-of func) arity-info doc-string))))
+
+;; Make insert line above and below macro
+
+(defun my/enable-keyfreq-settings ()
+  (require 'keyfreq)
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1)
+  )
+
+(defun my/custom-which-key-text()
+  (my/custom-which-key-prefix-text)
+  )
+
+(defun my/custom-which-key-prefix-text()
+  (my/custom-which-key-mode-specific-prefix-text)
+  (spacemacs/declare-prefix "o" "My Tools")
+  )
+
+(defun my/custom-which-key-mode-specific-prefix-text()
+  (spacemacs/declare-prefix-for-mode 'org-mode "m b" "Babel Actions")
+  )
+
+
+(defun my/set-keybindings-master-func ()
+  (my/set-major-mode-keybindings)
+  (my/set-global-keybindings)
+  )
+
+(defun my/set-major-mode-keybindings ()
+  ;; Set Customize GUI button "Apply & Save" to <SPC m s> (From C-x C-s)
+  (spacemacs/set-leader-keys-for-major-mode 'Custom-mode "a" 'Custom-save)
+  )
+
+(defun my/set-global-keybindings ()
+  ;; Set Tab Left & Right to <SPC T h> (left) and <SPC T l> (right)
+  (spacemacs/set-leader-keys "Th" 'tab-bar-switch-to-prev-tab)
+  (spacemacs/set-leader-keys "Tl" 'tab-bar-switch-to-next-tab)
+
+  ;; I don't remember what this does exactly. It was in user-config
+  ;; Might want to insert  "my/"  at the beginning of this.
+  (spacemacs/set-leader-keys "of" 'my-org-function-description-insert)
+  )
+
+(defun my/convert-clipboard-html-to-org-mac ()
+  "Import HTML from clipboard as org syntax on macOS."
+  (interactive)
+  (let* ((html (shell-command-to-string "osascript -e 'the clipboard as \"HTML\"' | perl -ne 'print chr foreach unpack(\"C*\",pack(\"H*\",substr($_,11,-3)))\'")))
+    (insert (shell-command-to-string (format "echo %s | pandoc -f html -t org" (shell-quote-argument html))))))
+
+(defun my/convert-clipboard-html-to-org-mac ()
+  "Paste HTML from clipboard as Org-mode formatted text.
+   Requires 'pandoc' to be installed."
+  (interactive)
+  (let* ((script "osascript -e 'get the clipboard as «class HTML»' | perl -ne 'print chr foreach unpack(\"C*\",pack(\"H*\",substr($_,11,-3)))'")
+         (html (shell-command-to-string script)))
+    (if (string-match-p "execution error" html)
+        (progn
+          (message "No HTML in clipboard; performing standard yank.")
+          (yank))
+      (insert (shell-command-to-string
+               (format "echo %s | pandoc -f html -t org"
+                       (shell-quote-argument html)))))))
+
+(defun my-consult-no-preview-help (orig-fun &rest args)
+  "Disable preview for *Help* buffers in consult."
+  (let* ((buffer (cadr args))
+         (buffer-name (if (bufferp buffer) (buffer-name buffer) "")))
+    (if (string-match-p "^\\*Help\\*$" buffer-name)
+        (apply orig-fun (car args) nil (cddr args)) ; Call with no-preview (nil)
+      (apply orig-fun args)))) ; Normal preview
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
+  (load-file "/Users/Matt/.emacs.d/myelisps/clipboard-html-to-org-mode.el")
+  ;; (spacemacs/declare-prefix "oo" "my-menu")
+  ;; (spacemacs/set-leader-keys "ms" 'my/convert-clipboard-html-to-org-mac)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "M-p" 'my/convert-clipboard-html-to-org-mac)
 
-  (setq org-capture-templates
-        ;; Miminum required to use
-        '(
-          ("k" "Keybind" entry (file "~/.emacs.d/org"
-                                     ))))
+  ;; (use-package keycast
+  ;;   :commands keycast-mode
+  ;;   :config
+  ;;   (keycast-mode 1)) ; Enable keycast-mode globally
+  ;; Optional: customize where keycast appears (default is the mode line)
+  ;; (setq keycast-mode-line-insert-after "%e")
 
+  ;; (advice-add 'consult--buffer-preview :around #'my-consult-no-preview-help)
+  ;; Enable vertico-buffer-mode for Helm-like display
+  ;; (use-package vertico-buffer
+  ;;   :after vertico
+  ;;   :config
+  ;;   (vertico-buffer-mode 1))
+  ;; (with-eval-after-load 'vertico
+  ;;   (setq vertico-buffer-display-action '(display-buffer-below-selected)))
+  ;; Look into how to keep spaces up to indent level even if line is empty
+
+
+  ;; Ok for some godforsaken reason, these two don't stick
+
+  (setq mac-command-modifier 'super) ;; default before this was nil ;; works once but it stops working on f e R for some reason
+
+  ;; not magit - still slow with no magit buffers
+  ;; (global-diff-hl-mode -1)
+
+
+  ;; <delete> this if other thing works
+  ;; (with-eval-after-load 'spaceline
+  ;;   (spaceline-define-segment version-control
+  ;;     "Version control information without diffs."
+  ;;     (when vc-mode
+  ;;       (powerline-raw (s-trim vc-mode)))
+  ;;     :when vc-mode))
+
+  (with-eval-after-load 'which-key
+    ;; (setq which-key-popup-type 'minibuffer) ; Use minibuffer for display
+    (setq which-key-max-description-length nil) ; Do not truncate descriptions
+    (setq which-key-allow-imprecise-window-fit t)) ; Allow better window fitting
+
+  ;; Force the minibuffer to wrap text instead of truncating it
+  (add-hook 'minibuffer-setup-hook (lambda () (setq truncate-lines nil)))
+
+  ;; 1. Prevent the echo area from truncating long messages
+  (setq message-truncate-lines nil)
+
+  ;; Allow the echo area to grow vertically to fit text
+  (setq resize-mini-windows 'grow-only)
+  (setq resize-mini-frames 'grow-only)
+
+  ;; Set the maximum height the minibuffer can reach (0.25 = 25% of frame height)
+  (setq max-mini-window-height 0.25)
+
+  ;; Prevents making a new headline from an old one splitting it
+  (setq org-M-RET-may-split-line nil)
+
+  (my/my-org-meta-return-at-end-of-line)
+
+  ;; (my/set-capture-helper)
   ;; Create Personalized Org Capture Templates
   ;; (setq org-capture-templates
   ;;       '(
@@ -712,10 +975,12 @@ Put your configuration code here"
   ;;          "** ~{key sequence}~ | {description} | {mode-specific} "
   ;;          :empty-lines 1)
   ;;         ))
-  (add-hook 'magit-mode-hook
-            (lambda ()
-              (when (string-prefix-p "/src/GitHubRepos/itrytoohard.github.io" default-directory)
-                (magit-mode -1))))
+  (my/set-keybindings-master-func)
+
+  ;; (add-hook 'magit-mode-hook
+  ;;           (lambda ()
+  ;;             (when (string-prefix-p "/src/GitHubRepos/itrytoohard.github.io" default-directory)
+  ;;               (magit-mode -1))))
   ;; Global Tab **Bar** Mode
   ;; (global-tab-bar-mode 1)
 
@@ -738,7 +1003,7 @@ Put your configuration code here"
 
   ;; Hacky crap that is needed because smartparens decided it was too good
   ;; to not break crap
-  (dotspacemacs/fix-smartparens-attitude)
+  ;; (my/fix-smartparens-attitude)
   ;; (require 'smartparens)
   ;; (defun smartparens-mode () (debug))
   ;; (with-eval-after-load 'smartparens
@@ -754,7 +1019,7 @@ Put your configuration code here"
   ;; Changes filename on mode line to file path if one exists
   (spaceline-define-segment buffer-id
     (if (buffer-file-name)
-        (buffer-file-name) ; Displays the full, absolute file path
+        (buffer-file-name)              ; Displays the full, absolute file path
       (powerline-buffer-id)))
 
   ;; <TODO> make evil display -----insert----- like vim does
@@ -777,7 +1042,6 @@ Put your configuration code here"
 
   ;; <mycode> <Tag for searching>
 
-  (spacemacs/set-leader-keys "of" 'my-org-function-description-insert)
 
   (setq spaceline-highlight-face-style 'none)
 
@@ -791,10 +1055,10 @@ Put your configuration code here"
   ;; instead of creating a new one
   (define-key dired-mode-map [mouse-1] 'dired-mouse-find-file)
   ;;
-  ;; Rebind jk or C-q to exit insert mode
+  ;; Rebind jk or C-q to exit insert mode (Removed for interfering with Customize GUI Newline entry, and also i never used this anymore)
   ;; (define-key map new-keybinding function) ; Syntax
   ;; Map H to go to the previous buffer in normal mode
-  (define-key evil-insert-state-map (kbd "C-q") 'evil-normal-state)
+  ;; (define-key evil-insert-state-map (kbd "C-q") 'evil-normal-state)
   ;; (define-key evil-insert-state-map (kbd "j-k") 'evil-normal-state)
   ;; (define-key evil-insert-state-map (kbd "k-j") 'evil-normal-state) ;; cant type the letters if you do this # bigsad
 
@@ -882,12 +1146,15 @@ Put your configuration code here"
   (defun kill-this-buffer-with-prompt()
     (interactive)
     (if (and (buffer-modified-p)
-             (buffer-file-name)) ; Only prompt for file-visiting buffers
+             (buffer-file-name))        ; Only prompt for file-visiting buffers
         (if (y-or-n-p "Buffer has unsaved changes. Kill anyway? ")
             (kill-current-buffer)
-          (message "Kill buffer operation cancelled."))
+          (message "Kill buffer operation cancelled.")
+          )
       (kill-current-buffer)))
 
+  ;; Check if a package is installed
+  ;; (package-installed-p 'helpful)
 
   (evil-ex-define-cmd "wqall" 'save-and-kill-this-buffer-and-window)
   (defun save-and-kill-this-buffer-and-window()(interactive)(save-buffer)(kill-buffer-and-window))
@@ -906,11 +1173,49 @@ Put your configuration code here"
   (dotspacemacs/disable-autoevilfication-fail-messages)
 
   ;; remove those infernal red trailing whitespace boxes
+  (setq-default spacemacs-show-trailing-whitespace nil)
   (setq-default show-trailing-whitespace nil)
+  (setq spacemacs-show-trailing-whitespace nil)
+  (setq show-trailing-whitespace nil)
+
+  ;; Ok for some godforsaken reason, these two don't stick
+
+  (setq mac-command-modifier 'super) ;; default before this was nil ;; works
+
+  ;; not magit - still slow with no magit buffers
+  ;; (global-diff-hl-mode -1)
+
+  (message "--- LOADING MY DOTFILE FROM %s ---" buffer-file-name)
+  ;; (with-eval-after-load 'diff-hl
+  ;;   (diff-hl-flydiff-mode -1))
+
+  (spaceline-toggle-all-the-icons-modified)
+  (setq-default spaceline-all-the-icons-hide-vcs t)
+
+  ;; Remove *Help* buffer from buffer list
+  ;; (goal is to avoid preview-sticking-glitch)
+  (with-eval-after-load 'consult
+    (add-to-list 'consult-buffer-filter "\\*Help\\*"))
+
+  ;; When I use a keybinding, add the name of whatever function
+  ;; it just called to the minibuffer in a line above the standard output
+  ;; (defadvice call-interactively (after show-last-command activate)
+  ;;   "Shows the interactive command that was just run in the message area."
+  ;;   (unless (eq major-mode 'minibuffer-inactive-mode)
+  ;;     (message "Ran command: %S" this-command)))
+  ;; disable the hack above
+  ;; (ad-activate 'call-interactively)
+  ;; (ad-disable-advice 'call-interactively 'after 'show-last-command)
+
+  ;; TBD if this is any better than it was before
+  ;; (setq marginalia-align 'left)
+  ;; alone, shoves stuff even farther to the right :/
+  ;; (setq marginalia-align-offset 5)
+  (setq prefix-help-command #'embark-prefix-help-command)
+
   )
 
-
-(defun dotspacemacs/my-org-function-description-insert (function-name)
+(defun my/my-org-function-description-insert (function-name)
   "Insert the documentation for FUNCTION-NAME into the current buffer
   within an Org mode source block."
   (interactive "sEnter function name: ")
@@ -959,15 +1264,30 @@ This function is called at the very end of Spacemacs initialization."
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
+   '(consult-preview-excluded-files '("\\`/[^/|:]+:" "\\.gpg\\'" "\\*Help\\*"))
+   '(consult-preview-key '("M-." "C-SPC" :debounce 0.2 "<up>" "<down>"))
    '(custom-safe-themes
      '("01f347a923dd21661412d4c5a7c7655bf17fb311b57ddbdbd6fce87bd7e58de6"
        "9af2b1c0728d278281d87dc91ead7f5d9f2287b1ed66ec8941e97ab7a6ab73c0"
        "832a3471e6e56c42ae430771a14c65b0006412bb8a0eb94fcc4a604587e20b80" default))
    '(doc-view-continuous t)
+   '(keycast-mode-line-insert-after "%e")
+   '(keycast-mode-line-mode nil)
+   '(keycast-tab-bar-mode t)
    '(mac-drawing-use-gcd t)
    '(nil nil t)
    '(ns-alternate-modifier 'meta)
    '(ns-command-modifier nil)
+   '(org-capture-templates
+     '(("t" "Todo" entry
+        (file+headline "~/.emacs.d/mytesting/my-capture-tests.org" "Tests")
+        #'my/make-format-string)
+       ("a" "Test Customize Gui Menu" entry
+        (file+olp "~/.emacs.d/mytesting/my-capture-tests.org" "GUI"
+                  "Capture Template 1")
+        "\12%(my/org-capture-key-info-shortcut)\12\12START_TOKEN%(my/org-capture-get-desc)FINISH_TOKEN\12\12Date: %U Source: [[file:%F][%f]]\12"
+        :empty-lines-after 1 :before-finalize (my/my-org-capture-finisher))))
+   '(org-export-backends '(ascii html icalendar latex md odt))
    '(package-selected-packages
      '(a ace-link add-node-modules-path afternoon-theme aggressive-indent
          alect-themes alert all-the-icons ample-theme ample-zen-theme
@@ -977,24 +1297,26 @@ This function is called at the very end of Spacemacs initialization."
          centaur-tabs centered-cursor-mode cherry-blossom-theme chocolate-theme
          chruby clean-aindent-mode closql clues-theme code-review
          color-theme-sanityinc-solarized color-theme-sanityinc-tomorrow
-         column-enforce-mode company company-quickhelp company-statistics
-         company-web counsel counsel-css cyberpunk-theme dakrone-theme dap-mode
-         darkmine-theme darkokai-theme darktooth-theme deferred define-word
-         devdocs diminish dired-quick-sort disable-mouse django-theme doom-themes
-         dotenv-mode dracula-theme drag-stuff dumb-jump eat edit-indirect
-         ef-themes elisp-def elisp-demos elisp-slime-nav emacsql emmet-mode
-         emojify emr enh-ruby-mode esh-help eshell-prompt-extras eshell-z
-         espresso-theme eval-sexp-fu evil-anzu evil-args evil-cleverparens
-         evil-collection evil-easymotion evil-escape evil-evilified-state
-         evil-exchange evil-goggles evil-iedit-state evil-indent-plus evil-lion
-         evil-lisp-state evil-matchit evil-mc evil-nerd-commenter evil-numbers
-         evil-org evil-surround evil-textobj-line evil-tutor evil-unimpaired
-         evil-visual-mark-mode evil-visualstar exotica-theme expand-region
-         eyebrowse eziam-themes fancy-battery farmhouse-themes flatland-theme
-         flatui-theme flycheck flycheck-elsa flycheck-package flycheck-pos-tip
-         flyspell-correct flyspell-correct-helm forge gandalf-theme ggtags gh-md
-         ghub git-link git-messenger git-modes git-timemachine gitignore-templates
-         gntp gnuplot golden-ratio google-translate gotham-theme grandshell-theme
+         column-enforce-mode command-log-mode company company-quickhelp
+         company-statistics company-web compleseus-spacemacs-help consult
+         consult-yasnippet counsel counsel-css cyberpunk-theme dakrone-theme
+         dap-mode darkmine-theme darkokai-theme darktooth-theme deferred
+         define-word devdocs diminish dired-quick-sort disable-mouse django-theme
+         doom-themes dotenv-mode dracula-theme drag-stuff dumb-jump eat
+         edit-indirect ef-themes elisp-def elisp-demos elisp-slime-nav emacsql
+         embark embark-consult emmet-mode emojify emr enh-ruby-mode esh-help
+         eshell-prompt-extras eshell-z espresso-theme eval-sexp-fu evil-anzu
+         evil-args evil-cleverparens evil-collection evil-easymotion evil-escape
+         evil-evilified-state evil-exchange evil-goggles evil-iedit-state
+         evil-indent-plus evil-lion evil-lisp-state evil-matchit evil-mc
+         evil-nerd-commenter evil-numbers evil-org evil-surround evil-textobj-line
+         evil-tutor evil-unimpaired evil-visual-mark-mode evil-visualstar
+         exotica-theme expand-region eyebrowse eziam-themes fancy-battery
+         farmhouse-themes flatland-theme flatui-theme flycheck flycheck-elsa
+         flycheck-package flycheck-pos-tip flyspell-correct flyspell-correct-helm
+         flyspell-correct-popup forge gandalf-theme ggtags gh-md ghub git-link
+         git-messenger git-modes git-timemachine gitignore-templates gntp gnuplot
+         golden-ratio google-translate gotham-theme grandshell-theme
          gruber-darker-theme gruvbox-theme haml-mode hc-zenburn-theme helm-ag
          helm-c-yasnippet helm-comint helm-company helm-css-scss helm-descbinds
          helm-ls-git helm-make helm-mode-manager helm-org helm-org-rifle
@@ -1003,24 +1325,25 @@ This function is called at the very end of Spacemacs initialization."
          highlight-parentheses hl-todo holy-mode htmlize hungry-delete hybrid-mode
          impatient-mode indent-guide inf-ruby info+ inkpot-theme inspector
          ir-black-theme ivy jazz-theme jbeans-theme kaolin-themes key-chord
-         launchctl light-soap-theme link-hint llama log4e lorem-ipsum lsp-docker
-         lsp-mode lsp-treemacs lush-theme macrostep madhat2r-theme magit
-         magit-section markdown-mode markdown-toc material-theme memoize
-         minimal-theme minitest modus-themes moe-theme molokai-theme
-         monochrome-theme monokai-theme multi-line multi-term multi-vterm
-         mustang-theme nameless naquadah-theme nerd-icons noctilux-theme
-         obsidian-theme occidental-theme oldlace-theme omtose-phellack-themes
-         open-junk-file org org-category-capture org-cliplink org-contrib
-         org-download org-mime org-pomodoro org-present org-project-capture
-         org-projectile org-rich-yank org-superstar organic-green-theme orgit
-         orgit-forge osx-clipboard osx-dictionary osx-trash overseer ox-pandoc
-         package-lint page-break-lines pandoc-mode paradox password-generator
-         pcre2el phoenix-dark-mono-theme phoenix-dark-pink-theme planet-theme
-         popwin pos-tip prettier-js professional-theme pug-mode purple-haze-theme
-         quickrun railscasts-theme rainbow-delimiters rake rbenv rebecca-theme
-         restart-emacs reveal-in-osx-finder reverse-theme robe rspec-mode rubocop
-         rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm
-         sass-mode scss-mode seti-theme shell-pop slim-mode smeargle smyx-theme
+         keycast keyfreq launchctl light-soap-theme link-hint llama log4e
+         lorem-ipsum lsp-docker lsp-mode lsp-treemacs lush-theme macrostep
+         madhat2r-theme magit magit-section marginalia markdown-mode markdown-toc
+         material-theme memoize minimal-theme minitest modus-themes moe-theme
+         molokai-theme monochrome-theme monokai-theme multi-line multi-term
+         multi-vterm mustang-theme nameless naquadah-theme nerd-icons
+         noctilux-theme obsidian-theme occidental-theme oldlace-theme
+         omtose-phellack-themes open-junk-file orderless org org-category-capture
+         org-cliplink org-contrib org-download org-mime org-pomodoro org-present
+         org-project-capture org-projectile org-rich-yank org-superstar
+         organic-green-theme orgit orgit-forge osx-clipboard osx-dictionary
+         osx-trash overseer ox-pandoc package-lint page-break-lines pandoc-mode
+         paradox password-generator pcre2el phoenix-dark-mono-theme
+         phoenix-dark-pink-theme planet-theme popwin pos-tip prettier-js
+         professional-theme pug-mode purple-haze-theme quickrun railscasts-theme
+         rainbow-delimiters rake rbenv rebecca-theme restart-emacs
+         reveal-in-osx-finder reverse-theme robe rspec-mode rubocop rubocopfmt
+         ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm sass-mode
+         scss-mode seti-theme shell-pop slim-mode smeargle smyx-theme
          soft-charcoal-theme soft-morning-theme soft-stone-theme solarized-theme
          soothe-theme space-doc spacegray-theme spaceline spaceline-all-the-icons
          spacemacs-purpose-popwin spacemacs-whitespace-cleanup
@@ -1030,15 +1353,18 @@ This function is called at the very end of Spacemacs initialization."
          terminal-here toc-org toxi-theme transient treemacs-evil
          treemacs-icons-dired treemacs-magit treemacs-persp treemacs-projectile
          treepy twilight-anti-bright-theme twilight-bright-theme twilight-theme
-         ujelly-theme underwater-theme undo-fu-session uuidgen vi-tilde-fringe
-         volatile-highlights vterm vundo web-beautify web-completion-data web-mode
-         wgrep which-key-posframe white-sand-theme winum with-editor
-         writeroom-mode ws-butler yaml yaml-mode yasnippet zen-and-art-theme
-         zenburn-theme zonokai-emacs)))
+         ujelly-theme underwater-theme undo-fu-session uuidgen vertico
+         vi-tilde-fringe volatile-highlights vterm vundo web-beautify
+         web-completion-data web-mode wgrep which-key-posframe white-sand-theme
+         winum with-editor writeroom-mode ws-butler yaml yaml-mode yasnippet
+         zen-and-art-theme zenburn-theme zonokai-emacs))
+   '(spaceline-all-the-icons-highlight-file-name nil)
+   '(spaceline-all-the-icons-separator-type 'wave))
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
-   )
+   '(completions-annotations ((t (:foreground "MediumPurple2" :slant normal))))
+   '(keycast-key ((t (:inherit fixed-pitch :foreground "orchid1" :weight bold)))))
   )
