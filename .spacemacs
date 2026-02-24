@@ -1005,6 +1005,8 @@ Put your configuration code here"
   (which-key-add-key-based-replacements "SPC b k" "Previous Buffer")
   )
 
+(defun my/give-which-key-names-to-premade-keybinds()
+  (which-key-add-key-based-replacements "SPC g s" "Magit Status Page: magit-status")
   )
 
 (defun my/fix-smartparens-attitude ()
