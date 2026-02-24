@@ -999,28 +999,6 @@ Put your configuration code here"
   ;; commented out now that not using embark
   ;; (setq prefix-help-command #'embark-prefix-help-command)
 
-  (my/set-org-todo-keywords)
-  (my/set-custom-buffer-next-prev-bindings)
-  )
-
-(defun my/set-org-todo-keywords()
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n!)" "PROG(p!)" "|" "DONE(d!)" "QUIT(c@/!)")))
-
-  ;; (defface my-org-todo-face-next
-  ;;   '((t (:inherit (org-get-todo-face "TODO") :weight bold :underline t)))
-  ;;   "A new face similar to keyword-face but bold and underlined."
-  ;;   :group 'org-faces)
-
-  ;; (setq org-todo-keyword-faces
-  ;;       '(
-  ;;         ("TODO" . org-warning) ;; uses the built-in org-warning face
-  ;;         ("NEXT" . my-org-todo-face-next) ;; uses a color string for foreground
-  ;;         ("PROG" . my-org-todo-face-prog) ;; uses a property list
-  ;;         ("DONE" . org-done) ;; uses the built-in org-done face
-  ;;         ("QUIT" . my-org-todo-face-quit) ;; uses a color string for foreground
-  ;;         ))
-
   )
 
 (defun my/set-custom-buffer-next-prev-bindings()
