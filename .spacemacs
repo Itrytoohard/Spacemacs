@@ -650,7 +650,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   ;; <TODO> Get back to this and install jinx/huspell/enchant2
   ;;  (setq-default spell-checking-enable-by-default nil)
-  (dotspacemacs/disable-autoevilfication-fail-messages)
+  (my/disable-autoevilfication-fail-messages)
   )
 
 ;; (defun dotspacemacs/matt-hello-world ()
@@ -949,7 +949,7 @@ Put your configuration code here"
   ;; (defun save-and-kill-this-buffer()(interactive)(save-buffer)(kill-current-buffer))
 
                                         ; if this comment is still here, q didnt work
-  (dotspacemacs/disable-autoevilfication-fail-messages)
+  (my/disable-autoevilfication-fail-messages)
 
   ;; remove those infernal red trailing whitespace boxes
   (setq-default spacemacs-show-trailing-whitespace nil)
@@ -1234,7 +1234,7 @@ from which org-capture was called."
       (message "No documentation found for %s" function-name))))
 
 ;; Supposed to fix autoevilfication warning messages, but doesn't work.
-(defun dotspacemacs/disable-autoevilfication-fail-messages()
+(defun my/disable-autoevilfication-fail-messages()
   ;; remove startup auto-evilification messages:
   ;; Auto-evilification could not remap these functions in map ‘org-agenda-mode-map’:
   ;; - ‘org-agenda-next-line’ originally mapped on ‘C-n’
