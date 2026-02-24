@@ -83,7 +83,10 @@ This function should only modify configuration layer settings."
      ;;             )
      emacs-lisp
      git
-     helm
+     (helm :variables
+           helm-enable-auto-resize nil
+
+           )
      html
      lsp ;; should probably enable this to see if it does anything different
      (markdown :variables
