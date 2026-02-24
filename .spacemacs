@@ -996,6 +996,15 @@ Put your configuration code here"
   ;; commented out now that not using embark
   ;; (setq prefix-help-command #'embark-prefix-help-command)
 
+
+(defun my/set-custom-buffer-next-prev-bindings()
+  ;; Set key sequence after SPC ; then assign them names in which-key
+  (spacemacs/set-leader-keys "bj" 'next-buffer)
+  (which-key-add-key-based-replacements "SPC b j" "Next Buffer")
+  (spacemacs/set-leader-keys "bk" 'previous-buffer)
+  (which-key-add-key-based-replacements "SPC b k" "Previous Buffer")
+  )
+
   )
 
 (defun my/fix-smartparens-attitude ()
