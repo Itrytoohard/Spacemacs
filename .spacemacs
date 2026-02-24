@@ -1139,26 +1139,7 @@ Put your configuration code here"
 
     ;; returns true if prefix string starts with prefix, nil if not
     (string-prefix-p PREFIX STRING &optional IGNORECASE)
-    (string-prefix-p PREFIX STRING &optional IGNORECASE)
 
-    ;; seq-find returns actual sucessful result
-    ;; seq-find returns the result of the predicate
-    (seq-some pred sequence)
-
-    (seq-some (lambda (x) (> x 2)) [1 2 3 4 5]) ;; Returns 3 (the first element > 2)
-
-    (seq-some (lambda (x) (< x 0)) [1 2 3]) ;; Returns nil (no element is negative)
-
-    ;; find first match
-    (seq-find (lambda (prefix) (and (string-prefix-p prefix keybind-string-entered) prefix)) '(0 2 3)) ;; Returns "found" (first non-nil result)
-    (defun testthis ()
-
-      (let (prefix-strings ("SPC m" "," "M-RET")))
-      (let keybind-string-entered-test "SPC m e c") ;; replace with big func arg
-      (seq-find (lambda (prefix) (string-prefix-p prefix keybind-string-entered-test) prefix-strings))
-      )
-    (testthis)
-    ;; (seq-some (lambda (prefix) (and (string-prefix-p prefix keybind-string-entered) prefix)) '(0 2 3)) ;; Returns "found" (first non-nil result)
     )
 
 
@@ -1189,6 +1170,29 @@ Return nil if no prefix matches."
         (throw 'matched prefix)))
     nil)
   )
+
+(defun delete-this-TODO ()
+
+  ;; seq-find returns actual sucessful result
+  ;; seq-find returns the result of the predicate
+  (seq-some pred sequence)
+
+  (seq-some (lambda (x) (> x 2)) [1 2 3 4 5]) ;; Returns 3 (the first element > 2)
+
+  (seq-some (lambda (x) (< x 0)) [1 2 3]) ;; Returns nil (no element is negative)
+
+  ;; find first match
+  (seq-find (lambda (prefix) (and (string-prefix-p prefix keybind-string-entered) prefix)) '(0 2 3)) ;; Returns "found" (first non-nil result)
+  (defun testthis ()
+
+    (let (prefix-strings ("SPC m" "," "M-RET")))
+    (let keybind-string-entered-test "SPC m e c") ;; replace with big func arg
+    (seq-find (lambda (prefix) (string-prefix-p prefix keybind-string-entered-test) prefix-strings))
+    )
+  (testthis)
+  ;; (seq-some (lambda (prefix) (and (string-prefix-p prefix keybind-string-entered) prefix)) '(0 2 3)) ;; Returns "found" (first non-nil result)
+  )
+
 
 (defun my/org-capture-get-desc ()
   (let*
