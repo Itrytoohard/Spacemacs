@@ -1084,7 +1084,8 @@ Put your configuration code here"
          (command (with-current-buffer original-buffer
                     (key-binding key)))
          (origin-mode (string-trim-right (my/org-capture-get-original-major-mode) "-mode"))
-         ;; Descriptions
+         ;; Descriptions:
+         ;;
          ;; Type
          (command-type (type-of (symbol-function command)))
          ;; Arity
@@ -1111,6 +1112,69 @@ Put your configuration code here"
     )
   )
 
+(defun my/org-keybind-capture-template-find-insertion-headline ()
+  "Move point to the desired location in the target file."
+  ;; 1. Ensure the correct buffer is selected if not already done by file+function
+  ;;    (find-file-noselect "/path/to/file.org") is implicitly handled by file+function
+  ;; 2. Move point to the target headline
+  (goto-char (point-min)) ; Start from the beginning
+
+
+  (org-forward-search-headline "My Target Headline") ; Search for the specific headline
+
+  (if (keybind-starts-with-space) ; condition
+      if-not-keybind-starts-with-space-m-or-M-RET
+    then-form ; then-form
+    else-forms...) ; else-forms...)
+
+
+  (defun my/keybind-is-major-mode-map-okctfih (keybind-string-entered)
+    "Takes the keybind the user entered as input. Returns prefix if the beginning of the keybind matches one of the major mode prefixes. Does *not* check anything else about the keybinding, its function, or mode."
+    (let (prefix-strings ("SPC m" "," "M-RET")))
+
+    (if (keybind-starts-with-space) ; if keybind-string-entered matches
+        if-not-keybind-starts-with-space-m-or-M-RET
+      then-form ; then-form
+      else-forms...) ; else-forms...)
+
+    ;; returns true if prefix string starts with prefix, nil if not
+    (string-prefix-p PREFIX STRING &optional IGNORECASE)
+    (string-prefix-p PREFIX STRING &optional IGNORECASE)
+
+    ;; seq-find returns actual sucessful result
+    ;; seq-find returns the result of the predicate
+    (seq-some pred sequence)
+
+    (seq-some (lambda (x) (> x 2)) [1 2 3 4 5]) ;; Returns 3 (the first element > 2)
+
+    (seq-some (lambda (x) (< x 0)) [1 2 3]) ;; Returns nil (no element is negative)
+
+    ;; find first match
+    (seq-find (lambda (prefix) (and (string-prefix-p prefix keybind-string-entered) prefix)) '(0 2 3)) ;; Returns "found" (first non-nil result)
+    (defun testthis ()
+
+      (let (prefix-strings ("SPC m" "," "M-RET")))
+      (let keybind-string-entered-test "SPC m e c") ;; replace with big func arg
+      (seq-find (lambda (prefix) (string-prefix-p prefix keybind-string-entered-test) prefix-strings))
+      )
+    (testthis)
+    ;; (seq-some (lambda (prefix) (and (string-prefix-p prefix keybind-string-entered) prefix)) '(0 2 3)) ;; Returns "found" (first non-nil result)
+    )
+
+
+  ;; 3. Move point to the end of that headline's subtree to insert *after* it
+  (org-end-of-subtree)
+  ;; The new entry will be inserted here, as a sibling headline or as a child depending on the template type and properties
+  )
+
+(testthis)
+(defun testthis ()
+
+  ;; overcomplicated stuff
+  ;; (string-prefix-p "SPC m" keybind-string-entered-test)
+  ;; (seq-find (lambda (prefix) (string-prefix-p prefix keybind-string-entered-test)) 'prefix-strings)
+  ;; (mapcar #'string-prefix-p )
+  )
 (defun my/org-capture-get-desc ()
   (let*
       (verbal-description (read-string "What the binding does: "))
