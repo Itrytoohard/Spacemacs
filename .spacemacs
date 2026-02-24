@@ -659,7 +659,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 ;;   (insert "\n"))
 ;;   (global-set-key "C-x C-q C-q C-q" 'dotspacemacs/matt-hello-world)
 ;; Starts with non-prefix C
-
+;; USER CONFIG
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
@@ -669,6 +669,7 @@ Put your configuration code here"
   ;; (spacemacs/declare-prefix "oo" "my-menu")
   ;; (spacemacs/set-leader-keys "ms" 'my/convert-clipboard-html-to-org-mac)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "M-p" 'my/convert-clipboard-html-to-org-mac)
+
 
   ;; (use-package keycast
   ;;   :commands keycast-mode
