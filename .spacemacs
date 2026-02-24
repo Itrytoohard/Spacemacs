@@ -660,228 +660,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 ;;   (global-set-key "C-x C-q C-q C-q" 'dotspacemacs/matt-hello-world)
 ;; Starts with non-prefix C
 
-
-
-(defun my/fix-smartparens-attitude ()
-
-  ;; Hacky crap that is needed because smartparens decided it was too good
-  ;; to not break crap
-  (require 'smartparens)
-  ;; (defun smartparens-mode () (debug))
-  (with-eval-after-load 'smartparens
-    (defun smartparens-mode (&optional arg)
-      "Redefine to accept the ARG that Spacemacs is trying to pass."
-      (interactive "P")
-      ;; You can leave this empty or call the original logic if needed
-      (message "Smartparens-mode called with arg: %s" arg)))
-  )
-
-;; (defun my/capture-template-helper()
-
-;;   )
-
-;; (my/set-capture-helper)
-;; (defun my/set-capture-helper ()
-;;   ;; set vars for org capture template
-;;   (setq
-;;    ;; my-capture-template-shortcut-key "k"
-;;    my-capture-template-shortcut-name "Keybind"
-;;    capture-template-filepath "~/.emacs.d/org/capture-templates-test.org"
-;;    my-capture-template-format-string "* %^{Title}\\n%?\\nAdded on %U"
-;;    )
-;;   (setq my-capture-template-shortcut-key "k")
-;;   (print my-capture-template-shortcut-key)
-;;   (my/helper "a" "b" capture-template-filepath my-capture-template-format-string)
-;;   )
-
-;; (defun my/helper (key name path format)
-
-;;   (setq org-capture-templates
-;;         ;; Miminum required to use
-;;         '(
-;;           (
-;;            "k" name entry (file path)
-;;            format
-;;            )
-;;           )
-;;         )
-;;   )
-;; ;; (fff ("test"))
-;; (defun fff (string-arg)
-;;  print(string-arg))
-
-(defun my/my-org-meta-return-at-end-of-line-helper ()
-  "Move to end of line before calling `org-meta-return`."
-  (interactive)
-  (end-of-line)
-  (call-interactively 'org-meta-return)
-  )
-
-(defun my/my-org-meta-return-at-end-of-line ()
-  (with-eval-after-load 'org
-    (define-key org-mode-map (kbd "M-RET") 'my/my-org-meta-return-at-end-of-line-helper)
-    )
-  )
-;; correct one
-(defun my/org-capture-key-info-shortcut ()
-  "Prompt for a key sequence and return a string with the key and its command."
-  (let* ((original-buffer (plist-get org-capture-plist :original-buffer))
-         (key (read-key-sequence "Press key sequence: "))
-         (verbal-description (read-string "What the binding does: "))
-         (key-desc (key-description key))
-         ;; (command (key-binding key))
-         (command (with-current-buffer original-buffer
-                    (key-binding key)))
-         (origin-mode (string-trim-right (my/org-capture-get-original-major-mode) "-mode"))
-         ;; Descriptions
-         ;; Type
-         (command-type (type-of (symbol-function command)))
-         ;; Arity
-         (command-arity (func-arity command))
-         ;; Docstring
-         (command-docstring (documentation command))
-         )
-    ;; (format "Key: ~%s~\nDescription: %s\nCommand: %s"
-    ;;         key-desc
-    ;;         verbal-description
-    ;;         (or command "Not bound"))
-
-    ;; First Part (Dont mess with)
-    (format "* ~%s~ | %s | Mode: %s\nFunction Called: %s \nMode called from: %s\n** Function Info: \nType: %s\nArity: %s\n** Docstring: %s\n\nSTART_TOKEN"
-            key-desc
-            verbal-description
-            (or origin-mode "No Mode Data")
-            (or command "No command")
-            (or origin-mode "No Mode Data")
-            (or command-type "No Type")
-            (or command-arity "No Arity")
-            (or command-docstring "No docstring")
-            )
-    )
-  )
-
-(defun my/org-capture-get-desc ()
-  (let*
-      (verbal-description (read-string "What the binding does: "))
-    (format "%s" verbal-description)
-    )
-  )
-
-(defun my/my-org-capture-finisher ()
-  "Prompt for text and replace content between START_TOKEN and END_TOKEN."
-  (save-excursion
-    (goto-char (point-min))
-    ;; The regex looks for: START_TOKEN + anything (minimal) + END_TOKEN
-    (while (re-search-forward "START_TOKEN\\(.*?\\)END_TOKEN" nil t)
-      (let* ((old-content (match-string 1)) ;; Optional: grabs the text currently there
-             (new-text (read-string (format "Replace '%s' with: " old-content))))
-        (replace-match new-text t t nil 1)))))
-
-
-(defun my/rawr ()
-  "get key sequence before doing anything else"
-  ;; get key first
-  (let* (key-desc (key-description (read-key-sequence "Press key sequence: ")))
-    (format "* ~%s~ | " key-desc))
-  )
-
-
-;; Find and replace from before
-;; if starts with <SPC> and !<SPC m> -> global command
-;; if starts with <,> OR <M-RET> OR <SPC m> -> major mode command
-
-(defun my/org-capture-get-original-major-mode ()
-  "Return the symbol name of the major mode of the buffer
-from which org-capture was called."
-  (let* ((buffer (org-capture-get :original-buffer))
-         (major-mode-symbol (with-current-buffer buffer major-mode)))
-    (symbol-name major-mode-symbol)))
-
-(defun my/get-function-info (command)
-  "Retrieve and display information about a function by its name (a symbol)."
-  (interactive "SFunction name: ") ; Makes the function interactive, prompting for a symbol
-  (let* ((func (symbol-function command))
-         (doc-string (documentation command))
-         (arity-info (func-arity command)))
-    (format "Captured in Mode: %s\n" my/org-capture-get-original-major-mode)
-    (format "Information for %s:\n" command)
-    (format "  Type: %s\n" (type-of func))
-    (format "  Arity: %S\n" arity-info)
-    (format "  Documentation:\n%s\n" doc-string)
-    ;; You can add more checks, e.g., to find the source file location
-    (message (format "Captured in Mode: %s\n\nInformation for %s:\n  Type: %s\n  Arity: %S\n  Documentation:\n%s\n" my/org-capture-get-original-major-mode command (type-of func) arity-info doc-string))))
-
-;; Make insert line above and below macro
-
-(defun my/enable-keyfreq-settings ()
-  (require 'keyfreq)
-  (keyfreq-mode 1)
-  (keyfreq-autosave-mode 1)
-  )
-
-(defun my/custom-which-key-text()
-  (my/custom-which-key-prefix-text)
-  )
-
-(defun my/custom-which-key-prefix-text()
-  (my/custom-which-key-mode-specific-prefix-text)
-  (spacemacs/declare-prefix "o" "My Tools")
-  )
-
-(defun my/custom-which-key-mode-specific-prefix-text()
-  (spacemacs/declare-prefix-for-mode 'org-mode "m b" "Babel Actions")
-  )
-
-
-(defun my/set-keybindings-master-func ()
-  (my/set-major-mode-keybindings)
-  (my/set-global-keybindings)
-  )
-
-(defun my/set-major-mode-keybindings ()
-  ;; Set Customize GUI button "Apply & Save" to <SPC m s> (From C-x C-s)
-  (spacemacs/set-leader-keys-for-major-mode 'Custom-mode "a" 'Custom-save)
-  )
-
-(defun my/set-global-keybindings ()
-  ;; Set Tab Left & Right to <SPC T h> (left) and <SPC T l> (right)
-  (spacemacs/set-leader-keys "Th" 'tab-bar-switch-to-prev-tab)
-  (spacemacs/set-leader-keys "Tl" 'tab-bar-switch-to-next-tab)
-
-  ;; I don't remember what this does exactly. It was in user-config
-  ;; Might want to insert  "my/"  at the beginning of this.
-  (spacemacs/set-leader-keys "of" 'my-org-function-description-insert)
-  )
-
-(defun my/convert-clipboard-html-to-org-mac ()
-  "Import HTML from clipboard as org syntax on macOS."
-  (interactive)
-  (let* ((html (shell-command-to-string "osascript -e 'the clipboard as \"HTML\"' | perl -ne 'print chr foreach unpack(\"C*\",pack(\"H*\",substr($_,11,-3)))\'")))
-    (insert (shell-command-to-string (format "echo %s | pandoc -f html -t org" (shell-quote-argument html))))))
-
-(defun my/convert-clipboard-html-to-org-mac ()
-  "Paste HTML from clipboard as Org-mode formatted text.
-   Requires 'pandoc' to be installed."
-  (interactive)
-  (let* ((script "osascript -e 'get the clipboard as «class HTML»' | perl -ne 'print chr foreach unpack(\"C*\",pack(\"H*\",substr($_,11,-3)))'")
-         (html (shell-command-to-string script)))
-    (if (string-match-p "execution error" html)
-        (progn
-          (message "No HTML in clipboard; performing standard yank.")
-          (yank))
-      (insert (shell-command-to-string
-               (format "echo %s | pandoc -f html -t org"
-                       (shell-quote-argument html)))))))
-
-;; Commented out when not using Consult
-;; (defun my-consult-no-preview-help (orig-fun &rest args)
-;;   "Disable preview for *Help* buffers in consult."
-;;   (let* ((buffer (cadr args))
-;;          (buffer-name (if (bufferp buffer) (buffer-name buffer) "")))
-;;     (if (string-match-p "^\\*Help\\*$" buffer-name)
-;;         (apply orig-fun (car args) nil (cddr args)) ; Call with no-preview (nil)
-;;       (apply orig-fun args)))) ; Normal preview
-
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
 This function is called at the very end of Spacemacs startup, after layer
@@ -1218,6 +996,227 @@ Put your configuration code here"
   ;; (setq prefix-help-command #'embark-prefix-help-command)
 
   )
+
+(defun my/fix-smartparens-attitude ()
+
+  ;; Hacky crap that is needed because smartparens decided it was too good
+  ;; to not break crap
+  (require 'smartparens)
+  ;; (defun smartparens-mode () (debug))
+  (with-eval-after-load 'smartparens
+    (defun smartparens-mode (&optional arg)
+      "Redefine to accept the ARG that Spacemacs is trying to pass."
+      (interactive "P")
+      ;; You can leave this empty or call the original logic if needed
+      (message "Smartparens-mode called with arg: %s" arg)))
+  )
+
+;; (defun my/capture-template-helper()
+
+;;   )
+
+;; (my/set-capture-helper)
+;; (defun my/set-capture-helper ()
+;;   ;; set vars for org capture template
+;;   (setq
+;;    ;; my-capture-template-shortcut-key "k"
+;;    my-capture-template-shortcut-name "Keybind"
+;;    capture-template-filepath "~/.emacs.d/org/capture-templates-test.org"
+;;    my-capture-template-format-string "* %^{Title}\\n%?\\nAdded on %U"
+;;    )
+;;   (setq my-capture-template-shortcut-key "k")
+;;   (print my-capture-template-shortcut-key)
+;;   (my/helper "a" "b" capture-template-filepath my-capture-template-format-string)
+;;   )
+
+;; (defun my/helper (key name path format)
+
+;;   (setq org-capture-templates
+;;         ;; Miminum required to use
+;;         '(
+;;           (
+;;            "k" name entry (file path)
+;;            format
+;;            )
+;;           )
+;;         )
+;;   )
+;; ;; (fff ("test"))
+;; (defun fff (string-arg)
+;;  print(string-arg))
+
+(defun my/my-org-meta-return-at-end-of-line-helper ()
+  "Move to end of line before calling `org-meta-return`."
+  (interactive)
+  (end-of-line)
+  (call-interactively 'org-meta-return)
+  )
+
+(defun my/my-org-meta-return-at-end-of-line ()
+  (with-eval-after-load 'org
+    (define-key org-mode-map (kbd "M-RET") 'my/my-org-meta-return-at-end-of-line-helper)
+    )
+  )
+;; correct one
+(defun my/org-capture-key-info-shortcut ()
+  "Prompt for a key sequence and return a string with the key and its command."
+  (let* ((original-buffer (plist-get org-capture-plist :original-buffer))
+         (key (read-key-sequence "Press key sequence: "))
+         (verbal-description (read-string "What the binding does: "))
+         (key-desc (key-description key))
+         ;; (command (key-binding key))
+         (command (with-current-buffer original-buffer
+                    (key-binding key)))
+         (origin-mode (string-trim-right (my/org-capture-get-original-major-mode) "-mode"))
+         ;; Descriptions
+         ;; Type
+         (command-type (type-of (symbol-function command)))
+         ;; Arity
+         (command-arity (func-arity command))
+         ;; Docstring
+         (command-docstring (documentation command))
+         )
+    ;; (format "Key: ~%s~\nDescription: %s\nCommand: %s"
+    ;;         key-desc
+    ;;         verbal-description
+    ;;         (or command "Not bound"))
+
+    ;; First Part (Dont mess with)
+    (format "* ~%s~ | %s | Mode: %s\nFunction Called: %s \nMode called from: %s\n** Function Info: \nType: %s\nArity: %s\n** Docstring: %s\n\nSTART_TOKEN"
+            key-desc
+            verbal-description
+            (or origin-mode "No Mode Data")
+            (or command "No command")
+            (or origin-mode "No Mode Data")
+            (or command-type "No Type")
+            (or command-arity "No Arity")
+            (or command-docstring "No docstring")
+            )
+    )
+  )
+
+(defun my/org-capture-get-desc ()
+  (let*
+      (verbal-description (read-string "What the binding does: "))
+    (format "%s" verbal-description)
+    )
+  )
+
+(defun my/my-org-capture-finisher ()
+  "Prompt for text and replace content between START_TOKEN and END_TOKEN."
+  (save-excursion
+    (goto-char (point-min))
+    ;; The regex looks for: START_TOKEN + anything (minimal) + END_TOKEN
+    (while (re-search-forward "START_TOKEN\\(.*?\\)END_TOKEN" nil t)
+      (let* ((old-content (match-string 1)) ;; Optional: grabs the text currently there
+             (new-text (read-string (format "Replace '%s' with: " old-content))))
+        (replace-match new-text t t nil 1)))))
+
+
+(defun my/rawr ()
+  "get key sequence before doing anything else"
+  ;; get key first
+  (let* (key-desc (key-description (read-key-sequence "Press key sequence: ")))
+    (format "* ~%s~ | " key-desc))
+  )
+
+
+;; Find and replace from before
+;; if starts with <SPC> and !<SPC m> -> global command
+;; if starts with <,> OR <M-RET> OR <SPC m> -> major mode command
+
+(defun my/org-capture-get-original-major-mode ()
+  "Return the symbol name of the major mode of the buffer
+from which org-capture was called."
+  (let* ((buffer (org-capture-get :original-buffer))
+         (major-mode-symbol (with-current-buffer buffer major-mode)))
+    (symbol-name major-mode-symbol)))
+
+(defun my/get-function-info (command)
+  "Retrieve and display information about a function by its name (a symbol)."
+  (interactive "SFunction name: ") ; Makes the function interactive, prompting for a symbol
+  (let* ((func (symbol-function command))
+         (doc-string (documentation command))
+         (arity-info (func-arity command)))
+    (format "Captured in Mode: %s\n" my/org-capture-get-original-major-mode)
+    (format "Information for %s:\n" command)
+    (format "  Type: %s\n" (type-of func))
+    (format "  Arity: %S\n" arity-info)
+    (format "  Documentation:\n%s\n" doc-string)
+    ;; You can add more checks, e.g., to find the source file location
+    (message (format "Captured in Mode: %s\n\nInformation for %s:\n  Type: %s\n  Arity: %S\n  Documentation:\n%s\n" my/org-capture-get-original-major-mode command (type-of func) arity-info doc-string))))
+
+;; Make insert line above and below macro
+
+(defun my/enable-keyfreq-settings ()
+  (require 'keyfreq)
+  (keyfreq-mode 1)
+  (keyfreq-autosave-mode 1)
+  )
+
+(defun my/custom-which-key-text()
+  (my/custom-which-key-prefix-text)
+  )
+
+(defun my/custom-which-key-prefix-text()
+  (my/custom-which-key-mode-specific-prefix-text)
+  (spacemacs/declare-prefix "o" "My Tools")
+  )
+
+(defun my/custom-which-key-mode-specific-prefix-text()
+  (spacemacs/declare-prefix-for-mode 'org-mode "m b" "Babel Actions")
+  )
+
+
+(defun my/set-keybindings-master-func ()
+  (my/set-major-mode-keybindings)
+  (my/set-global-keybindings)
+  )
+
+(defun my/set-major-mode-keybindings ()
+  ;; Set Customize GUI button "Apply & Save" to <SPC m s> (From C-x C-s)
+  (spacemacs/set-leader-keys-for-major-mode 'Custom-mode "a" 'Custom-save)
+  )
+
+(defun my/set-global-keybindings ()
+  ;; Set Tab Left & Right to <SPC T h> (left) and <SPC T l> (right)
+  (spacemacs/set-leader-keys "Th" 'tab-bar-switch-to-prev-tab)
+  (spacemacs/set-leader-keys "Tl" 'tab-bar-switch-to-next-tab)
+
+  ;; I don't remember what this does exactly. It was in user-config
+  ;; Might want to insert  "my/"  at the beginning of this.
+  (spacemacs/set-leader-keys "of" 'my-org-function-description-insert)
+  )
+
+(defun my/convert-clipboard-html-to-org-mac ()
+  "Import HTML from clipboard as org syntax on macOS."
+  (interactive)
+  (let* ((html (shell-command-to-string "osascript -e 'the clipboard as \"HTML\"' | perl -ne 'print chr foreach unpack(\"C*\",pack(\"H*\",substr($_,11,-3)))\'")))
+    (insert (shell-command-to-string (format "echo %s | pandoc -f html -t org" (shell-quote-argument html))))))
+
+(defun my/convert-clipboard-html-to-org-mac ()
+  "Paste HTML from clipboard as Org-mode formatted text.
+   Requires 'pandoc' to be installed."
+  (interactive)
+  (let* ((script "osascript -e 'get the clipboard as «class HTML»' | perl -ne 'print chr foreach unpack(\"C*\",pack(\"H*\",substr($_,11,-3)))'")
+         (html (shell-command-to-string script)))
+    (if (string-match-p "execution error" html)
+        (progn
+          (message "No HTML in clipboard; performing standard yank.")
+          (yank))
+      (insert (shell-command-to-string
+               (format "echo %s | pandoc -f html -t org"
+                       (shell-quote-argument html)))))))
+
+;; Commented out when not using Consult
+;; (defun my-consult-no-preview-help (orig-fun &rest args)
+;;   "Disable preview for *Help* buffers in consult."
+;;   (let* ((buffer (cadr args))
+;;          (buffer-name (if (bufferp buffer) (buffer-name buffer) "")))
+;;     (if (string-match-p "^\\*Help\\*$" buffer-name)
+;;         (apply orig-fun (car args) nil (cddr args)) ; Call with no-preview (nil)
+;;       (apply orig-fun args)))) ; Normal preview
+
 
 (defun my/my-org-function-description-insert (function-name)
   "Insert the documentation for FUNCTION-NAME into the current buffer
