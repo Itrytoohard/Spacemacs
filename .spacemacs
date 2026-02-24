@@ -85,7 +85,7 @@ This function should only modify configuration layer settings."
      git
      helm
      html
-     ;; lsp ;; should probably enable this to see if it does anything different
+     lsp ;; should probably enable this to see if it does anything different
      (markdown :variables
                ;; markdown-command "pandoc"
                ;; markdown-live-preview-engine 'pandoc
@@ -1322,25 +1322,25 @@ This function is called at the very end of Spacemacs initialization."
          golden-ratio google-translate gotham-theme grandshell-theme
          gruber-darker-theme gruvbox-theme haml-mode hc-zenburn-theme helm-ag
          helm-c-yasnippet helm-comint helm-company helm-css-scss helm-descbinds
-         helm-ls-git helm-make helm-mode-manager helm-org helm-org-rifle
+         helm-ls-git helm-lsp helm-make helm-mode-manager helm-org helm-org-rifle
          helm-projectile helm-purpose helm-swoop helm-xref hemisu-theme
          heroku-theme hide-comnt highlight-indentation highlight-numbers
          highlight-parentheses hl-todo holy-mode htmlize hungry-delete hybrid-mode
          impatient-mode indent-guide inf-ruby info+ inkpot-theme inspector
          ir-black-theme ivy jazz-theme jbeans-theme kaolin-themes key-chord
          keycast keyfreq launchctl light-soap-theme link-hint llama log4e
-         lorem-ipsum lsp-docker lsp-mode lsp-treemacs lush-theme macrostep
-         madhat2r-theme magit magit-section marginalia markdown-mode markdown-toc
-         material-theme memoize minimal-theme minitest modus-themes moe-theme
-         molokai-theme monochrome-theme monokai-theme multi-line multi-term
-         multi-vterm mustang-theme nameless naquadah-theme nerd-icons
-         noctilux-theme obsidian-theme occidental-theme oldlace-theme
+         lorem-ipsum lsp-docker lsp-mode lsp-origami lsp-treemacs lsp-ui
+         lush-theme macrostep madhat2r-theme magit magit-section marginalia
+         markdown-mode markdown-toc material-theme memoize minimal-theme minitest
+         modus-themes moe-theme molokai-theme monochrome-theme monokai-theme
+         multi-line multi-term multi-vterm mustang-theme nameless naquadah-theme
+         nerd-icons noctilux-theme obsidian-theme occidental-theme oldlace-theme
          omtose-phellack-themes open-junk-file orderless org org-category-capture
          org-cliplink org-contrib org-download org-mime org-pomodoro org-present
          org-project-capture org-projectile org-rich-yank org-superstar
-         organic-green-theme orgit orgit-forge osx-clipboard osx-dictionary
-         osx-trash overseer ox-pandoc package-lint page-break-lines pandoc-mode
-         paradox password-generator pcre2el phoenix-dark-mono-theme
+         organic-green-theme orgit orgit-forge origami osx-clipboard
+         osx-dictionary osx-trash overseer ox-pandoc package-lint page-break-lines
+         pandoc-mode paradox password-generator pcre2el phoenix-dark-mono-theme
          phoenix-dark-pink-theme planet-theme popwin pos-tip prettier-js
          professional-theme pug-mode purple-haze-theme quickrun railscasts-theme
          rainbow-delimiters rake rbenv rebecca-theme restart-emacs
