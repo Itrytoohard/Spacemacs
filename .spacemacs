@@ -1169,12 +1169,27 @@ Put your configuration code here"
 
 (testthis)
 (defun testthis ()
+  ;; '("SPC m" "," "M-RET") ; This is a list of strings
+  (setq prefix-strings '("SPC m" "," "M-RET"))
+  (setq keybind-string-entered-test "SPC c") ;; replace with big func arg
+  (find-matching-prefix keybind-string-entered-test prefix-strings)
 
   ;; overcomplicated stuff
   ;; (string-prefix-p "SPC m" keybind-string-entered-test)
   ;; (seq-find (lambda (prefix) (string-prefix-p prefix keybind-string-entered-test)) 'prefix-strings)
   ;; (mapcar #'string-prefix-p )
   )
+
+(defun find-matching-prefix (string prefixes)
+  "Return the first prefix from the list PREFIXES that STRING starts with.
+Return nil if no prefix matches."
+  (catch 'matched
+    (dolist (prefix prefixes)
+      (when (string-prefix-p prefix string)
+        (throw 'matched prefix)))
+    nil)
+  )
+
 (defun my/org-capture-get-desc ()
   (let*
       (verbal-description (read-string "What the binding does: "))
