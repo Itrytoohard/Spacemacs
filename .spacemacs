@@ -1132,15 +1132,42 @@ Put your configuration code here"
     "Takes the keybind the user entered as input. Returns prefix if the beginning of the keybind matches one of the major mode prefixes. Does *not* check anything else about the keybinding, its function, or mode."
     (let (prefix-strings ("SPC m" "," "C-c" "M-RET")))
 
-    ;; Steps:
+    ;;-------------Steps:----------------------------------------------------
     ;; 1. Set list of prefix strings for major mode bindings
     ;; 2. Check if any prefix matches
 
-    ;; Logic:
+
+
+
+
+    ;;-----Global Binding Conventions:---------------------------------------
+    ;; 1. SPC !m - Spacemacs - All Global Commands
+    ;; 2. C-x    - Emacs     - Essential Commands
+    ;; 3. C-h    - Emacs     - Help Commands
+    ;; 4. SPC h  - Spacemacs - Help Commands
+    ;; 5. SPC u  - Spacemacs - Universal Argument Commands
+    ;;
+    ;;-----User Defined Global Binding Conventions:--------------------------
+    ;; 1. C-c <up/lower-letter> - Emacs
+    ;; 2. SPC o <!m>            - Spacemacs
+    ;;-----Major Mode Binding Conventions------------------------------------
+    ;; 1. 'SPC m'      - Spacemacs
+    ;; 2. ','          - Spacemacs
+    ;; 3. 'M-RET'      - Spacemacs
+    ;; 4. 'C-c [0-9]'  - Emacs
+    ;; 5. 'C-c C-<any> - Emacs
+    ;;-----Minor Mode Binding Conventions------------------------------------
+    ;; 1. C-c <ASCII punctuation> - Emacs
+    ;; 2. C-c <symbol>            - Emacs
+    ;; 3. any                     - Spacemacs
+    ;;-----------------------------------------------------------------------
+
+
+    ;;-----Logic:------------------------------------------------------------
     ;; If 'SPC m' ',' 'C-c' or 'M-RET', relevance = major mode
     ;; If SPC Prefix: relevance = global
     ;; If not 'SPC' 'SPC m' ',' 'C-c' or 'M-RET'
-
+    ;;-----------------------------------------------------------------------
 
 
 
