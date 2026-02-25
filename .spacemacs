@@ -1190,6 +1190,7 @@ Put your configuration code here"
   )
 
 (defun testthis ()
+  "Test function for string prefix matching. Delete Later"
   ;; '("SPC m" "," "M-RET") ; This is a list of strings
   (setq prefix-strings '("SPC m" "," "C-c" "M-RET"))
   (setq keybind-string-entered-test "SPC c") ;; replace with big func arg
@@ -1202,7 +1203,7 @@ Put your configuration code here"
   )
 
 (defun get-matching-key-prefix (prefix-string-list keybinding-string-entered)
-  "Returns the first prefix from `prefix-string-list' that matches the entered keybindings. Returns nil if none match."
+  "Returns the first prefix from `prefix-string-list' that matches the entered keybindings. Returns nil if none match. Redundant. Delete Later"
   (get-matching-prefix keybind-string-entered prefix-string-list)
   )
 
