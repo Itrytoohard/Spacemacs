@@ -1189,6 +1189,16 @@ Put your configuration code here"
   ;; The new entry will be inserted here, as a sibling headline or as a child depending on the template type and properties
   )
 
+(defun get-matching-prefix (string prefix-list)
+  "Return the first prefix from the list PREFIX-LIST that STRING starts with.
+Return nil if no prefix matches."
+  (catch 'matched
+    (dolist (prefix prefix-list)
+      (when (string-prefix-p prefix string)
+        (throw 'matched prefix)))
+    nil)
+  )
+
 (defun testthis ()
   "Test function for string prefix matching. Delete Later"
   ;; '("SPC m" "," "M-RET") ; This is a list of strings
@@ -1207,15 +1217,6 @@ Put your configuration code here"
   (get-matching-prefix keybind-string-entered prefix-string-list)
   )
 
-(defun get-matching-prefix (string prefix-list)
-  "Return the first prefix from the list PREFIX-LIST that STRING starts with.
-Return nil if no prefix matches."
-  (catch 'matched
-    (dolist (prefix prefix-list)
-      (when (string-prefix-p prefix string)
-        (throw 'matched prefix)))
-    nil)
-  )
 
 (defun delete-this-TODO ()
 
