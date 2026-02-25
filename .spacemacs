@@ -1130,15 +1130,6 @@ Put your configuration code here"
 
   (defun my/keybind-is-major-mode-map-okctfih (keybind-string-entered)
     "Takes the keybind the user entered as input. Returns prefix if the beginning of the keybind matches one of the major mode prefixes. Does *not* check anything else about the keybinding, its function, or mode."
-    (let (prefix-strings ("SPC m" "," "C-c" "M-RET")))
-
-    ;;-------------Steps:----------------------------------------------------
-    ;; 1. Set list of prefix strings for major mode bindings
-    ;; 2. Check if any prefix matches
-
-
-
-
 
     ;;-----Global Binding Conventions:---------------------------------------
     ;; 1. SPC !m - Spacemacs - All Global Commands
@@ -1170,6 +1161,12 @@ Put your configuration code here"
     ;;-----------------------------------------------------------------------
 
 
+    (let (prefix-strings ("SPC m" "," "C-c" "M-RET")))
+
+    ;;-------------Steps:----------------------------------------------------
+    ;; 1. Set list of prefix strings for major mode bindings
+    ;; 2. Check if any prefix matches
+    ;;-----------------------------------------------------------------------
 
 
 
