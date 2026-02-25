@@ -1132,6 +1132,22 @@ Put your configuration code here"
     "Takes the keybind the user entered as input. Returns prefix if the beginning of the keybind matches one of the major mode prefixes. Does *not* check anything else about the keybinding, its function, or mode."
     (let (prefix-strings ("SPC m" "," "C-c" "M-RET")))
 
+    ;; Steps:
+    ;; 1. Set list of prefix strings for major mode bindings
+    ;; 2. Check if any prefix matches
+
+    ;; Logic:
+    ;; If 'SPC m' ',' 'C-c' or 'M-RET', relevance = major mode
+    ;; If SPC Prefix: relevance = global
+    ;; If not 'SPC' 'SPC m' ',' 'C-c' or 'M-RET'
+
+
+
+
+
+
+
+
 
     (if (keybind-starts-with-space) ; if keybind-string-entered matches
         if-not-keybind-starts-with-space-m-or-M-RET
