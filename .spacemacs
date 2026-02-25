@@ -1077,6 +1077,7 @@ Put your configuration code here"
 (defun my/org-capture-key-info-shortcut ()
   "Prompt for a key sequence and return a string with the key and its command."
   (let* ((original-buffer (plist-get org-capture-plist :original-buffer))
+         ;; get key from here 02-24-2026
          (key (read-key-sequence "Press key sequence: "))
          (verbal-description (read-string "What the binding does: "))
          (key-desc (key-description key))
@@ -1140,7 +1141,8 @@ Put your configuration code here"
     ;;
     ;;-----User Defined Global Binding Conventions:--------------------------
     ;; 1. C-c <up/lower-letter> - Emacs
-    ;; 2. SPC o <!m>            - Spacemacs
+    ;; 2. SPC o m               - Spacemacs - User Major Mode Bindings
+    ;; 2. SPC o <!m>            - Spacemacs - User Global Bindings
     ;;-----Major Mode Binding Conventions------------------------------------
     ;; 1. 'SPC m'      - Spacemacs
     ;; 2. ','          - Spacemacs
@@ -1160,14 +1162,34 @@ Put your configuration code here"
     ;; If not 'SPC' 'SPC m' ',' 'C-c' or 'M-RET'
     ;;-----------------------------------------------------------------------
 
+    ;; Create String Lists for Variables
+    ;; User Prefix Strings == Check first - easiest rules.
+    ;; (let (user-prefix-strings ("SPC m o")))
 
-    (let (prefix-strings ("SPC m" "," "C-c" "M-RET")))
+    ;; Major Mode Prefix Strings
+    ;; returns the last value. Yeah, I have no idea either.
+    (let ((prefix-strings (list "SPC m" "," "C-c" "M-RET"))
+          (test2 (list "one" "two")))
+      (print prefix-strings)
+      (print test2)
+      "let finished")
+
+    (let (()))
+
+    (let ((prefix-strings (list "test1" "test2" "string3" "string4")))
+      (format "prefix-strings: %s" prefix-strings)
+      )
+    ;; Global Prefix Strings
+
 
     ;;-------------Steps:----------------------------------------------------
     ;; 1. Set list of prefix strings for major mode bindings
     ;; 2. Check if any prefix matches
     ;;-----------------------------------------------------------------------
 
+    (let ((prefix-strings (list "test1" "test2" "string" "string")))
+      (format "%s" prefix-strings))
+    ;; Returns: "(\"test1\" \"test2\" \"string\" \"string\")"
 
 
 
