@@ -1189,12 +1189,11 @@ Put your configuration code here"
   ;; The new entry will be inserted here, as a sibling headline or as a child depending on the template type and properties
   )
 
-(testthis)
 (defun testthis ()
   ;; '("SPC m" "," "M-RET") ; This is a list of strings
   (setq prefix-strings '("SPC m" "," "C-c" "M-RET"))
   (setq keybind-string-entered-test "SPC c") ;; replace with big func arg
-  (find-matching-prefix keybind-string-entered-test prefix-strings)
+  (get-matching-prefix keybind-string-entered-test prefix-strings)
 
   ;; overcomplicated stuff
   ;; (string-prefix-p "SPC m" keybind-string-entered-test)
@@ -1202,8 +1201,11 @@ Put your configuration code here"
   ;; (mapcar #'string-prefix-p )
   )
 
-(defun find-matching-prefix (string prefixes)
-  "Return the first prefix from the list PREFIXES that STRING starts with.
+(defun get-matching-key-prefix (prefix-string-list keybinding-string-entered)
+  "Returns the first prefix from `prefix-string-list' that matches the entered keybindings. Returns nil if none match."
+  (get-matching-prefix keybind-string-entered prefix-string-list)
+  )
+
 Return nil if no prefix matches."
   (catch 'matched
     (dolist (prefix prefixes)
