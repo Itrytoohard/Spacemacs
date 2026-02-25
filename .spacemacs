@@ -1380,6 +1380,7 @@ from which org-capture was called."
   ;; I don't remember what this does exactly. It was in user-config
   ;; Might want to insert  "my/"  at the beginning of this.
   (spacemacs/set-leader-keys "of" 'my-org-function-description-insert)
+  (spacemacs/set-leader-keys "om" 'eval-current-form-sp-at-mark-m)
   )
 
 (defun my/convert-clipboard-html-to-org-mac ()
