@@ -1206,9 +1206,11 @@ Put your configuration code here"
   (get-matching-prefix keybind-string-entered prefix-string-list)
   )
 
+(defun get-matching-prefix (string prefix-list)
+  "Return the first prefix from the list PREFIX-LIST that STRING starts with.
 Return nil if no prefix matches."
   (catch 'matched
-    (dolist (prefix prefixes)
+    (dolist (prefix prefix-list)
       (when (string-prefix-p prefix string)
         (throw 'matched prefix)))
     nil)
