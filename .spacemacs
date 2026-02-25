@@ -1130,7 +1130,8 @@ Put your configuration code here"
 
   (defun my/keybind-is-major-mode-map-okctfih (keybind-string-entered)
     "Takes the keybind the user entered as input. Returns prefix if the beginning of the keybind matches one of the major mode prefixes. Does *not* check anything else about the keybinding, its function, or mode."
-    (let (prefix-strings ("SPC m" "," "M-RET")))
+    (let (prefix-strings ("SPC m" "," "C-c" "M-RET")))
+
 
     (if (keybind-starts-with-space) ; if keybind-string-entered matches
         if-not-keybind-starts-with-space-m-or-M-RET
@@ -1151,7 +1152,7 @@ Put your configuration code here"
 (testthis)
 (defun testthis ()
   ;; '("SPC m" "," "M-RET") ; This is a list of strings
-  (setq prefix-strings '("SPC m" "," "M-RET"))
+  (setq prefix-strings '("SPC m" "," "C-c" "M-RET"))
   (setq keybind-string-entered-test "SPC c") ;; replace with big func arg
   (find-matching-prefix keybind-string-entered-test prefix-strings)
 
