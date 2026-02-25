@@ -1211,6 +1211,32 @@ Put your configuration code here"
   ;; The new entry will be inserted here, as a sibling headline or as a child depending on the template type and properties
   )
 
+(defun eval-current-form-sp-at-mark-m ()
+  ;; goto mark m
+  (interactive)
+  ;; set marker y to current position
+  (evil-set-marker ?y (point))
+
+  ;; move to marker m
+  (evil-goto-mark ?m)
+  ;; run eval-current-form-sp
+
+  (spacemacs/eval-current-form-sp)
+  ;; It is bound to M-<return> e c and M-m m e c, and many ordinary text characters.
+  ;; (spacemacs/eval-current-form-sp &optional ARG)
+  ;; Call ‘eval-last-sexp’ after moving out of one level of
+  ;; parentheses. Will exit any strings and/or comments first.
+  ;; An optional ARG can be used which is passed to ‘sp-up-sexp’ to move out of more
+  ;; than one sexp.
+  ;; Requires smartparens because all movement is done using ‘sp-up-sexp’.
+  ;; jump back with C-o
+
+  ;; Go back to mark y
+  (evil-goto-mark ?y)
+  ;; (evil-jump-backward) ; This doesn't work because moving to a mark doesn't
+  ;; add old position to jump list
+  )
+
 (defun get-matching-prefix (string prefix-list)
   "Return the first prefix from the list PREFIX-LIST that STRING starts with.
 Return nil if no prefix matches."
