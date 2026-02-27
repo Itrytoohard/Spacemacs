@@ -1580,7 +1580,7 @@ from which org-capture was called."
   (evil-goto-mark ?Y)
   )
 
-;; unused - group 2
+;; Still usable
 (defun my/get-oct-keybind-org-file ()
   "Return path of org capture template keybind file."
   "~/.emacs.d/mytesting/my-capture-tests.org"
