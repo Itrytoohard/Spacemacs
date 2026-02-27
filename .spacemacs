@@ -1345,6 +1345,15 @@ from which org-capture was called."
 (defun my/set-major-mode-keybindings ()
   ;; Set Customize GUI button "Apply & Save" to <SPC m s> (From C-x C-s)
   (spacemacs/set-leader-keys-for-major-mode 'Custom-mode "a" 'Custom-save)
+
+  ;; Eval Elisp without moving all the way down to the function call
+  ;; ~, m~ for current file (using lowercase marks)
+  ;; ~, .~ for across files (Using capital mark)
+  (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode "m" 'eval-current-form-sp-at-mark-m)
+  (spacemacs/set-leader-keys-for-major-mode 'emacs-lisp-mode "." 'eval-current-form-across-files)
+
+  ;; TODO Re-evaluate function that current symbol calls.
+  ;; ~m Y , g g j , e f ` Y~
   )
 
 (defun my/set-global-keybindings ()
