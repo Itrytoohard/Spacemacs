@@ -1204,7 +1204,98 @@ Put your configuration code here"
        )
       )
 
+    (let*
+        ((prefix-strings (list "test1" "test2" "string" "string") )
+         ;;-----Global Binding Conventions:---------------------------------------
+         ;; 1. SPC !m - Spacemacs - All Global Commands
+         (spacemacs-global-leader "SPC")
+         ;; 2. C-x    - Emacs     - Essential Commands
+         (emacs-essentials-leader "C-x")
+         ;; 3. C-h    - Emacs     - Help Commands
+         (emacs-help-global-leader "C-h")
+         ;; 4. SPC h  - Spacemacs - Help Commands
+         (spacemacs-help-global-leader "SPC h")
+         ;; 5. SPC u  - Spacemacs - Universal Argument Commands
+         (universal-arg-leader "SPC")
 
+         ;; Set them all to globals
+         (global-leader-list (list
+                              spacemacs-global-leader
+                              emacs-essentials-leader
+                              emacs-help-global-leader
+                              spacemacs-help-global-leader
+                              universal-arg-leader
+                              ) )
+         (prefix-strings (list "test1" "test2" "string" "string") )
+         ;; Output:
+         ;; "
+         ;; (SPC C-x C-h SPC h SPC)
+         ;; "
+
+         ;;-----User Defined Global Binding Conventions:---------------------
+         ;; 1. C-c <up/lower-letter> - Emacs
+         ;; (emacs-user-global)
+         ;; ;; 2. SPC o m               - Spacemacs - User Major Mode Bindings
+         ;; (spacemacs-user-major "SPC o m")
+         ;; ;; 2. SPC o <!m>            - Spacemacs - User Global Bindings
+         ;; (spacemacs-user-global)
+         ;; Don't need these.
+         ;; If I set them they should be useful enough to remember
+         ;;-----Major Mode Binding Conventions-------------------------------
+         ;; 1. 'SPC m'      - Spacemacs
+         (spacemacs-major-prefix-space "SPC m")
+         ;; 2. ','          - Spacemacs
+         (spacemacs-major-prefix-comma ",")
+         ;; 3. 'M-RET'      - Spacemacs
+         (spacemacs-major-prefix-mret "M-RET")
+         ;; 4. 'C-c [0-9]'  - Emacs
+         ;; forget it...jk that was suprisingly easy
+         (emacs-major-prefix-C-c-nums (list "C-c 0" "C-c 1" "C-c 2" "C-c 3" "C-c 4" "C-c 5" "C-c 6" "C-c 7" "C-c 8" "C-c 9" ))
+         ;; 5. 'C-c C-<any> - Emacs
+         (emacs-major-prefix-C-c-C-any "C-c C-")
+
+         (major-leader-list (
+                             append ; appends one list to another
+                             (list
+                              spacemacs-major-prefix-space
+                              spacemacs-major-prefix-comma
+                              spacemacs-major-prefix-mret
+                              emacs-major-prefix-C-c-C-any
+                              )
+                             emacs-major-prefix-C-c-nums
+                             )
+                            )
+
+         ;;------------------------------------------------------------------
+         ;; todo make `formatted-keybind-input'
+         (major-match (get-matching-key-prefix major-leader-list formatted-keybind-input))
+         ;; go through major mode bindings to see if any matches:
+         ;; use `get-matching-key-prefix'
+         (my-x 1)
+
+
+         (cond
+          ((= my-x 1)
+           (message "x is 1"))
+          ((= my-x 2)
+           (message "x is 2"))
+          (t ; The 't' condition acts as a default/else clause
+           (message "x is something else")))
+
+         ) ;; end variable definitions
+      (format
+       "
+%s
+global-leader-list:%s
+major-leader-list:%s
+"
+       prefix-strings
+       global-leader-list
+       (print major-leader-list)
+       )
+      (print "Major Leader List:")
+      (print major-leader-list)
+      "done.")
 
 
     (if (keybind-starts-with-space) ; if keybind-string-entered matches
