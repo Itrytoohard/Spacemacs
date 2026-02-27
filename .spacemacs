@@ -1620,6 +1620,21 @@ Find a headline in the target file that matches the captured description."
               (org-capture-put :target (list 'file+headline target-file desc))
             (message "No matching headline for '%s', using default." desc)))))))
 
+;;
+(defun find-package-from-function (function-name)
+  "Find the package name that FUNCTION-NAME belongs to.
+   Returns nil if the package cannot be determined.
+
+Ex: (find-package-from-function 'helm-descbinds) returns \"helm\"
+"
+  (let* ((file-path (symbol-file function-name))
+         (elpa-dir (file-name-as-directory package-user-dir)))
+    (when (and file-path (string-prefix-p elpa-dir file-path))
+      ;; Path is within the ELPA directory, extract package name
+      (let* ((relative-path (file-relative-name file-path elpa-dir))
+             (package-version-dir (car (split-string relative-path "/"))))
+        ;; Package directory is typically "package-name-version"
+        (car (split-string package-version-dir "-"))))))
 
 
 ;; Do not write anything past this comment. This is where Emacs will
