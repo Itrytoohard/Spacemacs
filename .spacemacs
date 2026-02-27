@@ -1598,34 +1598,28 @@ from which org-capture was called."
 :END:
 %?"
                  :empty-lines 1))
+  ;; Add refile hook
+  ;; (setq test (#'(my/org-capture-place-by-description my-org-cap-template-filepath)))
+  (add-hook 'org-capture-prepare-finalize-hook 'my/org-capture-place-by-description)
   )
 
-(defun my/org-capture-refile-after ()
-  "Prompts for a refile target only for the Keybinding template."
-  ;; (when (string= (org-capture-get :description) "Keybinding") ; Only runs for template "Keybinding"
-
-  ;; replace first line with above if it works
-  (when (string= (org-capture-get :key) "k") ; Only runs for template "k"
-    (org-capture-refile)))
-
-(add-hook 'org-capture-before-finalize-hook #'my/org-capture-refile-after)
-
+;; unused - group 2
 (defun my/org-capture-place-by-description ()
-  "Find a headline in the target file that matches the captured description."
+  "Programmatically determine the location based on the information captured.
+Find a headline in the target file that matches the captured description."
   (when (string= (org-capture-get :key) "k")
     (save-excursion
       (goto-char (point-min))
       ;; Extract the description from the first line: * `key`: Description
       (when (re-search-forward ": \\(.*\\)$" (line-end-position) t)
         (let* ((desc (match-string 1))
-               (target-file (org-capture-get :target-file))
+               (target-file (my/get-oct-keybind-org-file))
                (pos (org-find-exact-headline-in-buffer desc (find-file-noselect target-file))))
           ;; If the headline exists, move the capture there
           (if pos
               (org-capture-put :target (list 'file+headline target-file desc))
             (message "No matching headline for '%s', using default." desc)))))))
 
-(add-hook 'org-capture-prepare-finalize-hook #'my/org-capture-place-by-description)
 
 
 ;; Do not write anything past this comment. This is where Emacs will
