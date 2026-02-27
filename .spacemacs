@@ -1138,7 +1138,6 @@ Put your configuration code here"
     ;; 3. C-h    - Emacs     - Help Commands
     ;; 4. SPC h  - Spacemacs - Help Commands
     ;; 5. SPC u  - Spacemacs - Universal Argument Commands
-    ;;
     ;;-----User Defined Global Binding Conventions:--------------------------
     ;; 1. C-c <up/lower-letter> - Emacs
     ;; 2. SPC o m               - Spacemacs - User Major Mode Bindings
@@ -1191,6 +1190,19 @@ Put your configuration code here"
       (format "%s" prefix-strings))
     ;; Returns: "(\"test1\" \"test2\" \"string\" \"string\")"
 
+    (let (
+          (prefix-strings (list "test1" "test2" "string" "string"))
+          (spacemacs-global-leader "SPC")
+          )
+      (format
+       "
+%s
+%s
+"
+       prefix-strings
+       spacemacs-global-leader
+       )
+      )
 
 
 
