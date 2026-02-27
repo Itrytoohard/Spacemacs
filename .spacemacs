@@ -1580,7 +1580,15 @@ from which org-capture was called."
   (evil-goto-mark ?Y)
   )
 
+;; unused - group 2
+(defun my/get-oct-keybind-org-file ()
+  "Return path of org capture template keybind file."
+  "~/.emacs.d/mytesting/my-capture-tests.org"
+  )
+
+;;unused - group 2
 (defun my-ai-OCT-2 ()
+  "Main function that defines the keybinding capture template =[k]: Keybinding=."
   (setq my-org-cap-template-filepath "~/.emacs.d/mytesting/my-capture-tests.org")
   (add-to-list 'org-capture-templates
                '("k" "Keybinding" entry (file my-org-cap-template-filepath)
