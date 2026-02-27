@@ -1073,7 +1073,8 @@ Put your configuration code here"
     (define-key org-mode-map (kbd "M-RET") 'my/my-org-meta-return-at-end-of-line-helper)
     )
   )
-;; correct one
+
+;; a 1 correct one
 (defun my/org-capture-key-info-shortcut ()
   "Prompt for a key sequence and return a string with the key and its command."
   (let* ((original-buffer (plist-get org-capture-plist :original-buffer))
@@ -1366,7 +1367,7 @@ Return nil if no prefix matches."
   ;; (seq-some (lambda (prefix) (and (string-prefix-p prefix keybind-string-entered) prefix)) '(0 2 3)) ;; Returns "found" (first non-nil result)
   )
 
-
+;; a 2
 (defun my/org-capture-get-desc ()
   (let*
       (verbal-description (read-string "What the binding does: "))
@@ -1374,6 +1375,7 @@ Return nil if no prefix matches."
     )
   )
 
+;; a finish
 (defun my/my-org-capture-finisher ()
   "Prompt for text and replace content between START_TOKEN and END_TOKEN."
   (save-excursion
