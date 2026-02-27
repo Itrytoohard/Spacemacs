@@ -998,7 +998,7 @@ Put your configuration code here"
 
   ;; commented out now that not using embark
   ;; (setq prefix-help-command #'embark-prefix-help-command)
-
+  ;; (my-ai-OCT-2)
   )
 
 (defun my/set-custom-buffer-next-prev-bindings()
@@ -1589,18 +1589,18 @@ from which org-capture was called."
 ;;unused - group 2
 (defun my-ai-OCT-2 ()
   "Main function that defines the keybinding capture template =[k]: Keybinding=."
-  (setq my-org-cap-template-filepath "~/.emacs.d/mytesting/my-capture-tests.org")
-  (add-to-list 'org-capture-templates
-               '("k" "Keybinding" entry (file my-org-cap-template-filepath)
-                 "* `%^{Keybinding}`: %^{Description}
+  (let* (my-org-cap-template-filepath ("~/.emacs.d/mytesting/my-capture-tests.org"))
+    (add-to-list 'org-capture-templates
+                 '("k" "Keybinding" entry (file 'my-org-cap-template-filepath)
+                   "* `%^{Keybinding}`: %^{Description}
 :PROPERTIES:
 :CREATED: %U
 :END:
 %?"
-                 :empty-lines 1))
-  ;; Add refile hook
-  ;; (setq test (#'(my/org-capture-place-by-description my-org-cap-template-filepath)))
-  (add-hook 'org-capture-prepare-finalize-hook 'my/org-capture-place-by-description)
+                   :empty-lines 1))
+    ;; Add refile hook
+    (add-hook 'org-capture-prepare-finalize-hook #'my/org-capture-place-by-description)
+    )
   )
 
 ;; unused - group 2
