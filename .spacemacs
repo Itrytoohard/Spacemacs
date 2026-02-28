@@ -1689,8 +1689,8 @@ This function is called at the very end of Spacemacs initialization."
          consult-yasnippet counsel counsel-css cyberpunk-theme dakrone-theme
          dap-mode darkmine-theme darkokai-theme darktooth-theme deferred
          define-word devdocs diminish dired-quick-sort disable-mouse django-theme
-         doom-themes dotenv-mode dracula-theme drag-stuff dumb-jump eat
-         edit-indirect ef-themes elisp-def elisp-demos elisp-slime-nav emacsql
+         doom-modeline doom-themes dotenv-mode dracula-theme drag-stuff dumb-jump
+         eat edit-indirect ef-themes elisp-def elisp-demos elisp-slime-nav emacsql
          embark embark-consult emmet-mode emojify emr enh-ruby-mode esh-help
          eshell-prompt-extras eshell-z espresso-theme eval-sexp-fu evil-anzu
          evil-args evil-cleverparens evil-collection evil-easymotion evil-escape
@@ -1730,7 +1730,7 @@ This function is called at the very end of Spacemacs initialization."
          rainbow-delimiters rake rbenv rebecca-theme restart-emacs
          reveal-in-osx-finder reverse-theme robe rspec-mode rubocop rubocopfmt
          ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm sass-mode
-         scss-mode seti-theme shell-pop slim-mode smeargle smyx-theme
+         scss-mode seti-theme shell-pop shrink-path slim-mode smeargle smyx-theme
          soft-charcoal-theme soft-morning-theme soft-stone-theme solarized-theme
          soothe-theme space-doc spacegray-theme spaceline spaceline-all-the-icons
          spacemacs-purpose-popwin spacemacs-whitespace-cleanup
@@ -1740,8 +1740,8 @@ This function is called at the very end of Spacemacs initialization."
          terminal-here toc-org toxi-theme transient treemacs-evil
          treemacs-icons-dired treemacs-magit treemacs-persp treemacs-projectile
          treepy twilight-anti-bright-theme twilight-bright-theme twilight-theme
-         ujelly-theme underwater-theme undo-fu-session uuidgen vertico
-         vi-tilde-fringe volatile-highlights vterm vundo web-beautify
+         ujelly-theme underwater-theme undo-fu-session unkillable-scratch uuidgen
+         vertico vi-tilde-fringe volatile-highlights vterm vundo web-beautify
          web-completion-data web-mode wgrep which-key-posframe white-sand-theme
          winum with-editor writeroom-mode ws-butler yaml yaml-mode yasnippet
          zen-and-art-theme zenburn-theme zonokai-emacs))
