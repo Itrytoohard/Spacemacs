@@ -1101,7 +1101,7 @@ Put your configuration code here"
     ;;         (or command "Not bound"))
 
     ;; First Part (Dont mess with)
-    (format "* ~%s~ | %s | Mode: %s\nFunction Called: %s \nMode called from: %s\n** Function Info: \nType: %s\nArity: %s\n** Docstring: %s\n\nSTART_TOKEN"
+    (format "* ~%s~ | %s | Mode: %s\nFunction Called: %s \nMode called from: %s\n** Function Info: \nType: %s\nNumArgs: %s\n** Docstring: %s\n\n"
             key-desc
             verbal-description
             (or origin-mode "No Mode Data")
