@@ -1077,6 +1077,7 @@ Put your configuration code here"
 ;; a 1 correct one
 (defun my/org-capture-key-info-shortcut ()
   "Prompt for a key sequence and return a string with the key and its command."
+  (message "Entering (my/org-capture-key-info-shortcut)")
   (let* ((original-buffer (plist-get org-capture-plist :original-buffer))
          ;; get key from here 02-24-2026
          (key (read-key-sequence "Press key sequence: "))
@@ -1369,6 +1370,7 @@ Return nil if no prefix matches."
 
 ;; a 2
 (defun my/org-capture-get-desc ()
+  (message "entering (my/org-capture-get-desc)")
   (let*
       (verbal-description (read-string "What the binding does: "))
     (format "%s" verbal-description)
@@ -1378,13 +1380,16 @@ Return nil if no prefix matches."
 ;; a finish
 (defun my/my-org-capture-finisher ()
   "Prompt for text and replace content between START_TOKEN and END_TOKEN."
+  (message "entering (my/my-org-capture-finisher)")
   (save-excursion
     (goto-char (point-min))
     ;; The regex looks for: START_TOKEN + anything (minimal) + END_TOKEN
     (while (re-search-forward "START_TOKEN\\(.*?\\)END_TOKEN" nil t)
       (let* ((old-content (match-string 1)) ;; Optional: grabs the text currently there
              (new-text (read-string (format "Replace '%s' with: " old-content))))
-        (replace-match new-text t t nil 1)))))
+        (replace-match new-text t t nil 1))))
+
+  )
 
 
 (defun my/rawr ()
