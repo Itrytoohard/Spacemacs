@@ -668,6 +668,11 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here"
+
+  ;; Try this out sometime:
+  ;; (setq debug-on-message "welcome who")
+
+
   (load-file "/Users/Matt/.emacs.d/myelisps/clipboard-html-to-org-mode.el")
   ;; (spacemacs/declare-prefix "oo" "my-menu")
   ;; (spacemacs/set-leader-keys "ms" 'my/convert-clipboard-html-to-org-mac)
@@ -1115,6 +1120,9 @@ Put your configuration code here"
     )
   )
 
+
+
+
 (defun my/org-keybind-capture-template-find-insertion-headline ()
   "Move point to the desired location in the target file."
   ;; 1. Ensure the correct buffer is selected if not already done by file+function
@@ -1132,7 +1140,13 @@ Put your configuration code here"
 
 
   (defun my/keybind-is-major-mode-map-okctfih (keybind-string-entered)
-    "Takes the keybind the user entered as input. Returns prefix if the beginning of the keybind matches one of the major mode prefixes. Does *not* check anything else about the keybinding, its function, or mode."
+    "Takes the keybind the user entered as input. Returns prefix if the beginning of the keybind matches one of the major mode prefixes. Does *not* check anything else about the keybinding, its function, or mode.
+
+Returns (PREFIX, PREFIX-TYPE)
+
+PREFIX-TYPE is \"Major\", \"Help\", \"Global\", or \"Evil\"
+
+"
 
     ;;-----Global Binding Conventions:---------------------------------------
     ;; 1. SPC !m - Spacemacs - All Global Commands
@@ -1145,6 +1159,7 @@ Put your configuration code here"
     ;; 2. SPC o m               - Spacemacs - User Major Mode Bindings
     ;; 2. SPC o <!m>            - Spacemacs - User Global Bindings
     ;;-----Major Mode Binding Conventions------------------------------------
+
     ;; 1. 'SPC m'      - Spacemacs
     ;; 2. ','          - Spacemacs
     ;; 3. 'M-RET'      - Spacemacs
@@ -1208,9 +1223,8 @@ Put your configuration code here"
 
     (let*
         ((prefix-strings (list "test1" "test2" "string" "string") )
+         (my-string "SPC h SPC")
          ;;-----Global Binding Conventions:---------------------------------------
-         ;; 1. SPC !m - Spacemacs - All Global Commands
-         (spacemacs-global-leader "SPC")
          ;; 2. C-x    - Emacs     - Essential Commands
          (emacs-essentials-leader "C-x")
          ;; 3. C-h    - Emacs     - Help Commands
@@ -1218,11 +1232,16 @@ Put your configuration code here"
          ;; 4. SPC h  - Spacemacs - Help Commands
          (spacemacs-help-global-leader "SPC h")
          ;; 5. SPC u  - Spacemacs - Universal Argument Commands
-         (universal-arg-leader "SPC")
+         (universal-arg-leader "SPC u")
+         ;; 1. SPC !m - Spacemacs - All Global Commands
+         (spacemacs-global-leader "SPC")
 
+         (help-leader-list (list
+                            emacs-help-global-leader
+                            spacemacs-help-global-leader
+                            ) )
          ;; Set them all to globals
          (global-leader-list (list
-                              spacemacs-global-leader
                               emacs-essentials-leader
                               emacs-help-global-leader
                               spacemacs-help-global-leader
@@ -1270,34 +1289,105 @@ Put your configuration code here"
 
          ;;------------------------------------------------------------------
          ;; todo make `formatted-keybind-input'
-         (major-match (get-matching-key-prefix major-leader-list formatted-keybind-input))
+         ;; (major-match (get-matching-key-prefix major-leader-list formatted-keybind-input))
          ;; go through major mode bindings to see if any matches:
          ;; use `get-matching-key-prefix'
          (my-x 1)
 
 
-         (cond
-          ((= my-x 1)
-           (message "x is 1"))
-          ((= my-x 2)
-           (message "x is 2"))
-          (t ; The 't' condition acts as a default/else clause
-           (message "x is something else")))
+         ;; (cond
+         ;;  ((= my-x 1)
+         ;;   (message "x is 1"))
+         ;;  ((= my-x 2)
+         ;;   (message "x is 2"))
+         ;;  (t ; The 't' condition acts as a default/else clause
+         ;;   (message "x is something else")))
 
          ) ;; end variable definitions
       (format
        "
-%s
-global-leader-list:%s
-major-leader-list:%s
+prefix-strings:     %s
+major-leader-list:  %s
+help-leader-list:   %s
+global-leader-list: %s
 "
        prefix-strings
+       major-leader-list
+       help-leader-list
        global-leader-list
-       (print major-leader-list)
+       ;; (print major-leader-list)
        )
-      (print "Major Leader List:")
-      (print major-leader-list)
-      "done.")
+
+      ;; (get-matching-prefix keybind-string-entered )
+      ;; (print "Major Leader List:")
+      ;; (print major-leader-list)
+      ;; (print "Global Leader List:")
+      ;; (print global-leader-list)
+      ;; (debug)
+      ;; RETURN matching prefix string.
+      (prefix-match (seq-find (lambda (prefix)
+                                (string-prefix-p prefix my-string))
+                              (append major-leader-list help-leader-list global-leader-list)))
+
+      ;; 'SPC u , e e' to Debug?
+
+      (cond
+       ;; First clause: check if the variable 'my-var' is not nil
+       ;; Check if there are no matches : EVIL MODE
+       ((null prefix-match)
+        ("Evil Mode"))
+
+       ;; Check if prefix is from major list
+       ((member prefix-match major-leader-list)
+
+        (message "Prefix in Major Leader List")
+
+        )
+
+       ;; Check is prefix is from help list
+       ((member prefix-match help-leader-list)
+
+        (message "Prefix in Help Leader List")
+
+        )
+
+       ;; Second clause (the "if nil, do something"): check if 'my-var' is nil
+       ((member prefix-match global-leader-list)
+
+        (message "Prefix in Global Leader List")
+
+        )
+       ;; A 't' condition acts as a default 'else'
+       (t
+        (message "There was a match but somehow it wasn't in the prefix list")))
+
+
+
+
+
+
+
+      ) ;; run let here
+
+
+
+    ;; PREFIX-TYPE is \"Major\", \"Help\", \"Global\", or \"Evil\"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     (if (keybind-starts-with-space) ; if keybind-string-entered matches
@@ -1315,6 +1405,122 @@ major-leader-list:%s
   (org-end-of-subtree)
   ;; The new entry will be inserted here, as a sibling headline or as a child depending on the template type and properties
   )
+
+(defun testlet ()
+
+  (let*
+      ((prefix-strings (list "test1" "test2" "string" "string") )
+       (my-string "SPC h SPC")
+       ;;-----Global Binding Conventions:---------------------------------------
+       ;; 2. C-x    - Emacs     - Essential Commands
+       (emacs-essentials-leader "C-x")
+       ;; 3. C-h    - Emacs     - Help Commands
+       (emacs-help-global-leader "C-h")
+       ;; 4. SPC h  - Spacemacs - Help Commands
+       (spacemacs-help-global-leader "SPC h")
+       ;; 5. SPC u  - Spacemacs - Universal Argument Commands
+       (universal-arg-leader "SPC u")
+       ;; 1. SPC !m - Spacemacs - All Global Commands
+       (spacemacs-global-leader "SPC")
+
+       (help-leader-list (list
+                          emacs-help-global-leader
+                          spacemacs-help-global-leader
+                          ) )
+       ;; Set them all to globals
+       (global-leader-list (list
+                            emacs-essentials-leader
+                            emacs-help-global-leader
+                            spacemacs-help-global-leader
+                            universal-arg-leader
+                            ) )
+       (prefix-strings (list "test1" "test2" "string" "string") )
+       ;;-----Major Mode Binding Conventions-------------------------------
+       ;; 1. 'SPC m'      - Spacemacs
+       (spacemacs-major-prefix-space "SPC m")
+       ;; 2. ','          - Spacemacs
+       (spacemacs-major-prefix-comma ",")
+       ;; 3. 'M-RET'      - Spacemacs
+       (spacemacs-major-prefix-mret "M-RET")
+       ;; 4. 'C-c [0-9]'  - Emacs
+       ;; forget it...jk that was suprisingly easy
+       (emacs-major-prefix-C-c-nums (list "C-c 0" "C-c 1" "C-c 2" "C-c 3" "C-c 4" "C-c 5" "C-c 6" "C-c 7" "C-c 8" "C-c 9" ))
+       ;; 5. 'C-c C-<any> - Emacs
+       (emacs-major-prefix-C-c-C-any "C-c C-")
+
+       (major-leader-list (
+                           append ; appends one list to another
+                           (list
+                            spacemacs-major-prefix-space
+                            spacemacs-major-prefix-comma
+                            spacemacs-major-prefix-mret
+                            emacs-major-prefix-C-c-C-any
+                            )
+                           emacs-major-prefix-C-c-nums
+                           )
+                          )
+
+
+       ) ;; end variable definitions
+    (format
+     "
+prefix-strings:     %s
+major-leader-list:  %s
+help-leader-list:   %s
+global-leader-list: %s
+"
+     prefix-strings
+     major-leader-list
+     help-leader-list
+     global-leader-list
+     ;; (print major-leader-list)
+     )
+
+    ;; (get-matching-prefix keybind-string-entered )
+    ;; (print "Major Leader List:")
+    ;; (print major-leader-list)
+    ;; (print "Global Leader List:")
+    ;; (print global-leader-list)
+    (debug)
+    ;; RETURN matching prefix string.
+    (prefix-match (seq-find (lambda (prefix)
+                              (string-prefix-p prefix my-string))
+                            (append major-leader-list help-leader-list global-leader-list)))
+
+    ;; 'SPC u , e e' to Debug?
+
+    (cond
+     ;; First clause: check if the variable 'my-var' is not nil
+     ;; Check if there are no matches : EVIL MODE
+     ((null prefix-match)
+      ("Evil Mode"))
+
+     ;; Check if prefix is from major list
+     ((member prefix-match major-leader-list)
+
+      (message "Prefix in Major Leader List")
+
+      )
+
+     ;; Check is prefix is from help list
+     ((member prefix-match help-leader-list)
+
+      (message "Prefix in Help Leader List")
+
+      )
+
+     ;; Second clause (the "if nil, do something"): check if 'my-var' is nil
+     ((member prefix-match global-leader-list)
+
+      (message "Prefix in Global Leader List")
+
+      )
+     ;; A 't' condition acts as a default 'else'
+     (t
+      (message "There was a match but somehow it wasn't in the prefix list")))
+    ) ;; run let here
+  )
+(testlet)
 
 
 (defun get-matching-prefix (string prefix-list)
@@ -1677,7 +1883,7 @@ This function is called at the very end of Spacemacs initialization."
        ("a" "Test Customize Gui Menu" entry
         (file+olp "~/.emacs.d/mytesting/my-capture-tests.org" "GUI"
                   "Capture Template 1")
-        "\12%(my/org-capture-key-info-shortcut)\12\12START_TOKEN%(my/org-capture-get-desc)FINISH_TOKEN\12\12Date: %U Source: [[file:%F][%f]]\12"
+        "\12%(my/org-capture-key-info-shortcut)\12\12*** Extra Info:\12Date Captured: %U File Captured in: [[file:%F][%f]]\12"
         :empty-lines-after 1 :before-finalize (my/my-org-capture-finisher))))
    '(org-export-backends '(ascii html icalendar latex md odt))
    '(package-selected-packages
