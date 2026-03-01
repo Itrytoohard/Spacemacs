@@ -1041,6 +1041,41 @@ Put your configuration code here"
      ;; Test to see if the key is from the evil package first. If it is, do (list "" "Evil"). If not, make a seperate thingy for the new mode. Actually, you can do this from outside of this function
      (list "" "No Prefix"))))
 
+(defun run-keybind-tests ()
+  "Test identify-keybind-source against a set of key sequences."
+  ;; ;; Gemini Testing Suite Plan
+  ;; Lets make a testing suite. it should define a list of example keysequences, and print the result. The output of each item of the keysrquences list should look something like:
+  ;; "SPC m e c" : "SPC m" "Major"
+  (let ((test-cases '("SPC m e c"   ; Should be Major
+                      "C-c 5 f"     ; Should be Major
+                      "C-h k"       ; Should be Help
+                      "SPC h v"     ; Should be Help
+                      "SPC f f"     ; Should be Global
+                      "C-x C-s"     ; Should be Global
+                      "M-RET"       ; Should be Major
+                      "C-g"         ; Should be None/Nil
+                      "SPC C c"     ; Should be Global
+                      "SPC b b"     ; Should be Global
+                      ", e c"       ; Should be Major
+                      "C-h h"       ; Should be Help
+                      "SPC SPC"     ; Should be Global
+                      "SPC u"       ; Should be Global
+                      "SPC g s"     ; Should be Global
+                      "M-RET M-RET" ; Should be Major
+                      "V"           ; Should be nil
+                      "D"           ; Should be nil
+                      "yi'"         ; Should be nil
+                      )))
+    (message "--- Keybind Test Results ---")
+    (dolist (key test-cases)
+      (let ((result (identify-keybind-source key)))
+        (if result
+            (message "\"%s\" : \"%s\" \"%s\""
+                     key
+                     (nth 0 result)
+                     (nth 1 result))
+          (message "\"%s\" : No match found" key))))))
+
 (defun my/set-custom-buffer-next-prev-bindings()
   ;; Set key sequence after SPC ; then assign them names in which-key
   (spacemacs/set-leader-keys "bj" 'next-buffer)
