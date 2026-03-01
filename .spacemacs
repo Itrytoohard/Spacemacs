@@ -1136,11 +1136,12 @@ Put your configuration code here"
   (if (keybind-starts-with-space) ; condition
       if-not-keybind-starts-with-space-m-or-M-RET
     then-form ; then-form
-    else-forms...) ; else-forms...)
+    else-forms...) ; else-forms...
+  )
 
 
-  (defun my/keybind-is-major-mode-map-okctfih (keybind-string-entered)
-    "Takes the keybind the user entered as input. Returns prefix if the beginning of the keybind matches one of the major mode prefixes. Does *not* check anything else about the keybinding, its function, or mode.
+(defun my/keybind-is-major-mode-map-okctfih (keybind-string-entered)
+  "Takes the keybind the user entered as input. Returns prefix if the beginning of the keybind matches one of the major mode prefixes. Does *not* check anything else about the keybinding, its function, or mode.
 
 Returns (PREFIX, PREFIX-TYPE)
 
@@ -1148,232 +1149,230 @@ PREFIX-TYPE is \"Major\", \"Help\", \"Global\", or \"Evil\"
 
 "
 
-    ;;-----Global Binding Conventions:---------------------------------------
-    ;; 1. SPC !m - Spacemacs - All Global Commands
-    ;; 2. C-x    - Emacs     - Essential Commands
-    ;; 3. C-h    - Emacs     - Help Commands
-    ;; 4. SPC h  - Spacemacs - Help Commands
-    ;; 5. SPC u  - Spacemacs - Universal Argument Commands
-    ;;-----User Defined Global Binding Conventions:--------------------------
-    ;; 1. C-c <up/lower-letter> - Emacs
-    ;; 2. SPC o m               - Spacemacs - User Major Mode Bindings
-    ;; 2. SPC o <!m>            - Spacemacs - User Global Bindings
-    ;;-----Major Mode Binding Conventions------------------------------------
+  ;;-----Global Binding Conventions:---------------------------------------
+  ;; 1. SPC !m - Spacemacs - All Global Commands
+  ;; 2. C-x    - Emacs     - Essential Commands
+  ;; 3. C-h    - Emacs     - Help Commands
+  ;; 4. SPC h  - Spacemacs - Help Commands
+  ;; 5. SPC u  - Spacemacs - Universal Argument Commands
+  ;;-----User Defined Global Binding Conventions:--------------------------
+  ;; 1. C-c <up/lower-letter> - Emacs
+  ;; 2. SPC o m               - Spacemacs - User Major Mode Bindings
+  ;; 2. SPC o <!m>            - Spacemacs - User Global Bindings
+  ;;-----Major Mode Binding Conventions------------------------------------
 
-    ;; 1. 'SPC m'      - Spacemacs
-    ;; 2. ','          - Spacemacs
-    ;; 3. 'M-RET'      - Spacemacs
-    ;; 4. 'C-c [0-9]'  - Emacs
-    ;; 5. 'C-c C-<any> - Emacs
-    ;;-----Minor Mode Binding Conventions------------------------------------
-    ;; 1. C-c <ASCII punctuation> - Emacs
-    ;; 2. C-c <symbol>            - Emacs
-    ;; 3. any                     - Spacemacs
-    ;;-----------------------------------------------------------------------
-
-
-    ;;-----Logic:------------------------------------------------------------
-    ;; If 'SPC m' ',' 'C-c' or 'M-RET', relevance = major mode
-    ;; If SPC Prefix: relevance = global
-    ;; If not 'SPC' 'SPC m' ',' 'C-c' or 'M-RET'
-    ;;-----------------------------------------------------------------------
-
-    ;; Create String Lists for Variables
-    ;; User Prefix Strings == Check first - easiest rules.
-    ;; (let (user-prefix-strings ("SPC m o")))
-
-    ;; Major Mode Prefix Strings
-    ;; returns the last value. Yeah, I have no idea either.
-    (let ((prefix-strings (list "SPC m" "," "C-c" "M-RET"))
-          (test2 (list "one" "two")))
-      (print prefix-strings)
-      (print test2)
-      "let finished")
-
-    (let (()))
-
-    (let ((prefix-strings (list "test1" "test2" "string3" "string4")))
-      (format "prefix-strings: %s" prefix-strings)
-      )
-    ;; Global Prefix Strings
+  ;; 1. 'SPC m'      - Spacemacs
+  ;; 2. ','          - Spacemacs
+  ;; 3. 'M-RET'      - Spacemacs
+  ;; 4. 'C-c [0-9]'  - Emacs
+  ;; 5. 'C-c C-<any> - Emacs
+  ;;-----Minor Mode Binding Conventions------------------------------------
+  ;; 1. C-c <ASCII punctuation> - Emacs
+  ;; 2. C-c <symbol>            - Emacs
+  ;; 3. any                     - Spacemacs
+  ;;-----------------------------------------------------------------------
 
 
-    ;;-------------Steps:----------------------------------------------------
-    ;; 1. Set list of prefix strings for major mode bindings
-    ;; 2. Check if any prefix matches
-    ;;-----------------------------------------------------------------------
+  ;;-----Logic:------------------------------------------------------------
+  ;; If 'SPC m' ',' 'C-c' or 'M-RET', relevance = major mode
+  ;; If SPC Prefix: relevance = global
+  ;; If not 'SPC' 'SPC m' ',' 'C-c' or 'M-RET'
+  ;;-----------------------------------------------------------------------
 
-    (let ((prefix-strings (list "test1" "test2" "string" "string")))
-      (format "%s" prefix-strings))
-    ;; Returns: "(\"test1\" \"test2\" \"string\" \"string\")"
+  ;; Create String Lists for Variables
+  ;; User Prefix Strings == Check first - easiest rules.
+  ;; (let (user-prefix-strings ("SPC m o")))
 
-    (let (
-          (prefix-strings (list "test1" "test2" "string" "string"))
-          (spacemacs-global-leader "SPC")
-          )
-      (format
-       "
+  ;; Major Mode Prefix Strings
+  ;; returns the last value. Yeah, I have no idea either.
+  (let ((prefix-strings (list "SPC m" "," "C-c" "M-RET"))
+        (test2 (list "one" "two")))
+    (print prefix-strings)
+    (print test2)
+    "let finished")
+
+  (let (()))
+
+  (let ((prefix-strings (list "test1" "test2" "string3" "string4")))
+    (format "prefix-strings: %s" prefix-strings)
+    )
+  ;; Global Prefix Strings
+
+
+  ;;-------------Steps:----------------------------------------------------
+  ;; 1. Set list of prefix strings for major mode bindings
+  ;; 2. Check if any prefix matches
+  ;;-----------------------------------------------------------------------
+
+  (let ((prefix-strings (list "test1" "test2" "string" "string")))
+    (format "%s" prefix-strings))
+  ;; Returns: "(\"test1\" \"test2\" \"string\" \"string\")"
+
+  (let (
+        (prefix-strings (list "test1" "test2" "string" "string"))
+        (spacemacs-global-leader "SPC")
+        )
+    (format
+     "
 %s
 %s
 "
-       prefix-strings
-       spacemacs-global-leader
-       )
-      )
+     prefix-strings
+     spacemacs-global-leader
+     )
+    )
 
-    (let*
-        ((prefix-strings (list "test1" "test2" "string" "string") )
-         (my-string "SPC h SPC")
-         ;;-----Global Binding Conventions:---------------------------------------
-         ;; 2. C-x    - Emacs     - Essential Commands
-         (emacs-essentials-leader "C-x")
-         ;; 3. C-h    - Emacs     - Help Commands
-         (emacs-help-global-leader "C-h")
-         ;; 4. SPC h  - Spacemacs - Help Commands
-         (spacemacs-help-global-leader "SPC h")
-         ;; 5. SPC u  - Spacemacs - Universal Argument Commands
-         (universal-arg-leader "SPC u")
-         ;; 1. SPC !m - Spacemacs - All Global Commands
-         (spacemacs-global-leader "SPC")
+  (let*
+      ((prefix-strings (list "test1" "test2" "string" "string") )
+       (my-string "SPC h SPC")
+       ;;-----Global Binding Conventions:---------------------------------------
+       ;; 2. C-x    - Emacs     - Essential Commands
+       (emacs-essentials-leader "C-x")
+       ;; 3. C-h    - Emacs     - Help Commands
+       (emacs-help-global-leader "C-h")
+       ;; 4. SPC h  - Spacemacs - Help Commands
+       (spacemacs-help-global-leader "SPC h")
+       ;; 5. SPC u  - Spacemacs - Universal Argument Commands
+       (universal-arg-leader "SPC u")
+       ;; 1. SPC !m - Spacemacs - All Global Commands
+       (spacemacs-global-leader "SPC")
 
-         (help-leader-list (list
+       (help-leader-list (list
+                          emacs-help-global-leader
+                          spacemacs-help-global-leader
+                          ) )
+       ;; Set them all to globals
+       (global-leader-list (list
+                            emacs-essentials-leader
                             emacs-help-global-leader
                             spacemacs-help-global-leader
+                            universal-arg-leader
                             ) )
-         ;; Set them all to globals
-         (global-leader-list (list
-                              emacs-essentials-leader
-                              emacs-help-global-leader
-                              spacemacs-help-global-leader
-                              universal-arg-leader
-                              ) )
-         (prefix-strings (list "test1" "test2" "string" "string") )
-         ;; Output:
-         ;; "
-         ;; (SPC C-x C-h SPC h SPC)
-         ;; "
+       (prefix-strings (list "test1" "test2" "string" "string") )
+       ;; Output:
+       ;; "
+       ;; (SPC C-x C-h SPC h SPC)
+       ;; "
 
-         ;;-----User Defined Global Binding Conventions:---------------------
-         ;; 1. C-c <up/lower-letter> - Emacs
-         ;; (emacs-user-global)
-         ;; ;; 2. SPC o m               - Spacemacs - User Major Mode Bindings
-         ;; (spacemacs-user-major "SPC o m")
-         ;; ;; 2. SPC o <!m>            - Spacemacs - User Global Bindings
-         ;; (spacemacs-user-global)
-         ;; Don't need these.
-         ;; If I set them they should be useful enough to remember
-         ;;-----Major Mode Binding Conventions-------------------------------
-         ;; 1. 'SPC m'      - Spacemacs
-         (spacemacs-major-prefix-space "SPC m")
-         ;; 2. ','          - Spacemacs
-         (spacemacs-major-prefix-comma ",")
-         ;; 3. 'M-RET'      - Spacemacs
-         (spacemacs-major-prefix-mret "M-RET")
-         ;; 4. 'C-c [0-9]'  - Emacs
-         ;; forget it...jk that was suprisingly easy
-         (emacs-major-prefix-C-c-nums (list "C-c 0" "C-c 1" "C-c 2" "C-c 3" "C-c 4" "C-c 5" "C-c 6" "C-c 7" "C-c 8" "C-c 9" ))
-         ;; 5. 'C-c C-<any> - Emacs
-         (emacs-major-prefix-C-c-C-any "C-c C-")
+       ;;-----User Defined Global Binding Conventions:---------------------
+       ;; 1. C-c <up/lower-letter> - Emacs
+       ;; (emacs-user-global)
+       ;; ;; 2. SPC o m               - Spacemacs - User Major Mode Bindings
+       ;; (spacemacs-user-major "SPC o m")
+       ;; ;; 2. SPC o <!m>            - Spacemacs - User Global Bindings
+       ;; (spacemacs-user-global)
+       ;; Don't need these.
+       ;; If I set them they should be useful enough to remember
+       ;;-----Major Mode Binding Conventions-------------------------------
+       ;; 1. 'SPC m'      - Spacemacs
+       (spacemacs-major-prefix-space "SPC m")
+       ;; 2. ','          - Spacemacs
+       (spacemacs-major-prefix-comma ",")
+       ;; 3. 'M-RET'      - Spacemacs
+       (spacemacs-major-prefix-mret "M-RET")
+       ;; 4. 'C-c [0-9]'  - Emacs
+       ;; forget it...jk that was suprisingly easy
+       (emacs-major-prefix-C-c-nums (list "C-c 0" "C-c 1" "C-c 2" "C-c 3" "C-c 4" "C-c 5" "C-c 6" "C-c 7" "C-c 8" "C-c 9" ))
+       ;; 5. 'C-c C-<any> - Emacs
+       (emacs-major-prefix-C-c-C-any "C-c C-")
 
-         (major-leader-list (
-                             append ; appends one list to another
-                             (list
-                              spacemacs-major-prefix-space
-                              spacemacs-major-prefix-comma
-                              spacemacs-major-prefix-mret
-                              emacs-major-prefix-C-c-C-any
-                              )
-                             emacs-major-prefix-C-c-nums
-                             )
+       (major-leader-list (
+                           append ; appends one list to another
+                           (list
+                            spacemacs-major-prefix-space
+                            spacemacs-major-prefix-comma
+                            spacemacs-major-prefix-mret
+                            emacs-major-prefix-C-c-C-any
                             )
+                           emacs-major-prefix-C-c-nums
+                           )
+                          )
 
-         ;;------------------------------------------------------------------
-         ;; todo make `formatted-keybind-input'
-         ;; (major-match (get-matching-key-prefix major-leader-list formatted-keybind-input))
-         ;; go through major mode bindings to see if any matches:
-         ;; use `get-matching-key-prefix'
-         (my-x 1)
+       ;;------------------------------------------------------------------
+       ;; todo make `formatted-keybind-input'
+       ;; (major-match (get-matching-key-prefix major-leader-list formatted-keybind-input))
+       ;; go through major mode bindings to see if any matches:
+       ;; use `get-matching-key-prefix'
+       (my-x 1)
 
 
-         ;; (cond
-         ;;  ((= my-x 1)
-         ;;   (message "x is 1"))
-         ;;  ((= my-x 2)
-         ;;   (message "x is 2"))
-         ;;  (t ; The 't' condition acts as a default/else clause
-         ;;   (message "x is something else")))
+       ;; (cond
+       ;;  ((= my-x 1)
+       ;;   (message "x is 1"))
+       ;;  ((= my-x 2)
+       ;;   (message "x is 2"))
+       ;;  (t ; The 't' condition acts as a default/else clause
+       ;;   (message "x is something else")))
 
-         ) ;; end variable definitions
-      (format
-       "
+       ) ;; end variable definitions
+    (format
+     "
 prefix-strings:     %s
 major-leader-list:  %s
 help-leader-list:   %s
 global-leader-list: %s
 "
-       prefix-strings
-       major-leader-list
-       help-leader-list
-       global-leader-list
-       ;; (print major-leader-list)
-       )
+     prefix-strings
+     major-leader-list
+     help-leader-list
+     global-leader-list
+     ;; (print major-leader-list)
+     )
 
-      ;; (get-matching-prefix keybind-string-entered )
-      ;; (print "Major Leader List:")
-      ;; (print major-leader-list)
-      ;; (print "Global Leader List:")
-      ;; (print global-leader-list)
-      ;; (debug)
-      ;; RETURN matching prefix string.
-      (prefix-match (seq-find (lambda (prefix)
-                                (string-prefix-p prefix my-string))
-                              (append major-leader-list help-leader-list global-leader-list)))
+    ;; (get-matching-prefix keybind-string-entered )
+    ;; (print "Major Leader List:")
+    ;; (print major-leader-list)
+    ;; (print "Global Leader List:")
+    ;; (print global-leader-list)
+    ;; (debug)
+    ;; RETURN matching prefix string.
+    (prefix-match (seq-find (lambda (prefix)
+                              (string-prefix-p prefix my-string))
+                            (append major-leader-list help-leader-list global-leader-list)))
 
-      ;; 'SPC u , e e' to Debug?
+    ;; 'SPC u , e e' to Debug?
 
-      (cond
-       ;; First clause: check if the variable 'my-var' is not nil
-       ;; Check if there are no matches : EVIL MODE
-       ((null prefix-match)
-        ("Evil Mode"))
+    (cond
+     ;; First clause: check if the variable 'my-var' is not nil
+     ;; Check if there are no matches : EVIL MODE
+     ((null prefix-match)
+      ("Evil Mode"))
 
-       ;; Check if prefix is from major list
-       ((member prefix-match major-leader-list)
+     ;; Check if prefix is from major list
+     ((member prefix-match major-leader-list)
 
-        (message "Prefix in Major Leader List")
+      (message "Prefix in Major Leader List")
 
-        )
+      )
 
-       ;; Check is prefix is from help list
-       ((member prefix-match help-leader-list)
+     ;; Check is prefix is from help list
+     ((member prefix-match help-leader-list)
 
-        (message "Prefix in Help Leader List")
+      (message "Prefix in Help Leader List")
 
-        )
+      )
 
-       ;; Second clause (the "if nil, do something"): check if 'my-var' is nil
-       ((member prefix-match global-leader-list)
+     ;; Second clause (the "if nil, do something"): check if 'my-var' is nil
+     ((member prefix-match global-leader-list)
 
-        (message "Prefix in Global Leader List")
+      (message "Prefix in Global Leader List")
 
-        )
-       ;; A 't' condition acts as a default 'else'
-       (t
-        (message "There was a match but somehow it wasn't in the prefix list")))
-
-
+      )
+     ;; A 't' condition acts as a default 'else'
+     (t
+      (message "There was a match but somehow it wasn't in the prefix list")))
 
 
 
 
 
-      ) ;; run let here
+
+
+    ) ;; run let here
 
 
 
-    ;; PREFIX-TYPE is \"Major\", \"Help\", \"Global\", or \"Evil\"
-
-
+  ;; PREFIX-TYPE is \"Major\", \"Help\", \"Global\", or \"Evil\"
 
 
 
@@ -1390,21 +1389,22 @@ global-leader-list: %s
 
 
 
-    (if (keybind-starts-with-space) ; if keybind-string-entered matches
-        if-not-keybind-starts-with-space-m-or-M-RET
-      then-form ; then-form
-      else-forms...) ; else-forms...)
-
-    ;; returns true if prefix string starts with prefix, nil if not
-    (string-prefix-p PREFIX STRING &optional IGNORECASE)
-
-    )
 
 
-  ;; 3. Move point to the end of that headline's subtree to insert *after* it
-  (org-end-of-subtree)
-  ;; The new entry will be inserted here, as a sibling headline or as a child depending on the template type and properties
+  (if (keybind-starts-with-space) ; if keybind-string-entered matches
+      if-not-keybind-starts-with-space-m-or-M-RET
+    then-form ; then-form
+    else-forms...) ; else-forms...)
+
+  ;; returns true if prefix string starts with prefix, nil if not
+  (string-prefix-p PREFIX STRING &optional IGNORECASE)
+
   )
+
+
+;; 3. Move point to the end of that headline's subtree to insert *after* it
+(org-end-of-subtree)
+;; The new entry will be inserted here, as a sibling headline or as a child depending on the template type and properties
 
 (defun testlet ()
 
@@ -1460,7 +1460,15 @@ global-leader-list: %s
                            )
                           )
 
-
+       ;; RETURN matching prefix string.
+       (debug)
+       (prefix-match
+        (seq-find
+         (lambda (prefix)
+           (string-prefix-p prefix my-string))
+         (append major-leader-list help-leader-list global-leader-list)
+         )
+        )
        ) ;; end variable definitions
     (format
      "
@@ -1482,10 +1490,6 @@ global-leader-list: %s
     ;; (print "Global Leader List:")
     ;; (print global-leader-list)
     (debug)
-    ;; RETURN matching prefix string.
-    (prefix-match (seq-find (lambda (prefix)
-                              (string-prefix-p prefix my-string))
-                            (append major-leader-list help-leader-list global-leader-list)))
 
     ;; 'SPC u , e e' to Debug?
 
@@ -1499,7 +1503,7 @@ global-leader-list: %s
      ((member prefix-match major-leader-list)
 
       (message "Prefix in Major Leader List")
-
+      (list prefix-match "Major Mode")
       )
 
      ;; Check is prefix is from help list
