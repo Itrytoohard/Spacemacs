@@ -1006,6 +1006,41 @@ Put your configuration code here"
   ;; (my-ai-OCT-2)
   )
 
+
+(defun identify-keybind-source (keybind-string)
+  "Identify the leader prefix and category for KEYBIND-STRING.
+  Return Value: (\"prefix\" \"Category\")
+  Category options are \"Major\" \"Help\" and \"Global\". Non Matches return (list \"\" \"No Prefix\")"
+  ;; ;; Gemini Plan
+  ;; I need you to make an elisp function that takes in a string as an argument. Its name will be keybind-string. It represents an Emacs keybinding sequence. It will check the string against 3 lists of prefixes. Those prefix lists are:
+  ;;
+  ;; major-leader-list:  ("SPC m" "," "M-RET" "C-c C-" "C-c 0" "C-c 1" "C-c 2" "C-c 3" "C-c 4" "C-c 5" "C-c 6" "C-c 7" "C-c 8" "C-c 9")
+  ;; help-leader-list:   ("C-h" "SPC h")
+  ;; global-leader-list: ("C-x" "C-c" "SPC u" "SPC")
+  ;;
+  ;; Return the prefix that matches, as well as the name of the list that it is from. For example: if they keybinding entered was "SPC m e c", the function would return ("SPC m" "Major")
+
+  (let ((major-leader-list '("SPC m" "," "M-RET" "C-c C-" "C-c 0" "C-c 1" "C-c 2"
+                             "C-c 3" "C-c 4" "C-c 5" "C-c 6" "C-c 7" "C-c 8" "C-c 9"))
+        (help-leader-list  '("C-h" "SPC h"))
+        (global-leader-list '("C-x" "C-c" "SPC u" "SPC")))
+    (or
+     ;; 1. Check Major Leader List (Most specific)
+     (let ((match (seq-find (lambda (p) (string-prefix-p p keybind-string)) major-leader-list)))
+       (when match (list match "Major")))
+
+     ;; 2. Check Help Leader List
+     (let ((match (seq-find (lambda (p) (string-prefix-p p keybind-string)) help-leader-list)))
+       (when match (list match "Help")))
+
+     ;; 3. Check Global Leader List (Least specific, includes "SPC")
+     (let ((match (seq-find (lambda (p) (string-prefix-p p keybind-string)) global-leader-list)))
+       (when match (list match "Global")))
+
+     ;; Default if no match is found
+     ;; Test to see if the key is from the evil package first. If it is, do (list "" "Evil"). If not, make a seperate thingy for the new mode. Actually, you can do this from outside of this function
+     (list "" "No Prefix"))))
+
 (defun my/set-custom-buffer-next-prev-bindings()
   ;; Set key sequence after SPC ; then assign them names in which-key
   (spacemacs/set-leader-keys "bj" 'next-buffer)
