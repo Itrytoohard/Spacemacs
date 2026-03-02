@@ -1004,8 +1004,9 @@ Put your configuration code here"
   ;; commented out now that not using embark
   ;; (setq prefix-help-command #'embark-prefix-help-command)
   ;; (my-ai-OCT-2)
+  (my/capture-temp-define-vars)
+  (my/org-capture-template-adder)
   )
-
 
 (defun identify-keybind-source (keybind-string)
   "Identify the leader prefix and category for KEYBIND-STRING.
@@ -1075,6 +1076,107 @@ Put your configuration code here"
                      (nth 0 result)
                      (nth 1 result))
           (message "\"%s\" : No match found" key))))))
+
+(defun my/capture-temp-define-vars ()
+  "Define variables for keybind org capture template"
+  ;; --- Elisp God try # 1 ---
+  ;; --- Keybind Capture State Variables ---
+  (defvar my/capture-temp-key-desc nil "Temporarily stores the key description.")
+  (defvar my/capture-temp-verbal-desc nil "Temporarily stores the verbal description.")
+  (defvar my/capture-temp-command nil "Temporarily stores the command name.")
+  (defvar my/capture-temp-origin-mode nil "Temporarily stores the original major mode.")
+  (defvar my/capture-temp-type nil "Temporarily stores the command type.")
+  (defvar my/capture-temp-arity nil "Temporarily stores the command arity.")
+  (defvar my/capture-temp-docstring nil "Temporarily stores the command docstring.")
+  (defvar my/capture-temp-category nil "Temporarily stores the top-level category."))
+
+(defun my/gather-keybind-info-to-state ()
+  "Prompts for keybinding info and stores it in temporary state variables."
+  ;; --- Elisp God Try # 1 ----
+  (let* ((original-buffer (plist-get org-capture-plist :original-buffer))
+         ;; 1. Prompt user for inputs
+         (key (read-key-sequence "Press key sequence to document: "))
+         (verbal-description (read-string "What the binding does: "))
+         (key-desc (key-description key))
+
+         ;; 2. Fetch context from the original buffer
+         (command (with-current-buffer original-buffer (key-binding key)))
+         (origin-mode (string-trim-right (my/org-capture-get-original-major-mode) "-mode"))
+
+         ;; 3. Fetch function information
+         (command-type (if command (type-of (symbol-function command)) "No Type"))
+         (command-arity (if command (func-arity command) "No Arity"))
+         (command-docstring (if command (documentation command) "No docstring"))
+
+         ;; 4. Determine Top-Level Category using your existing function
+         (category-match (nth 1 (identify-keybind-source key-desc)))
+         (top-level-category (cond
+                              ((string= category-match "Major") "Major Mode Specific Commands")
+                              ((string= category-match "Help") "Help Commands")
+                              ((string= category-match "Global") "Global Commands")
+                              (t "Evil Commands")))) ; Default to Evil for raw keys
+
+    ;; 5. Assign values to state variables
+    (setq my/capture-temp-key-desc key-desc)
+    (setq my/capture-temp-verbal-desc verbal-description)
+    (setq my/capture-temp-command command)
+    (setq my/capture-temp-origin-mode origin-mode)
+    (setq my/capture-temp-type command-type)
+    (setq my/capture-temp-arity command-arity)
+    (setq my/capture-temp-docstring command-docstring)
+    (setq my/capture-temp-category top-level-category)))
+
+(defun my/org-capture-route-keybind-location ()
+  "Finds or creates the deterministic outline path for the keybinding."
+  ;; --- Elisp God Try # 1 ----
+  ;; 1. Gather info and set state variables first
+  (my/gather-keybind-info-to-state)
+
+  ;; 2. Start at the top of the file
+  (goto-char (point-min))
+
+  ;; 3. Find or create the Top-Level Heading
+  (let ((top-level my/capture-temp-category))
+    (unless (re-search-forward (format "^\\* %s" (regexp-quote top-level)) nil t)
+      (goto-char (point-max))
+      (insert "\n* " top-level "\n")
+      (backward-char 1))
+
+    ;; 4. If it's a Major Mode, find or create the Sub-Level Heading
+    (when (string= top-level "Major Mode Specific Commands")
+      ;; Narrow buffer to just this top-level section so we don't match modes elsewhere
+      (save-restriction
+        (org-narrow-to-subtree)
+        (goto-char (point-min))
+        (unless (re-search-forward (format "^\\*\\* %s" (regexp-quote my/capture-temp-origin-mode)) nil t)
+          (goto-char (point-max))
+          (insert "\n** " my/capture-temp-origin-mode "\n")
+          (backward-char 1))))
+
+    ;; 5. Move point to the end of the current active subtree to append the capture
+    (org-end-of-subtree t t)))
+
+(defun my/org-capture-format-keybind ()
+  "Formats the keybinding string using the temporary state variables."
+  ;; --- Elisp God Try # 1 ----
+  (format "*** ~%s~ | %s | Mode: %s\nFunction Called: %s \nMode called from: %s\n**** Function Info: \nType: %s\nNumArgs: %s\n**** Docstring: %s\n"
+          my/capture-temp-key-desc
+          my/capture-temp-verbal-desc
+          my/capture-temp-origin-mode
+          my/capture-temp-command
+          my/capture-temp-origin-mode
+          my/capture-temp-type
+          my/capture-temp-arity
+          my/capture-temp-docstring))
+
+(defun my/org-capture-template-adder ()
+  "Adds oct from Elisp God Try # 1 to 'org-capture-templates"
+  ;; --- Elisp God Try # 1 ----
+  (add-to-list 'org-capture-templates
+               '("f" "DEEZNUTS" entry
+                 (file+function "~/org/oct-keybindings-example.org" my/org-capture-route-keybind-location)
+                 "%(my/org-capture-format-keybind)"
+                 :empty-lines-after 1)))
 
 (defun my/set-custom-buffer-next-prev-bindings()
   ;; Set key sequence after SPC ; then assign them names in which-key
