@@ -1042,6 +1042,7 @@ Put your configuration code here"
      ;; Test to see if the key is from the evil package first. If it is, do (list "" "Evil"). If not, make a seperate thingy for the new mode. Actually, you can do this from outside of this function
      (list "" "No Prefix"))))
 
+
 (defun run-keybind-tests ()
   "Test identify-keybind-source against a set of key sequences."
   ;; ;; Gemini Testing Suite Plan
@@ -1090,6 +1091,37 @@ Put your configuration code here"
   (defvar my/capture-temp-docstring nil "Temporarily stores the command docstring.")
   (defvar my/capture-temp-category nil "Temporarily stores the top-level category."))
 
+(defun my/identify-keybind-source (key-desc)
+  "Analyze KEY-DESC (a string like \"SPC m b\") and return its top-level category.
+This checks the prefix of the key against Spacemacs and Emacs conventions."
+  ;; --- Emacs God Try # 1.5 ---
+  (cond
+   ;; 1. Major Mode Commands
+   ;; Spacemacs major-mode leader `SPC m`, alternate leader `,`, or standard Emacs `C-c`
+   ((or (string-prefix-p "SPC m" key-desc)
+        (string-prefix-p "," key-desc)
+        (string-prefix-p "C-c" key-desc))
+    "Major Mode Specific Commands")
+
+   ;; 2. Help Commands
+   ;; Spacemacs help leader `SPC h`, or standard Emacs `C-h` / `<f1>`
+   ((or (string-prefix-p "SPC h" key-desc)
+        (string-prefix-p "C-h" key-desc)
+        (string-prefix-p "<f1>" key-desc))
+    "Help Commands")
+
+   ;; 3. Global Commands
+   ;; Other Spacemacs leader keys `SPC`, or standard Emacs `C-x` / `M-` / `C-`
+   ((or (string-prefix-p "SPC" key-desc)
+        (string-prefix-p "C-x" key-desc)
+        (string-prefix-p "M-" key-desc)
+        (string-prefix-p "C-" key-desc)) ; Catch-all for other control keys
+    "Global Commands")
+
+   ;; 4. Default: Evil Commands
+   ;; Raw keys without modifiers like 'j', 'k', 'v', 'c'
+   (t "Evil Commands")))
+
 (defun my/gather-keybind-info-to-state ()
   "Prompts for keybinding info and stores it in temporary state variables."
   ;; --- Elisp God Try # 1 ----
@@ -1109,12 +1141,7 @@ Put your configuration code here"
          (command-docstring (if command (documentation command) "No docstring"))
 
          ;; 4. Determine Top-Level Category using your existing function
-         (category-match (nth 1 (identify-keybind-source key-desc)))
-         (top-level-category (cond
-                              ((string= category-match "Major") "Major Mode Specific Commands")
-                              ((string= category-match "Help") "Help Commands")
-                              ((string= category-match "Global") "Global Commands")
-                              (t "Evil Commands")))) ; Default to Evil for raw keys
+         (top-level-category (my/identify-keybind-source key-desc)))
 
     ;; 5. Assign values to state variables
     (setq my/capture-temp-key-desc key-desc)
