@@ -88,6 +88,7 @@ This function should only modify configuration layer settings."
 
            )
      html
+     java
      lsp ;; should probably enable this to see if it does anything different
      (markdown :variables
                ;; markdown-command "pandoc"
