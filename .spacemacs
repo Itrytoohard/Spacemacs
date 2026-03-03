@@ -2118,47 +2118,49 @@ This function is called at the very end of Spacemacs initialization."
          flyspell-correct-popup forge gandalf-theme ggtags gh-md ghub git-link
          git-messenger git-modes git-timemachine gitignore-templates gntp gnuplot
          golden-ratio google-translate gotham-theme grandshell-theme
-         gruber-darker-theme gruvbox-theme haml-mode hc-zenburn-theme helm-ag
-         helm-c-yasnippet helm-comint helm-company helm-css-scss helm-descbinds
-         helm-ls-git helm-lsp helm-make helm-mode-manager helm-org helm-org-rifle
-         helm-projectile helm-purpose helm-swoop helm-xref hemisu-theme
-         heroku-theme hide-comnt highlight-indentation highlight-numbers
-         highlight-parentheses hl-todo holy-mode htmlize hungry-delete hybrid-mode
-         impatient-mode indent-guide inf-ruby info+ inkpot-theme inspector
-         ir-black-theme ivy jazz-theme jbeans-theme kaolin-themes key-chord
-         keycast keyfreq launchctl light-soap-theme link-hint llama log4e
-         lorem-ipsum lsp-docker lsp-mode lsp-origami lsp-treemacs lsp-ui
-         lush-theme macrostep madhat2r-theme magit magit-section marginalia
-         markdown-mode markdown-toc material-theme memoize minimal-theme minitest
+         groovy-imports groovy-mode gruber-darker-theme gruvbox-theme haml-mode
+         hc-zenburn-theme helm-ag helm-c-yasnippet helm-comint helm-company
+         helm-css-scss helm-descbinds helm-ls-git helm-lsp helm-make
+         helm-mode-manager helm-org helm-org-rifle helm-projectile helm-purpose
+         helm-swoop helm-xref hemisu-theme heroku-theme hide-comnt
+         highlight-indentation highlight-numbers highlight-parentheses hl-todo
+         holy-mode htmlize hungry-delete hybrid-mode impatient-mode indent-guide
+         inf-ruby info+ inkpot-theme inspector ir-black-theme ivy jazz-theme
+         jbeans-theme kaolin-themes key-chord keycast keyfreq launchctl
+         light-soap-theme link-hint llama log4e lorem-ipsum lsp-docker lsp-java
+         lsp-mode lsp-origami lsp-treemacs lsp-ui lush-theme macrostep
+         madhat2r-theme magit magit-section marginalia markdown-mode markdown-toc
+         material-theme maven-test-mode memoize minimal-theme minitest
          modus-themes moe-theme molokai-theme monochrome-theme monokai-theme
-         multi-line multi-term multi-vterm mustang-theme nameless naquadah-theme
-         nerd-icons noctilux-theme obsidian-theme occidental-theme oldlace-theme
-         omtose-phellack-themes open-junk-file orderless org org-category-capture
-         org-cliplink org-contrib org-download org-mime org-pomodoro org-present
-         org-project-capture org-projectile org-rich-yank org-superstar
-         organic-green-theme orgit orgit-forge origami osx-clipboard
+         multi-line multi-term multi-vterm mustang-theme mvn nameless
+         naquadah-theme nerd-icons noctilux-theme obsidian-theme occidental-theme
+         oldlace-theme omtose-phellack-themes open-junk-file orderless org
+         org-category-capture org-cliplink org-contrib org-download org-mime
+         org-pomodoro org-present org-project-capture org-projectile org-rich-yank
+         org-superstar organic-green-theme orgit orgit-forge origami osx-clipboard
          osx-dictionary osx-trash overseer ox-pandoc package-lint page-break-lines
-         pandoc-mode paradox password-generator pcre2el phoenix-dark-mono-theme
-         phoenix-dark-pink-theme planet-theme popwin pos-tip prettier-js
-         professional-theme pug-mode purple-haze-theme quickrun railscasts-theme
-         rainbow-delimiters rake rbenv rebecca-theme restart-emacs
-         reveal-in-osx-finder reverse-theme robe rspec-mode rubocop rubocopfmt
-         ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm sass-mode
-         scss-mode seti-theme shell-pop shrink-path slim-mode smeargle smyx-theme
-         soft-charcoal-theme soft-morning-theme soft-stone-theme solarized-theme
-         soothe-theme space-doc spacegray-theme spaceline spaceline-all-the-icons
-         spacemacs-purpose-popwin spacemacs-whitespace-cleanup
-         string-edit-at-point string-inflection subatomic-theme subatomic256-theme
-         sublime-themes sunny-day-theme swiper symbol-overlay symon tagedit
-         tango-2-theme tango-plus-theme tangotango-theme tao-theme term-cursor
-         terminal-here toc-org toxi-theme transient treemacs-evil
-         treemacs-icons-dired treemacs-magit treemacs-persp treemacs-projectile
-         treepy twilight-anti-bright-theme twilight-bright-theme twilight-theme
-         ujelly-theme underwater-theme undo-fu-session unkillable-scratch uuidgen
-         vertico vi-tilde-fringe volatile-highlights vterm vundo web-beautify
-         web-completion-data web-mode wgrep which-key-posframe white-sand-theme
-         winum with-editor writeroom-mode ws-butler yaml yaml-mode yasnippet
-         zen-and-art-theme zenburn-theme zonokai-emacs))
+         pandoc-mode paradox password-generator pcache pcre2el
+         phoenix-dark-mono-theme phoenix-dark-pink-theme planet-theme popwin
+         pos-tip prettier-js professional-theme pug-mode purple-haze-theme
+         quickrun railscasts-theme rainbow-delimiters rake rbenv rebecca-theme
+         request restart-emacs reveal-in-osx-finder reverse-theme robe rspec-mode
+         rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode
+         ruby-tools rvm sass-mode scss-mode seti-theme shell-pop shrink-path
+         slim-mode smeargle smyx-theme soft-charcoal-theme soft-morning-theme
+         soft-stone-theme solarized-theme soothe-theme space-doc spacegray-theme
+         spaceline spaceline-all-the-icons spacemacs-purpose-popwin
+         spacemacs-whitespace-cleanup string-edit-at-point string-inflection
+         subatomic-theme subatomic256-theme sublime-themes sunny-day-theme swiper
+         symbol-overlay symon tagedit tango-2-theme tango-plus-theme
+         tangotango-theme tao-theme term-cursor terminal-here toc-org toxi-theme
+         transient treemacs-evil treemacs-icons-dired treemacs-magit
+         treemacs-persp treemacs-projectile treepy twilight-anti-bright-theme
+         twilight-bright-theme twilight-theme ujelly-theme underwater-theme
+         undo-fu-session unkillable-scratch uuidgen vertico vi-tilde-fringe
+         volatile-highlights vterm vundo web-beautify web-completion-data web-mode
+         wgrep which-key-posframe white-sand-theme winum with-editor
+         writeroom-mode ws-butler yaml yaml-mode yasnippet zen-and-art-theme
+         zenburn-theme zonokai-emacs))
    '(spaceline-all-the-icons-highlight-file-name nil)
    '(spaceline-all-the-icons-separator-type 'wave))
   (custom-set-faces
