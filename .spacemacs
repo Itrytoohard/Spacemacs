@@ -1007,6 +1007,8 @@ Put your configuration code here"
   ;; (my-ai-OCT-2)
   (my/capture-temp-define-vars)
   (my/org-capture-template-adder)
+
+
   )
 
 (defun identify-keybind-source (keybind-string)
@@ -1042,7 +1044,6 @@ Put your configuration code here"
      ;; Default if no match is found
      ;; Test to see if the key is from the evil package first. If it is, do (list "" "Evil"). If not, make a seperate thingy for the new mode. Actually, you can do this from outside of this function
      (list "" "No Prefix"))))
-
 
 (defun run-keybind-tests ()
   "Test identify-keybind-source against a set of key sequences."
@@ -1602,8 +1603,6 @@ global-leader-list: %s
   )
 
 
-;; 3. Move point to the end of that headline's subtree to insert *after* it
-(org-end-of-subtree)
 ;; The new entry will be inserted here, as a sibling headline or as a child depending on the template type and properties
 
 (defun testlet ()
@@ -1724,7 +1723,6 @@ global-leader-list: %s
       (message "There was a match but somehow it wasn't in the prefix list")))
     ) ;; run let here
   )
-(testlet)
 
 
 (defun get-matching-prefix (string prefix-list)
