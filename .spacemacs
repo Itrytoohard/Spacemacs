@@ -1008,7 +1008,14 @@ Put your configuration code here"
   (my/capture-temp-define-vars)
   (my/org-capture-template-adder)
 
+  (my/run-mar-2-keybind)
+  )
 
+(defun my/run-mar-2-keybind ()
+  (add-to-list 'load-path "/Users/Matt/.emacs.d/myelisps/remember-key/")
+  (require 'remember-key)
+  ;; For example, 'SPC o k' (o is traditionally for personal user bindings in Spacemacs)
+  (spacemacs/set-leader-keys "o k" 'remember-key-record)
   )
 
 (defun identify-keybind-source (keybind-string)
