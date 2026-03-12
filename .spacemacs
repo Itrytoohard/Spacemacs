@@ -978,8 +978,8 @@ Put your configuration code here"
   ;; (with-eval-after-load 'diff-hl
   ;;   (diff-hl-flydiff-mode -1))
 
-  (spaceline-toggle-all-the-icons-modified)
-  (setq-default spaceline-all-the-icons-hide-vcs t)
+  ;; (spaceline-toggle-all-the-icons-modified)
+  ;; (setq-default spaceline-all-the-icons-hide-vcs t)
 
   ;; Commented out now that not using consult
   ;; Remove *Help* buffer from buffer list
