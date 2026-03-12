@@ -1904,7 +1904,7 @@ from which org-capture was called."
   (spacemacs/set-leader-keys "Th" 'tab-bar-switch-to-prev-tab)
   (spacemacs/set-leader-keys "Tl" 'tab-bar-switch-to-next-tab)
 
-  ;; Set previous buffer to h & j, set next buffer to
+  ;; Set previous buffer to h & k, set next buffer to l & j
   (spacemacs/set-leader-keys "bh" 'previous-buffer)
   (spacemacs/set-leader-keys "bk" 'previous-buffer)
   (spacemacs/set-leader-keys "bl" 'next-buffer)
