@@ -1008,10 +1008,28 @@ Put your configuration code here"
   (my/capture-temp-define-vars)
   (my/org-capture-template-adder)
 
-  (my/run-mar-2-keybind)
+  (my/run-mar-2-keybind-gemini)
+
+  (my/run-mar-2-keybind-claude-sonnet)
   )
 
-(defun my/run-mar-2-keybind ()
+(defun my/run-mar-2-keybind-claude-sonnet ()
+  ;; 2. Add the following to the `dotspacemacs/user-config` function
+  ;;    in your ~/.spacemacs (or ~/.spacemacs.d/init.el):
+
+  ;; Load the key-logger
+  ;; (load-file "~/.spacemacs.d/spacemacs-key-logger.el")
+  ;; (already loaded)
+  (require 'spacemacs-key-logger)
+
+  ;; Set your desired log file path
+  (setq my-keybinding-log-path "~/.emacs.d/myelisps/remember-key/run-mar-2-keybind-claude-sonnet.org")
+
+  ;; Optional: bind to a convenient key in Spacemacs
+  (spacemacs/set-leader-keys "oj" 'spacemacs/smart-log-keybinding)
+  )
+
+(defun my/run-mar-2-keybind-gemini ()
   (add-to-list 'load-path "/Users/Matt/.emacs.d/myelisps/remember-key/")
   (require 'remember-key)
   ;; For example, 'SPC o k' (o is traditionally for personal user bindings in Spacemacs)
